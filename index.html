@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda Online - Inventario</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container py-4">
+        <header class="header">
+            <h1 class="display-4 fw-bold"> Tienda Online</h1>
+            <p class="lead">Productos de calidad y baratitos casera</p>
+            <button class="btn btn-outline-primary position-fixed top-0 end-0 m-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu" aria-controls="offcanvasMenu">
+                <i class="bi bi-list"></i>
+            </button>
+        </header>
+
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasMenuLabel">Menú</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <ul class="list-group">
+                    <li class="list-group-item"><a href="#inventory" class="text-decoration-none">Inventario</a></li>
+                    <li class="list-group-item"><a href="#payment-form" class="text-decoration-none">Información de Pago</a></li>
+                    <li class="list-group-item"><a href="#company-info" class="text-decoration-none">Información de la Empresa</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <section class="section" id="inventory">
+            <h2 class="mb-4">Nuestros Productos Destacados</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="product-card h-100">
+                        <div class="product-image">
+                            <img src="smartphone.jpg" alt="Smartphone moderno de última generación con pantalla OLED y diseño elegante en color negro mate" class="img-fluid" />
+                        </div>
+                        <div class="product-info text-center">
+                            <h4 class="fw-bold">Smartphone Premium</h4>
+                            <p class="text-muted">Teléfono inteligente con cámara de 48MP y batería de larga duración</p>
+                            <div class="product-price">$299.99</div>
+                            <div class="quantity-controls">
+                                <button class="quantity-btn" onclick="updateQuantity('product1', -1)">
+                                    <i class="bi bi-dash"></i>
+                                </button>
+                                <span id="quantity-product1" class="quantity-display">0</span>
+                                <button class="quantity-btn" onclick="updateQuantity('product1', 1)">
+                                    <i class="bi bi-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="product-card h-100">
+                        <div class="product-image">
+                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/ca0d6221-bc25-4e1a-8b3d-eeceaca1ca67.png" alt="Auriculares inalámbricos con cancelación de ruido y diseño ergonómico en color blanco y plata" class="img-fluid" />
+                        </div>
+                        <div class="product-info text-center">
+                            <h4 class="fw-bold">Auriculares Bluetooth</h4>
+                            <p class="text-muted">Sonido premium con cancelación activa de ruido</p>
+                            <div class="product-price">$89.99</div>
+                            <div class="quantity-controls">
+                                <button class="quantity-btn" onclick="updateQuantity('product2', -1)">
+                                    <i class="bi bi-dash"></i>
+                                </button>
+                                <span id="quantity-product2" class="quantity-display">0</span>
+                                <button class="quantity-btn" onclick="updateQuantity('product2', 1)">
+                                    <i class="bi bi-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="product-card h-100">
+                        <div class="product-image">
+                            <img src="smartwatch.jpg" alt="Reloj inteligente deportivo con pantalla táctil a color y correa de silicona resistente al agua" class="img-fluid" />
+                        </div>
+                        <div class="product-info text-center">
+                            <h4 class="fw-bold">Smartwatch Deportivo</h4>
+                            <p class="text-muted">Monitor de actividad con GPS y resistencia al agua</p>
+                            <div class="product-price">$149.99</div>
+                            <div class="quantity-controls">
+                                <button class="quantity-btn" onclick="updateQuantity('product3', -1)">
+                                    <i class="bi bi-dash"></i>
+                                </button>
+                                <span id="quantity-product3" class="quantity-display">0</span>
+                                <button class="quantity-btn" onclick="updateQuantity('product3', 1)">
+                                    <i class="bi bi-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cart-summary mt-5">
+                <div class="total-amount">
+                    Total: $<span id="total-amount">0.00</span>
+                </div>
+                <button class="pay-btn" onclick="scrollToPayment()" id="pay-button">
+                    <i class="bi bi-credit-card me-2"></i>Proceder al Pago
+                </button>
+            </div>
+        </section>
+
+        <section class="section" id="payment-form">
+            <h2 class="mb-4">Información de Pago</h2>
+            <div class="order-summary mb-4">
+                <h4 class="fw-bold mb-3">Resumen de tu Pedido</h4>
+                <div id="order-items" class="mb-3"></div>
+                <div class="summary-total text-end fs-5 fw-bold">
+                    Total a pagar: $<span id="payment-total">0.00</span>
+                </div>
+            </div>
+
+            <form class="payment-details">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="name" class="form-label fw-semibold">Nombre completo</label>
+                        <input type="text" class="form-control" id="name" required placeholder="Ingresa tu nombre completo">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="email" class="form-label fw-semibold">Correo electrónico</label>
+                        <input type="email" class="form-control" id="email" required placeholder="tu@email.com">
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="address" class="form-label fw-semibold">Dirección de envío</label>
+                    <textarea class="form-control" id="address" rows="3" required placeholder="Calle, número, ciudad, código postal"></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="payment-method" class="form-label fw-semibold">Método de pago</label>
+                    <select class="form-select" id="payment-method" required>
+                        <option value="">Selecciona método de pago</option>
+                        <option value="credit-card">Tarjeta de crédito</option>
+                        <option value="debit-card">Tarjeta de débito</option>
+                        <option value="paypal">PayPal</option>
+                        <option value="transfer">Transferencia bancaria</option>
+                    </select>
+                </div>
+
+                <div class="card-details" id="card-details" style="display: none;">
+                    <h5 class="mb-3">Información de la Tarjeta</h5>
+                    <div class="mb-3">
+                        <label for="card-number" class="form-label">Número de tarjeta</label>
+                        <input type="text" class="form-control" id="card-number" placeholder="1234 5678 9012 3456">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="expiry-date" class="form-label">Fecha de expiración</label>
+                            <input type="text" class="form-control" id="expiry-date" placeholder="MM/AA">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="cvv" class="form-label">CVV</label>
+                            <input type="text" class="form-control" id="cvv" placeholder="123">
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="confirm-btn">
+                    <i class="bi bi-check-circle me-2"></i>Confirmar Pago
+                </button>
+            </form>
+        </section>
+
+        <section class="section" id="company-info">
+            <h2 class="mb-4">Información de la Empresa</h2>
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <img src="lorem.jpg" alt="Logo o foto de la empresa" class="lorem" >
+                    <p class="card-text">
+                        Somos una empresa dedicada a ofrecer productos tecnológicos de alta calidad a precios accesibles. 
+                        Nuestro compromiso es garantizar la satisfacción de nuestros clientes con un servicio confiable y seguro.
+                    </p>
+                    <ul class="list-unstyled mb-3">
+                        <li> Dirección: Av. Principal 123, Santiago, Chile</li>
+                        <li> Teléfono: +56 9 1234 5678</li>
+                        <li> Correo: contacto@tiendaonline.cl</li>
+                    </ul>
+                    <div>
+                        <a href="https://www.facebook.com" target="_blank" class="me-3 text-decoration-none">
+                            <i class="bi bi-facebook fs-4 text-primary"></i>
+                        </a>
+                        <a href="https://www.instagram.com" target="_blank" class="me-3 text-decoration-none">
+                            <i class="bi bi-instagram fs-4 text-danger"></i>
+                        </a>
+                        <a href="https://www.twitter.com" target="_blank" class="text-decoration-none">
+                            <i class="bi bi-twitter fs-4 text-info"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        const products = {
+            'product1': { name: 'Smartphone Premium', price: 299.99 },
+            'product2': { name: 'Auriculares Bluetooth', price: 89.99 },
+            'product3': { name: 'Smartwatch Deportivo', price: 149.99 }
+        };
+
+        function updateQuantity(productId, change) {
+            const quantityElement = document.getElementById(`quantity-${productId}`);
+            let quantity = parseInt(quantityElement.textContent) + change;
+            quantity = Math.max(0, quantity);
+            quantityElement.textContent = quantity;
+            updateTotal();
+        }
+
+        function updateTotal() {
+            let total = 0;
+            for (const productId in products) {
+                const quantity = parseInt(document.getElementById(`quantity-${productId}`).textContent);
+                total += quantity * products[productId].price;
+            }
+            document.getElementById('total-amount').textContent = total.toFixed(2);
+            document.getElementById('payment-total').textContent = total.toFixed(2);
+            const payButton = document.getElementById('pay-button');
+            payButton.disabled = total === 0;
+            updateOrderSummary();
+        }
+
+        function updateOrderSummary() {
+            const orderItems = document.getElementById('order-items');
+            orderItems.innerHTML = '';
+            let hasItems = false;
+            for (const productId in products) {
+                const quantity = parseInt(document.getElementById(`quantity-${productId}`).textContent);
+                if (quantity > 0) {
+                    hasItems = true;
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = 'order-item d-flex justify-content-between';
+                    itemDiv.innerHTML = `
+                        <span class="flex-grow-1">${products[productId].name} x${quantity}</span>
+                        <span class="fw-semibold">$${(quantity * products[productId].price).toFixed(2)}</span>
+                    `;
+                    orderItems.appendChild(itemDiv);
+                }
+            }
+            if (!hasItems) {
+                orderItems.innerHTML = '<p class="text-center text-muted py-3">No hay productos seleccionados</p>';
+            }
+        }
+
+        function scrollToPayment() {
+            const total = parseFloat(document.getElementById('total-amount').textContent);
+            if (total > 0) {
+                document.getElementById('payment-form').scrollIntoView({ 
+                    behavior: 'smooth' 
+                });
+            } else {
+                alert('Por favor, selecciona al menos un producto antes de proceder al pago.');
+            }
+        }
+
+        document.getElementById('payment-method').addEventListener('change', function() {
+            const cardDetails = document.getElementById('card-details');
+            if (this.value === 'credit-card' || this.value === 'debit-card') {
+                cardDetails.style.display = 'block';
+            } else {
+                cardDetails.style.display = 'none';
+            }
+        });
+
+        document.querySelector('.payment-details').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const total = parseFloat(document.getElementById('total-amount').textContent);
+            if (total > 0) {
+                alert('¡Pago procesado con éxito! Gracias por tu compra.');
+            } else {
+                alert('Por favor, selecciona al menos un producto antes de confirmar el pago.');
+            }
+        });
+
+        updateOrderSummary();
+    </script>
+</body>
+</html>
