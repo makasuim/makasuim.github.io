@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>GUAU&MIAU - Inventario</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="estilos.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+</head>
+<body>
+<header class="bg-primary text-white p-3">
+    <div class="container d-flex justify-content-between align-items-center">
+        <h1 class="h3">GUAU&MIAU</h1>
+        <nav>
+            <ul class="nav">
+                <li class="nav-item"><a href="index.html" class="nav-link text-white">Inicio</a></li>
+                <li class="nav-item"><a href="registro.html" class="nav-link text-white">Registro</a></li>
+                <li class="nav-item"><a href="acceso.html" class="nav-link text-white">Acceso</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main class="container my-5">
+    <h2 id="tituloCategoria" class="mb-4 text-center">Inventario</h2>
+    <div id="contenedorInventario" class="row g-4"></div>
+    <div class="text-center mt-4">
+        <button id="btnPagar" class="btn btn-success" disabled>Pagar</button>
+    </div>
+</main>
+
+<footer class="bg-dark text-white text-center p-3">
+    <p>&copy; 2024 GUAU&MIAU.</p>
+    <div class="d-flex justify-content-center gap-3 mt-2">
+        <a href="https://www.instagram.com" target="_blank" rel="noopener" class="text-white fs-4" aria-label="Instagram">
+            <i class="fab fa-instagram"></i>
+        </a>
+        <a href="https://www.facebook.com" target="_blank" rel="noopener" class="text-white fs-4" aria-label="Facebook">
+            <i class="fab fa-facebook"></i>
+        </a>
+        <a href="https://www.twitter.com" target="_blank" rel="noopener" class="text-white fs-4" aria-label="Twitter">
+            <i class="fab fa-twitter"></i>
+        </a>
+    </div>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const categoria = urlParams.get('categoria') || 'juguetes';
+    const tituloCategoria = document.getElementById('tituloCategoria');
+    const contenedorInventario = document.getElementById('contenedorInventario');
+    const btnPagar = document.getElementById('btnPagar');
+
+    const productosPorCategoria = {
+        juguetes: [
+            { id: 1, nombre: 'Pelota para perro', precio: 5000, stock: 10 },
+            { id: 2, nombre: 'Ratón de juguete para gato', precio: 3000, stock: 8 },
+            { id: 3, nombre: 'Cuerda para morder', precio: 7000, stock: 5 },
+            { id: 4, nombre: 'Juguete interactivo', precio: 12000, stock: 6 },
+            { id: 5, nombre: 'Pelota con sonido', precio: 8000, stock: 7 },
+            { id: 6, nombre: 'Juguete de peluche', precio: 9000, stock: 4 },
+            { id: 7, nombre: 'Dispenser de premios', precio: 15000, stock: 3 },
+            { id: 8, nombre: 'Juguete para aves', precio: 4000, stock: 9 },
+            { id: 9, nombre: 'Juguete para roedores', precio: 3500, stock: 10 },
+            { id: 10, nombre: 'Juguete para gatos con plumas', precio: 6000, stock: 5 }
+        ],
+        accesorios: [
+            { id: 11, nombre: 'Collar para perro', precio: 10000, stock: 10 },
+            { id: 12, nombre: 'Correa ajustable', precio: 12000, stock: 8 },
+            { id: 13, nombre: 'Arnés para perro', precio: 15000, stock: 5 },
+            { id: 14, nombre: 'Cama para gato', precio: 20000, stock: 6 },
+            { id: 15, nombre: 'Transportadora para mascotas', precio: 35000, stock: 7 },
+            { id: 16, nombre: 'Plato para comida', precio: 5000, stock: 4 },
+            { id: 17, nombre: 'Fuente de agua', precio: 18000, stock: 3 },
+            { id: 18, nombre: 'Rascador para gatos', precio: 22000, stock: 9 },
+            { id: 19, nombre: 'Juguete colgante', precio: 7000, stock: 10 },
+            { id: 20, nombre: 'Cinturón para coche', precio: 13000, stock: 5 }
+        ],
+        alimentos: [
+            { id: 21, nombre: 'Comida seca para perros', precio: 25000, stock: 10 },
+            { id: 22, nombre: 'Comida húmeda para gatos', precio: 15000, stock: 8 },
+            { id: 23, nombre: 'Snacks para perros', precio: 8000, stock: 5 },
+            { id: 24, nombre: 'Snacks para gatos', precio: 7000, stock: 6 },
+            { id: 25, nombre: 'Alimento para aves', precio: 12000, stock: 7 },
+            { id: 26, nombre: 'Alimento para roedores', precio: 9000, stock: 4 },
+            { id: 27, nombre: 'Comida orgánica para perros', precio: 30000, stock: 3 },
+            { id: 28, nombre: 'Comida orgánica para gatos', precio: 28000, stock: 9 },
+            { id: 29, nombre: 'Vitaminas para mascotas', precio: 10000, stock: 10 },
+            { id: 30, nombre: 'Suplementos para perros', precio: 15000, stock: 5 }
+        ]
+    };
+
+    const productos = productosPorCategoria[categoria] || productosPorCategoria.juguetes;
+    tituloCategoria.textContent = `Inventario - ${categoria.charAt(0).toUpperCase() + categoria.slice(1)}`;
+
+
+    const carrito = {};
+
+    function actualizarBotonPagar() {
+        const totalItems = Object.values(carrito).reduce((a,b) => a + b, 0);
+        btnPagar.disabled = totalItems === 0;
+    }
+
+    function actualizarControles(producto) {
+        const cantidad = carrito[producto.id] || 0;
+        const btnAgregar = document.getElementById(`btnAgregar-${producto.id}`);
+        const btnQuitar = document.getElementById(`btnQuitar-${producto.id}`);
+        const spanCantidad = document.getElementById(`cantidad-${producto.id}`);
+        const spanStock = document.getElementById(`stock-${producto.id}`);
+
+        spanCantidad.textContent = cantidad;
+        spanStock.textContent = producto.stock;
+
+
+        btnAgregar.disabled = producto.stock === 0;
+        btnQuitar.disabled = cantidad === 0;
+    }
+
+    function mostrarInventario() {
+        contenedorInventario.innerHTML = '';
+        productos.forEach(producto => {
+            const col = document.createElement('div');
+            col.classList.add('col-md-4');
+            col.innerHTML = `
+                <div class="card h-100 shadow-sm">
+                    <div class="placeholder-img bg-secondary d-flex align-items-center justify-content-center" style="height:180px; color:#fff; font-weight:bold;">
+                        Imagen aquí
+                    </div>
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">${producto.nombre}</h5>
+                        <p class="card-text">Precio: $${producto.precio.toLocaleString('es-CL')}</p>
+                        <p class="card-text">Stock: <span id="stock-${producto.id}">${producto.stock}</span></p>
+                        <div class="mt-auto d-flex gap-2 align-items-center">
+                            <button class="btn btn-outline-danger btn-sm" id="btnQuitar-${producto.id}">−</button>
+                            <span id="cantidad-${producto.id}">0</span>
+                            <button class="btn btn-outline-primary btn-sm" id="btnAgregar-${producto.id}">+</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            contenedorInventario.appendChild(col);
+
+            const btnAgregar = document.getElementById(`btnAgregar-${producto.id}`);
+            const btnQuitar = document.getElementById(`btnQuitar-${producto.id}`);
+
+            btnAgregar.addEventListener('click', () => {
+                if (producto.stock > 0) {
+                    producto.stock--;
+                    carrito[producto.id] = (carrito[producto.id] || 0) + 1;
+                    actualizarControles(producto);
+                    actualizarBotonPagar();
+                }
+            });
+
+            btnQuitar.addEventListener('click', () => {
+                const actual = carrito[producto.id] || 0;
+                if (actual > 0) {
+                    carrito[producto.id] = actual - 1;
+                    producto.stock++;
+                    if (carrito[producto.id] === 0) {
+                        delete carrito[producto.id];
+                    }
+                    actualizarControles(producto);
+                    actualizarBotonPagar();
+                }
+            });
+
+            actualizarControles(producto);
+        });
+    }
+
+    btnPagar.addEventListener('click', () => {
+
+        const carritoFiltrado = Object.fromEntries(
+            Object.entries(carrito).filter(([, cantidad]) => cantidad > 0)
+        );
+
+        const itemsSeleccionados = Object.entries(carritoFiltrado).map(([id, cantidad]) => {
+            const prod = productos.find(p => p.id === Number(id));
+            return {
+                id: prod.id,
+                nombre: prod.nombre,
+                precio: prod.precio,
+                cantidad,
+                subtotal: prod.precio * cantidad
+            };
+        });
+
+        sessionStorage.setItem('carrito', JSON.stringify(carritoFiltrado));
+        sessionStorage.setItem('itemsSeleccionados', JSON.stringify(itemsSeleccionados));
+        sessionStorage.setItem('productos', JSON.stringify(productos)); 
+
+        window.location.href = 'pago.html';
+    });
+
+    mostrarInventario();
+});
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>GUAU&MIAU - Registro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="estilos.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+</head>
+<body>
+    <header class="bg-primary text-white p-3">
+        <div class="container d-flex justify-content-between align-items-center">
+            <h1 class="h3">GUAU&MIAU</h1>
+            <nav>
+                <ul class="nav">
+                    <li class="nav-item"><a href="index.html" class="nav-link text-white">Inicio</a></li>
+                    <li class="nav-item"><a href="registro.html" class="nav-link text-white active">Registro</a></li>
+                    <li class="nav-item"><a href="acceso.html" class="nav-link text-white">Acceso</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container my-5">
+        <h2>Registro de Usuario</h2>
+        <form id="formularioRegistro" novalidate autocomplete="on" class="needs-validation">
+            <div class="mb-3">
+                <label for="nombreCompleto" class="form-label">Nombre Completo</label>
+                <input type="text" class="form-control" id="nombreCompleto" name="nombreCompleto" required autocomplete="name" maxlength="50" pattern="[A-Za-z\s]+" />
+                <div class="invalid-feedback">
+                    El nombre no debe estar vacío, debe contener solo caracteres alfabéticos y espacios, y tener un máximo de 50 caracteres.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="correoElectronico" class="form-label">Correo Electrónico</label>
+                <input type="email" class="form-control" id="correoElectronico" name="correoElectronico" required autocomplete="email" />
+                <div class="invalid-feedback">
+                    El correo debe seguir el formato usuario@duoc.cl.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="contrasenaRegistro" class="form-label">Contraseña</label>
+                <input type="password" class="form-control" id="contrasenaRegistro" name="contrasenaRegistro" required autocomplete="new-password" />
+                <div class="invalid-feedback">
+                    La contraseña debe tener al menos 8 caracteres, incluir una mayúscula, una minúscula, un número y un carácter especial (@#$%).
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="confirmarContrasenaRegistro" class="form-label">Confirmar Contraseña</label>
+                <input type="password" class="form-control" id="confirmarContrasenaRegistro" name="confirmarContrasenaRegistro" required autocomplete="new-password" />
+                <div class="invalid-feedback" id="retroalimentacionConfirmarContrasenaRegistro">
+                    Las contraseñas no coinciden.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="telefono" class="form-label">Teléfono (Opcional)</label>
+                <input type="tel" class="form-control" id="telefono" name="telefono" autocomplete="tel" pattern="[0-9]{9,15}" />
+                <div class="invalid-feedback">
+                    Por favor, ingresa un número de teléfono válido.
+                </div>
+            </div>
+
+            <div id="contenedorMascotas" class="mb-3 p-3 border rounded bg-white">
+                <h5>Registro de Mascotas</h5>
+                <div class="item-mascota mb-3 p-2 border rounded bg-light">
+                    <div class="mb-2">
+                        <label for="tipoMascota_0" class="form-label">Tipo de Mascota</label>
+                        <select class="form-select" id="tipoMascota_0" name="tipoMascota[]" required>
+                            <option value="">Selecciona...</option>
+                            <option value="Gato">Gato</option>
+                            <option value="Perro">Perro</option>
+                            <option value="Ave">Ave</option>
+                            <option value="Otro">Otro</option>
+                        </select>
+                        <div class="invalid-feedback">Por favor, selecciona el tipo de mascota.</div>
+                    </div>
+                    <div class="mb-2">
+                        <label for="nombreMascota_0" class="form-label">Nombre de Mascota</label>
+                        <input type="text" class="form-control" id="nombreMascota_0" name="nombreMascota[]" required maxlength="50" />
+                        <div class="invalid-feedback">Por favor, ingresa el nombre de la mascota (máx. 50 caracteres).</div>
+                    </div>
+                </div>
+            </div>
+            <button type="button" class="btn btn-outline-secondary btn-sm mb-3" id="agregarMascota">Añadir otra mascota</button>
+
+            <button type="submit" class="btn btn-success w-100">Registrarse</button>
+        </form>
+    </main>
+
+    <footer class="bg-dark text-white text-center p-3">
+        <p>&copy; 2024 GUAU&MIAU.</p>
+        <div class="d-flex justify-content-center gap-3 mt-2">
+            <a href="https://www.instagram.com" target="_blank" rel="noopener" class="text-white fs-4" aria-label="Instagram">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://www.facebook.com" target="_blank" rel="noopener" class="text-white fs-4" aria-label="Facebook">
+                <i class="fab fa-facebook"></i>
+            </a>
+            <a href="https://www.twitter.com" target="_blank" rel="noopener" class="text-white fs-4" aria-label="Twitter">
+                <i class="fab fa-twitter"></i>
+            </a>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+body {
+    background-color: #f0f8ff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+}
+
+.bg-primary {
+    background-color: #6a0dad !important;
+}
+
+h1, h2 {
+    color: #6a0dad;
+    border-bottom: 3px solid #ffc107;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.card-title {
+    color: #6a0dad;
+}
+
+footer {
+    background-color: #343a40 !important;
+    color: #f8f9fa;
+}
+
+footer p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+section.p-4 {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+}
+
+.item-mascota {
+    background-color: #f8f9fa;
+    border: 1px dashed #ced4da;
+}

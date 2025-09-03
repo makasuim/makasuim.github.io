@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>GUAU&MIAU - Pago</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="estilos.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+</head>
+<body class="bg-light">
+<header class="bg-primary text-white p-3 shadow">
+    <div class="container d-flex justify-content-between align-items-center">
+        <h1 class="h3 mb-0">GUAU&MIAU</h1>
+        <nav>
+            <ul class="nav">
+                <li class="nav-item"><a href="index.html" class="nav-link text-white">Inicio</a></li>
+                <li class="nav-item"><a href="registro.html" class="nav-link text-white">Registro</a></li>
+                <li class="nav-item"><a href="acceso.html" class="nav-link text-white">Acceso</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white text-center">
+                    <h3 class="h4 mb-0"><i class="fas fa-credit-card me-2"></i>Resumen de Compra y Pago</h3>
+                </div>
+                <div class="card-body">
+                    <div id="resumenCompra" class="mb-4"></div>
+                    <form id="formularioPago" novalidate class="needs-validation">
+                        <h5 class="text-primary mb-3">Información del Comprador</h5>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="nombreComprador" class="form-label">Nombre Completo</label>
+                                <input type="text" class="form-control" id="nombreComprador" name="nombreComprador" required>
+                                <div class="invalid-feedback">Por favor, ingresa tu nombre completo.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="emailComprador" class="form-label">Correo Electrónico</label>
+                                <input type="email" class="form-control" id="emailComprador" name="emailComprador" required>
+                                <div class="invalid-feedback">Por favor, ingresa un correo válido.</div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="telefonoComprador" class="form-label">Teléfono</label>
+                                <input type="tel" class="form-control" id="telefonoComprador" name="telefonoComprador" required>
+                                <div class="invalid-feedback">Por favor, ingresa tu teléfono.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="direccionComprador" class="form-label">Dirección de Envío</label>
+                                <input type="text" class="form-control" id="direccionComprador" name="direccionComprador" required>
+                                <div class="invalid-feedback">Por favor, ingresa tu dirección.</div>
+                            </div>
+                        </div>
+                        <h5 class="text-primary mb-3">Detalles del Pago</h5>
+                        <div class="mb-3">
+                            <label class="form-label">Método de Pago</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="metodoPago" id="tarjetaCredito" value="tarjetaCredito" required checked>
+                                <label class="form-check-label" for="tarjetaCredito">
+                                   </i>Tarjeta de Crédito
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="metodoPago" id="tarjetaDebito" value="tarjetaDebito" required>
+                                <label class="form-check-label" for="tarjetaDebito">
+                                </i>Tarjeta de Débito
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="metodoPago" id="transferencia" value="transferencia" required>
+                                <label class="form-check-label" for="transferencia">
+                               </i>Transferencia Bancaria
+                                </label>
+                            </div>
+                            <div class="invalid-feedback d-block">Por favor, selecciona un método de pago.</div>
+                        </div>
+                        <div id="detallesTarjeta" class="mb-3">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="numeroTarjeta" class="form-label">Número de Tarjeta</label>
+                                    <input type="text" class="form-control" id="numeroTarjeta" name="numeroTarjeta" maxlength="19" required>
+                                    <div class="invalid-feedback">Por favor, ingresa el número de la tarjeta.</div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="fechaVencimiento" class="form-label">Fecha de Vencimiento</label>
+                                    <input type="text" class="form-control" id="fechaVencimiento" name="fechaVencimiento" placeholder="MM/YY" maxlength="5" required>
+                                    <div class="invalid-feedback">Por favor, ingresa la fecha de vencimiento.</div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="cvv" class="form-label">CVV</label>
+                                    <input type="text" class="form-control" id="cvv" name="cvv" maxlength="3" required>
+                                    <div class="invalid-feedback">Por favor, ingresa el CVV.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" id="btnConfirmarPago" class="btn btn-success btn-lg w-100 mt-3">
+                            <i class="fas fa-lock me-2"></i>Confirmar Pago
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="bg-dark text-white text-center p-3 mt-5">
+    <p>&copy; 2024 GUAU&MIAU.</p>
+    <div class="d-flex justify-content-center gap-3 mt-2">
+        <a href="https://www.instagram.com" target="_blank" rel="noopener" class="text-white fs-4" aria-label="Instagram">
+            <i class="fab fa-instagram"></i>
+        </a>
+        <a href="https://www.facebook.com" target="_blank" rel="noopener" class="text-white fs-4" aria-label="Facebook">
+            <i class="fab fa-facebook"></i>
+        </a>
+        <a href="https://www.twitter.com" target="_blank" rel="noopener" class="text-white fs-4" aria-label="Twitter">
+            <i class="fab fa-twitter"></i>
+        </a>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const formularioPago = document.getElementById('formularioPago');
+    const resumenCompra = document.getElementById('resumenCompra');
+    const btnConfirmarPago = document.getElementById('btnConfirmarPago');
+    const detallesTarjeta = document.getElementById('detallesTarjeta');
+
+    const carrito = JSON.parse(sessionStorage.getItem('carrito')) || {};
+    const productos = JSON.parse(sessionStorage.getItem('productos')) || [];
+
+    document.querySelectorAll('input[name="metodoPago"]').forEach(radio => {
+        radio.addEventListener('change', (e) => {
+            if (e.target.value === 'transferencia') {
+                detallesTarjeta.style.display = 'none';
+                document.querySelectorAll('#detallesTarjeta input').forEach(input => input.required = false);
+            } else {
+                detallesTarjeta.style.display = 'block';
+                document.querySelectorAll('#detallesTarjeta input').forEach(input => input.required = true);
+            }
+        });
+    });
+
+
+    if (Object.keys(carrito).length === 0) {
+        resumenCompra.innerHTML = '<p class="text-danger text-center">No hay productos en el carrito.</p>';
+        btnConfirmarPago.disabled = true;
+        return;
+    }
+
+    let total = 0;
+    const lista = document.createElement('ul');
+    lista.classList.add('list-group', 'mb-3');
+
+    for (const id in carrito) {
+        const cantidad = carrito[id];
+        if (cantidad > 0) {
+            const producto = productos.find(p => p.id == id);
+            if (producto) {
+                const subtotal = producto.precio * cantidad;
+                total += subtotal;
+                const item = document.createElement('li');
+                item.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center');
+                item.innerHTML = `
+                    <span>${producto.nombre} x ${cantidad}</span>
+                    <span class="fw-bold">$${subtotal.toLocaleString('es-CL')}</span>
+                `;
+                lista.appendChild(item);
+            }
+        }
+    }
+
+    if (lista.children.length === 0) {
+        resumenCompra.innerHTML = '<p class="text-danger text-center">No hay productos en el carrito.</p>';
+        btnConfirmarPago.disabled = true;
+        return;
+    }
+
+    resumenCompra.appendChild(lista);
+
+    const totalDiv = document.createElement('div');
+    totalDiv.classList.add('alert', 'alert-info', 'ms-3', 'me-3');
+    totalDiv.innerHTML = `<strong>Total a pagar: $${total.toLocaleString('es-CL')}</strong>`;
+    resumenCompra.appendChild(totalDiv);
+
+    formularioPago.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (formularioPago.checkValidity()) {
+            alert('Pago confirmado. ¡Gracias por tu compra en GUAU&MIAU!');
+            sessionStorage.clear();
+            window.location.href = 'index.html';
+        } else {
+            formularioPago.classList.add('was-validated');
+        }
+    });
+});
+</script>
+</body>
+</html>
