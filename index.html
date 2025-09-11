@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>KittyPatitasSuaves - Inicio</title>
+    <meta name="description" content="KittyPatitasSuaves - Juguetes, accesorios y alimentos para tus mascotas. Todo lo que tu perro o gato necesita en un solo lugar.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body>
+    <div id="loading" class="loading">
+        <img src="img/huella.png" alt="Logo KittyPatitasSuaves" />
+    </div>
+
+    <header class="main-header">
+        <div class="container d-flex justify-content-between align-items-center py-3">
+            <a href="index.html" class="text-decoration-none text-white">
+                <h1 class="m-0 site-title">KittyPatitasSuaves</h1>
+            </a>
+            <nav role="navigation" class="main-nav d-none d-lg-block">
+                <ul class="list-unstyled d-flex m-0">
+                    <li><a href="index.html" class="nav-link active px-3">Inicio</a></li>
+                    <li><a href="registro.html" class="nav-link px-3">Registro</a></li>
+                    <li><a href="acceso.html" class="nav-link px-3">Acceder</a></li>
+                    <li><a href="inventario.html" class="nav-link px-3">Productos</a></li>
+                    <li><a href="pago.html" class="nav-link px-3">Mi carrito</a></li>
+                    <li><a href="Soporte.html" class="nav-link px-3">Soporte</a></li> 
+                </ul>
+            </nav>
+            <button class="btn btn-outline-secondary menu-hamburguesa d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu" aria-controls="offcanvasMenu" aria-label="Abrir menú">
+                <img src="img/huella.png" alt="Menú" class="menu-icon" />
+            </button>
+        </div>
+    </header>
+
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasMenuLabel">Menú</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
+        </div>
+        <div class="offcanvas-body">
+            <ul class="list-unstyled">
+                <li><a href="index.html" class="text-decoration-none offcanvas-nav-link">Inicio</a></li>
+                <li><a href="registro.html" class="text-decoration-none offcanvas-nav-link">Registro</a></li>
+                <li><a href="acceso.html" class="text-decoration-none offcanvas-nav-link">Acceder</a></li>
+                <li><a href="inventario.html" class="text-decoration-none offcanvas-nav-link">Productos</a></li>
+                <li><a href="pago.html" class="text-decoration-none offcanvas-nav-link">Mi carrito</a></li>
+                <li><a href="Soporte.html" class="text-decoration-none offcanvas-nav-link">Soporte</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <main role="main" class="container my-5">
+        <section class="hero-section text-center mb-5">
+            <h2 class="display-4 fw-bold text-primary mb-3">Bienvenido a KittyPatitasSuaves</h2>
+            <p class="lead text-muted mb-4">Tu tienda especializada en juguetes innovadores y entretenidos para mascotas.</p>
+            <a href="inventario.html" class="d-inline-block">
+                <img src="img/Banner Tienda Online Mercado Shop Mascotas Curvo Celeste y Azul.png" alt="Explorar todos los productos de KittyPatitasSuaves" class="img-fluid rounded shadow-lg hero-banner-clickable" />
+            </a>
+        </section>
+        
+        <section class="product-categories">
+            <h3 class="text-center text-primary mb-4">Explora Nuestras Categorías</h3>
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                <div class="col">
+                    <div class="card h-100 shadow-sm category-card">
+                        <img src="img/jugete.png" class="card-img-top" alt="Juguetes para mascotas" />
+                        <div class="card-body d-flex flex-column align-items-center">
+                            <h5 class="card-title text-primary fw-bold">Juguetes para Mascotas</h5>
+                            <p class="card-text text-muted text-center flex-grow-1">Diversos juguetes para perros, gatos y más.</p>
+                            <a href="inventario.html?categoria=juguetes" class="btn btn-primary mt-auto">Explorar Juguetes</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100 shadow-sm category-card">
+                        <img src="img/accesorio.jpg" class="card-img-top" alt="Accesorios para mascotas" />
+                        <div class="card-body d-flex flex-column align-items-center">
+                            <h5 class="card-title text-primary fw-bold">Accesorios</h5>
+                            <p class="card-text text-muted text-center flex-grow-1">Collares, correas y más para tus mascotas.</p>
+                            <a href="inventario.html?categoria=accesorios" class="btn btn-primary mt-auto">Ver Accesorios</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100 shadow-sm category-card">
+                        <img src="img/gatocomida.png" class="card-img-top" alt="Alimentos para mascotas" />
+                        <div class="card-body d-flex flex-column align-items-center">
+                            <h5 class="card-title text-primary fw-bold">Alimentos</h5>
+                            <p class="card-text text-muted text-center flex-grow-1">Comida saludable para tus mascotas.</p>
+                            <a href="inventario.html?categoria=alimentos" class="btn btn-primary mt-auto">Descubre Alimentos</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer bg-dark text-white text-center p-4 mt-5">
+        <p class="mb-2">&copy; 2025 KittyPatitasSuaves.</p>
+        <div class="social-links d-flex justify-content-center gap-3">
+            <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" class="text-white fs-4 social-icon" aria-label="Instagram">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" class="text-white fs-4 social-icon" aria-label="Facebook">
+                <i class="fab fa-facebook"></i>
+            </a>
+            <a href="https://www.x.com" target="_blank" rel="noopener noreferrer" class="text-white fs-4 social-icon" aria-label="X (Twitter)">
+                <i class="fab fa-x"></i>
+            </a>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loadingScreen = document.getElementById('loading');
+            if (loadingScreen) {
+                setTimeout(() => {
+                    loadingScreen.classList.add('hide');
+                }, 1500);
+            }
+        });
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>

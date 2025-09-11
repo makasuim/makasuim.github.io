@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>KittyPatitasSuaves - Pago</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+</head>
+<body class="bg-light">
+<header class="main-header">
+    <div class="container d-flex justify-content-between align-items-center py-3">
+        <a href="index.html" class="text-decoration-none text-white">
+            <h1 class="m-0 site-title">KittyPatitasSuaves</h1>
+        </a>
+        <nav role="navigation" class="main-nav d-none d-lg-block">
+            <ul class="list-unstyled d-flex m-0">
+                <li><a href="index.html" class="nav-link px-3">Inicio</a></li>
+                <li><a href="registro.html" class="nav-link px-3">Registro</a></li>
+                <li><a href="acceso.html" class="nav-link px-3">Acceder</a></li>
+                <li><a href="inventario.html" class="nav-link px-3">Productos</a></li>
+                <li><a href="pago.html" class="nav-link active px-3">Mi carrito</a></li>
+                <li><a href="Soporte.html" class="nav-link px-3">Soporte</a></li>
+            </ul>
+        </nav>
+        <button class="btn btn-outline-secondary menu-hamburguesa d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu" aria-controls="offcanvasMenu" aria-label="Abrir menú">
+            <img src="img/huella.png" alt="Menú" class="menu-icon" />
+        </button>
+    </div>
+</header>
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasMenuLabel">Menú</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
+    </div>
+    <div class="offcanvas-body">
+        <ul class="list-unstyled">
+            <li><a href="index.html" class="text-decoration-none offcanvas-nav-link">Inicio</a></li>
+            <li><a href="registro.html" class="text-decoration-none offcanvas-nav-link">Registro</a></li>
+            <li><a href="acceso.html" class="text-decoration-none offcanvas-nav-link">Acceder</a></li>
+            <li><a href="inventario.html" class="text-decoration-none offcanvas-nav-link">Productos</a></li>
+            <li><a href="pago.html" class="text-decoration-none offcanvas-nav-link">Mi carrito</a></li>
+            <li><a href="Soporte.html" class="text-decoration-none offcanvas-nav-link">Soporte</a></li>
+        </ul>
+    </div>
+</div>
+
+<main class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white text-center py-3">
+                    <h3 class="h4 mb-0"><i class="fas fa-shopping-cart me-2"></i>Mi Carrito</h3>
+                </div>
+                <div class="card-body p-4">
+                    <section id="resumenCompra" class="mb-4"></section>
+                    
+                    <form id="formularioPago" novalidate class="needs-validation">
+                        <h5 class="text-primary mb-3">Información del Comprador</h5>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label for="nombreComprador" class="form-label">Nombre Completo</label>
+                                <input type="text" class="form-control" id="nombreComprador" name="nombreComprador" required placeholder="Tu Nombre Completo">
+                                <div class="invalid-feedback">Por favor, ingresa tu nombre completo.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="emailComprador" class="form-label">Correo Electrónico</label>
+                                <input type="email" class="form-control" id="emailComprador" name="emailComprador" required placeholder="tu@ejemplo.com">
+                                <div class="invalid-feedback">Por favor, ingresa un correo válido.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="telefonoComprador" class="form-label">Teléfono</label>
+                                <input type="tel" class="form-control" id="telefonoComprador" name="telefonoComprador" required placeholder="+56 9 1234 5678">
+                                <div class="invalid-feedback">Por favor, ingresa tu teléfono.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="direccionComprador" class="form-label">Dirección de Envío</label>
+                                <input type="text" class="form-control" id="direccionComprador" name="direccionComprador" required placeholder="Calle, Número, Ciudad">
+                                <div class="invalid-feedback">Por favor, ingresa tu dirección.</div>
+                            </div>
+                        </div>
+
+                        <h5 class="text-primary mb-3">Detalles del Pago</h5>
+                        <div class="mb-4">
+                            <label class="form-label d-block mb-2">Método de Pago</label>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="metodoPago" id="tarjetaCredito" value="tarjetaCredito" required checked>
+                                <label class="form-check-label" for="tarjetaCredito">Tarjeta de Crédito</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="metodoPago" id="tarjetaDebito" value="tarjetaDebito" required>
+                                <label class="form-check-label" for="tarjetaDebito">Tarjeta de Débito</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="metodoPago" id="transferencia" value="transferencia" required>
+                                <label class="form-check-label" for="transferencia">Transferencia Bancaria</label>
+                            </div>
+                        </div>
+
+                        <div id="detallesTarjeta" class="mb-4">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="numeroTarjeta" class="form-label">Número de Tarjeta</label>
+                                    <input type="text" class="form-control" id="numeroTarjeta" name="numeroTarjeta" maxlength="19" required placeholder="XXXX XXXX XXXX XXXX">
+                                    <div class="invalid-feedback">Por favor, ingresa el número de la tarjeta.</div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="fechaVencimiento" class="form-label">Fecha de Vencimiento</label>
+                                    <input type="text" class="form-control" id="fechaVencimiento" name="fechaVencimiento" placeholder="MM/YY" maxlength="5" required>
+                                    <div class="invalid-feedback">Por favor, ingresa la fecha de vencimiento.</div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="cvv" class="form-label">CVV</label>
+                                    <input type="text" class="form-control" id="cvv" name="cvv" maxlength="3" required placeholder="XXX">
+                                    <div class="invalid-feedback">Por favor, ingresa el CVV.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" id="btnConfirmarPago" class="btn btn-success btn-lg w-100 mt-3">
+                            <i class="fas fa-lock me-2"></i>Confirmar Pago
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer bg-dark text-white text-center p-4 mt-5">
+        <p class="mb-2">&copy; 2025 KittyPatitasSuaves.</p>
+        <div class="social-links d-flex justify-content-center gap-3">
+            <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" class="text-white fs-4 social-icon" aria-label="Instagram">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" class="text-white fs-4 social-icon" aria-label="Facebook">
+                <i class="fab fa-facebook"></i>
+            </a>
+            <a href="https://www.x.com" target="_blank" rel="noopener noreferrer" class="text-white fs-4 social-icon" aria-label="X (Twitter)">
+                <i class="fab fa-x"></i>
+            </a>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

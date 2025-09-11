@@ -1,0 +1,557 @@
+/* Variables de color para un diseño moderno y coherente */
+:root {
+  --primary-color: #6a0dad; /* Púrpura oscuro */
+  --secondary-color: #ffc107; /* Amarillo */
+  --bg-color: #f8f9fa; /* Gris claro para fondo */
+  --text-color: #333; /* Texto oscuro */
+  --shadow-color: rgba(106, 13, 173, 0.3); /* Sombra púrpura */
+  --border-radius: 0.75rem; /* Ligeramente más suave */
+  --transition-speed: 0.3s;
+  --transition-timing: ease-in-out;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, var(--bg-color) 0%, #e9ecef 100%);
+  color: var(--text-color);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  animation: fadeIn 1.5s var(--transition-timing);
+}
+
+/* Estilos del encabezado */
+.main-header {
+  background: linear-gradient(90deg, var(--primary-color) 0%, #9b4dca 100%); /* Púrpura */
+  color: #fff;
+  padding: 1.25rem 0; /* Ajuste de padding */
+  box-shadow: 0 4px 20px var(--shadow-color);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  animation: slideDown 1s var(--transition-timing);
+  border-bottom: 4px solid var(--secondary-color); /* Borde amarillo */
+}
+
+.main-header .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.site-title {
+  font-size: clamp(1.75rem, 4vw, 2.75rem); /* Tamaño flexible y ligeramente más grande */
+  flex: 1 1 auto;     
+  font-weight: 900;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  animation: glow 2s infinite alternate;
+  color: #fff; /* Asegura que el H1 sea blanco */
+}
+
+.main-nav {
+  flex-shrink: 0;
+}
+
+@keyframes glow {
+  from { text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+  to { text-shadow: 2px 2px 4px rgba(255,193,7,0.7); } /* Amarillo para el glow */
+}
+
+/* Barra de navegación */
+.main-nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1.75rem; /* Mayor espacio entre elementos */
+  margin: 0;
+  padding: 0;
+}
+
+.main-nav li {
+  background: none;
+  padding: 0;
+  margin: 0;
+}
+
+.main-nav .nav-link {
+  color: var(--secondary-color); /* Texto de navegación amarillo */
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0.6rem 1.1rem; /* Ajuste de padding */
+  border-radius: var(--border-radius);
+  transition: all var(--transition-speed) var(--transition-timing);
+  display: block;
+  position: relative;
+}
+
+.main-nav .nav-link:hover {
+  background: var(--secondary-color); /* Fondo amarillo al pasar el ratón */
+  color: var(--primary-color); /* Texto púrpura al pasar el ratón */
+  transform: translateY(-2px); /* Pequeño efecto de elevación */
+}
+
+.main-nav .nav-link.active {
+  background: var(--secondary-color); /* Fondo amarillo para el elemento activo */
+  color: var(--primary-color); /* Texto púrpura para el elemento activo */
+  box-shadow: 0 0 10px rgba(255,193,7,0.5); /* Sombra sutil para el activo */
+}
+
+/* Offcanvas Menu (Hamburguesa) */
+.offcanvas-nav-link {
+    color: var(--primary-color);
+    font-weight: 600;
+    padding: 0.75rem 1rem;
+    display: block;
+    transition: all var(--transition-speed) var(--transition-timing);
+}
+
+.offcanvas-nav-link:hover {
+    background-color: var(--primary-color);
+    color: white !important;
+    border-radius: 0.5rem;
+}
+
+/* Main contenido */
+main {
+  flex: 1;
+  padding: 3rem 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.hero-section {
+    padding: 2rem 0;
+}
+
+.hero-section .display-4 {
+    color: var(--primary-color);
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+.hero-section .lead {
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hero-section .img-fluid {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--border-radius);
+  box-shadow: 0 8px 25px var(--shadow-color);
+  animation: scaleIn 1s var(--transition-timing) 1.5s both;
+}
+
+/* Grid de productos/categorías */
+.product-categories .card-img-top,
+.card .card-img-top {
+  height: 220px;
+  object-fit: contain;
+  border-bottom: 4px solid var(--secondary-color);
+  transition: transform var(--transition-speed) var(--transition-timing);
+}
+
+.product-detail-img { /* Estilo específico para la imagen en detalle_producto.html */
+    max-height: 350px;
+    object-fit: contain;
+    border-bottom: 4px solid var(--secondary-color);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+
+.category-card:hover .card-img-top,
+.card:hover .card-img-top {
+  transform: scale(1.03);
+}
+
+.category-card,
+.card {
+  background: white;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: 0 10px 30px var(--shadow-color);
+  transition: all var(--transition-speed) var(--transition-timing);
+  animation: fadeIn 1s var(--transition-timing);
+  border: none;
+}
+
+.category-card:hover,
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 35px rgba(106, 13, 173, 0.4);
+}
+
+.card-body {
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.card-title {
+  color: var(--primary-color);
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  animation: slideUp 0.8s var(--transition-timing) 0.5s both;
+}
+
+.category-card:hover .card-title,
+.card:hover .card-title {
+  color: var(--secondary-color);
+}
+
+.card-text {
+  color: #666;
+  margin-bottom: 1.25rem;
+  animation: fadeIn 0.8s var(--transition-timing) 1s both;
+}
+
+/* Botones */
+.btn {
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 0.75rem 1.75rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-speed) var(--transition-timing);
+  text-decoration: none;
+  display: inline-block;
+  width: auto;
+  max-width: 220px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.btn-primary {
+  background: var(--primary-color);
+  color: white;
+  animation: scaleIn 0.5s var(--transition-timing) 1.5s both;
+  border: 2px solid var(--primary-color);
+}
+
+.btn-primary:hover {
+  background: #520aaf;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(106, 13, 173, 0.7);
+  border-color: #520aaf;
+}
+
+.btn-success {
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+    color: #fff !important;
+    font-weight: 700;
+    transition: all var(--transition-speed) var(--transition-timing);
+}
+.btn-success:hover:not(:disabled):not(.disabled) {
+    background-color: #520aaf !important;
+    border-color: #520aaf !important;
+    color: #fff !important;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(106, 13, 173, 0.4);
+}
+/* Estado deshabilitado de los botones */
+.btn:disabled,
+.btn.disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+.btn-outline-primary {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+.btn-outline-primary:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-outline-danger {
+    color: #dc3545;
+    border-color: #dc3545;
+}
+.btn-outline-danger:hover {
+    background-color: #dc3545;
+    color: white;
+}
+
+/* Texto con color primario (púrpura) */
+.text-primary {
+    color: var(--primary-color) !important;
+}
+
+.text-primary-hover:hover {
+    color: var(--primary-color) !important;
+    text-decoration: underline !important;
+}
+
+/* Formularios */
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.25rem rgba(106, 13, 173, 0.25);
+}
+
+.form-check-input:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+/* Footer */
+.site-footer {
+  background: var(--primary-color);
+  color: var(--secondary-color);
+  padding: 2rem 0;
+  margin-top: auto;
+  text-align: center;
+  animation: slideUp 1s var(--transition-timing) both;
+}
+
+.site-footer .social-links {
+  display: flex;
+  justify-content: center;
+  gap: 1.75rem;
+  margin-top: 1rem;
+}
+
+.social-icon:hover {
+  transform: scale(1.25) rotate(5deg);
+  color: #fff;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-100%); }
+  to { transform: translateY(0); }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(50px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* Responsive Design */
+@media (max-width: 991.98px) {
+    .main-nav {
+        display: none !important;
+    }
+    .menu-hamburguesa {
+        display: flex !important;
+    }
+}
+
+@media (max-width: 767.98px) {
+  .main-header .container {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .site-title {
+      font-size: 2.25rem;
+  }
+
+  main {
+    padding: 2rem 1rem;
+  }
+
+  .row-cols-md-3 > * {
+      flex: 0 0 auto;
+      width: 100%;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .site-title {
+    font-size: 1.75rem;
+  }
+
+  .card {
+    margin: 0 0.5rem;
+  }
+
+  .btn {
+      padding: 0.6rem 1.2rem;
+      font-size: 0.95rem;
+  }
+}
+
+/* Loading animation */
+.loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.85);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s;
+}
+
+.loading img {
+  width: 150px;
+  margin-bottom: 1.5rem;
+}
+
+.loading.hide {
+  animation: fadeOut 0.5s forwards;
+}
+
+@keyframes fadeOut {
+  to { opacity: 0; visibility: hidden; }
+}
+
+.loading::after {
+  content: '';
+  width: 60px;
+  height: 60px;
+  border: 5px solid var(--secondary-color);
+  border-top: 5px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Estilos específicos para el resumen de compra y pago */
+#resumenCompra ul {
+    list-style: none;
+    padding: 0;
+}
+#resumenCompra li {
+    background: #f3e8ff;
+    border-radius: 0.75rem;
+    margin-bottom: 0.85rem;
+    padding: 1rem 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 3px 8px rgba(106, 13, 173, 0.18);
+    font-weight: 600;
+    color: #4b0082;
+    transition: all var(--transition-speed) var(--transition-timing);
+}
+#resumenCompra li:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(106, 13, 173, 0.25);
+}
+#resumenCompra li .nombre-producto {
+    flex-grow: 1;
+    font-size: 1.05rem;
+}
+#resumenCompra li button.eliminar-producto {
+    background: transparent;
+    border: none;
+    color: #ff6b6b;
+    font-size: 1.4rem;
+    cursor: pointer;
+    transition: color var(--transition-speed) var(--transition-timing), transform var(--transition-speed) var(--transition-timing);
+}
+#resumenCompra li button.eliminar-producto:hover {
+    color: #d90429;
+    transform: scale(1.1);
+}
+#totalCompra {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    font-weight: 700;
+    font-size: 1.35rem;
+    padding: 1.25rem;
+    border-radius: 0.75rem;
+    text-align: center;
+    box-shadow: 0 5px 12px rgba(106, 13, 173, 0.35);
+    margin-top: 1.5rem;
+}
+#detallesTarjeta {
+    transition: max-height 0.4s var(--transition-timing), opacity 0.4s var(--transition-timing);
+    overflow: hidden;
+}
+#detallesTarjeta.oculto {
+    max-height: 0;
+    opacity: 0;
+    pointer-events: none;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Card Header para formularios */
+.card-header.bg-primary {
+    background: linear-gradient(90deg, var(--primary-color) 0%, #9b4dca 100%) !important;
+    box-shadow: 0 4px 10px rgba(106, 13, 173, 0.6) !important;
+    border-bottom: 4px solid var(--secondary-color) !important;
+    color: white !important;
+    border-top-left-radius: var(--border-radius) !important;
+    border-top-right-radius: var(--border-radius) !important;
+}
+
+/* Estilos para el botón menú hamburguesa redimensionable y fijo */
+.menu-hamburguesa {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 1055;
+    width: clamp(2.75rem, 5vw, 4.25rem);
+    height: clamp(2.75rem, 5vw, 4.25rem);
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-speed) var(--transition-timing);
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.menu-hamburguesa img.menu-icon {
+    width: 70%;
+    height: 70%;
+    object-fit: contain;
+    pointer-events: none;
+    user-select: none;
+    filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.3));
+}
+
+.menu-hamburguesa:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+}
+
+@media (max-width: 480px) {
+    .menu-hamburguesa {
+        width: 2.75rem;
+        height: 2.75rem;
+        top: 0.75rem;
+        right: 0.75rem;
+    }
+}
