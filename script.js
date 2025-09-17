@@ -65,13 +65,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 entradaNombreCompleto.classList.add('is-valid');
             }
 
-            const regexCorreoDuoc = /^[a-zA-Z0-9._%+-]+@duoc\.cl$/;
-            if (!regexCorreoDuoc.test(entradaCorreoElectronico.value)) {
-                entradaCorreoElectronico.classList.add('is-invalid');
-                formularioValido = false;
+            const regexCorreoRegistro = /^(?=.{1,100}$)([a-zA-Z0-9._%+-]+@(duoc\.cl|profesor\.duoc\.cl|gmail\.com))$/;
+            if (!regexCorreoRegistro.test(entradaCorreoElectronico.value)) {
+            entradaCorreoElectronico.classList.add('is-invalid');
+            formularioValido = false;
             } else {
-                entradaCorreoElectronico.classList.remove('is-invalid');
-                entradaCorreoElectronico.classList.add('is-valid');
+             entradaCorreoElectronico.classList.remove('is-invalid');
+             entradaCorreoElectronico.classList.add('is-valid');
             }
 
             const valorContrasena = entradaContrasenaRegistro.value;
