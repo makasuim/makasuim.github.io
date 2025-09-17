@@ -296,38 +296,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const todosLosProductos = {
         juguetes: [
-            { id: 1, nombre: 'Pelota para perro', precio: 5000, stock: 10, imagen: 'img/pelotaperro.jpg', descripcion: 'Pelota resistente ideal para juegos de lanzar y buscar. Flota en el agua.' },
-            { id: 2, nombre: 'Ratón de juguete para gato', precio: 3000, stock: 8, imagen: 'img/raton.jpeg', descripcion: 'Juguete suave con catnip para estimular el instinto de caza de tu gato.' },
-            { id: 3, nombre: 'Cuerda para morder', precio: 7000, stock: 5, imagen: 'img/morder.jpg', descripcion: 'Cuerda de algodón duradera para perros, ayuda a limpiar los dientes.' },
-            { id: 4, nombre: 'Juguete interactivo', precio: 12000, stock: 6, imagen: 'img/juguetepuzzleparaperros.webp', descripcion: 'Juguete dispensador de premios que desafía la mente de tu mascota.' },
-            { id: 5, nombre: 'Pelota con sonido', precio: 8000, stock: 7, imagen: 'img/pelota.jpg', descripcion: 'Pelota que emite sonidos divertidos al ser mordida, ideal para mantener a tu perro entretenido.' },
-            { id: 6, nombre: 'Juguete de peluche', precio: 9000, stock: 4, imagen: 'img/pelucheeees.jpg', descripcion: 'Peluche suave y abrazable para perros, con chirriador interno.' },
-            { id: 7, nombre: 'Dispenser de premios', precio: 15000, stock: 3, imagen: 'img/dispenserr.jpg', descripcion: 'Dispensador automático de premios, programable para recompensar a tu mascota.' },
-            { id: 8, nombre: 'Juguete para aves', precio: 4000, stock: 9, imagen: 'img/ave.jpg', descripcion: 'Juguete colgante con campanas y espejos para el entretenimiento de aves.' },
-            { id: 9, nombre: 'Juguete para roedores', precio: 3500, stock: 10, imagen: 'img/roedor.jpg', descripcion: 'Juguete masticable de madera natural para roedores, ayuda a desgastar sus dientes.' },
-            { id: 10, nombre: 'Juguete para gatos con plumas', precio: 6000, stock: 5, imagen: 'img/plumas.jpg', descripcion: 'Caña de pescar con plumas para interactuar y jugar con tu gato.' }
+            { id: 1, nombre: 'Pelota para perro', precio: 5000, stock: 10, imagen: 'img/pelotaperro.jpg', descripcion: 'Pelota resistente ideal para juegos de lanzar y buscar. Flota en el agua.', imagenesAdicionales: ['img/pelota2.webp', 'img/pelota3.jpg'] },
+            { id: 2, nombre: 'Ratón de juguete para gato', precio: 3000, stock: 8, imagen: 'img/raton.jpeg', descripcion: 'Juguete suave con catnip para estimular el instinto de caza de tu gato.', imagenesAdicionales: ['img/ratomcito.jpg', 'img/ratomcitos.webp'] },
+            { id: 3, nombre: 'Cuerda para morder', precio: 7000, stock: 5, imagen: 'img/morder.jpg', descripcion: 'Cuerda de algodón duradera para perros, ayuda a limpiar los dientes.', imagenesAdicionales: ['img/cuerda2.jpg', 'img/cuerda3.jpg'] },
+            { id: 4, nombre: 'Juguete interactivo', precio: 12000, stock: 26, imagen: 'img/juguetepuzzleparaperros.webp', descripcion: 'Juguete dispensador de premios que desafía la mente de tu mascota.', imagenesAdicionales: ['img/interactivo.webp', 'img/interactivo2.jpg'] },
+            { id: 5, nombre: 'Pelota con sonido', precio: 8000, stock: 17, imagen: 'img/pelota.jpg', descripcion: 'Pelota que emite sonidos divertidos al ser mordida, ideal para mantener a tu perro entretenido.', imagenesAdicionales: ['img/sound.webp', 'img/sound2.webp'] }
         ],
         accesorios: [
-            { id: 11, nombre: 'Collar para perro', precio: 10000, stock: 10, imagen: 'img/collar.webp', descripcion: 'Collar ajustable y resistente para perros de tamaño mediano a grande.' },
-            { id: 12, nombre: 'Correa ajustable', precio: 12000, stock: 8, imagen: 'img/accesorio.jpg', descripcion: 'Correa de nylon con longitud ajustable, ideal para paseos diarios.' },
-            { id: 13, nombre: 'Arnés para perro', precio: 15000, stock: 5, imagen: 'img/collarcorrea.jpg', descripcion: 'Arnés cómodo y seguro que distribuye la presión uniformemente.' },
-            { id: 14, nombre: 'Cama para gato', precio: 20000, stock: 6, imagen: 'img/cama.webp', descripcion: 'Cama suave y acogedora para gatos, con bordes elevados para mayor confort.' },
-            { id: 15, nombre: 'Plato para comida', precio: 5000, stock: 4, imagen: 'img/elpepe.png', descripcion: 'Plato de acero inoxidable antideslizante, fácil de limpiar.' },
-            { id: 16, nombre: 'Fuente de agua', precio: 18000, stock: 3, imagen: 'img/fuente.webp', descripcion: 'Fuente de agua automática que fomenta la hidratación de tu mascota.' },
-            { id: 17, nombre: 'Rascador para gatos', precio: 22000, stock: 9, imagen: 'img/rasca.webp', descripcion: 'Rascador de sisal con plataforma, ideal para afilar garras y descansar.' },
-            { id: 18, nombre: 'Juguete colgante', precio: 7000, stock: 10, imagen: 'img/colgante.jpg', descripcion: 'Juguete colgante para jaulas de aves, con cascabeles y cuentas de colores.' }
+            { id: 6, nombre: 'Collar para perro', precio: 10000, stock: 10, imagen: 'img/collar.webp', descripcion: 'Collar ajustable y resistente para perros de tamaño mediano a grande.', imagenesAdicionales: ['img/colgante.jpg', 'img/collarcorrea.jpg'] },
+            { id: 7, nombre: 'Correa ajustable', precio: 12000, stock: 8, imagen: 'img/accesorio.jpg', descripcion: 'Correa de nylon con longitud ajustable, ideal para paseos diarios.', imagenesAdicionales: ['img/collarcorrea.jpg', 'img/accesorio.jpg'] },
+            { id: 8, nombre: 'Arnés para perro', precio: 15000, stock: 5, imagen: 'img/collarcorrea.jpg', descripcion: 'Arnés cómodo y seguro que distribuye la presión uniformemente.', imagenesAdicionales: ['img/collar.webp', 'img/accesorio.jpg'] },
+            { id: 9, nombre: 'Cama para gato', precio: 20000, stock: 6, imagen: 'img/cama.webp', descripcion: 'Cama suave y acogedora para gatos, con bordes elevados para mayor confort.', imagenesAdicionales: ['img/rasca.webp', 'img/pelucheeees.jpg'] }
         ],
         alimentos: [
-            { id: 19, nombre: 'Comida seca para perros', precio: 25000, stock: 10, imagen: 'img/master.jpeg', descripcion: 'Alimento completo y balanceado para perros adultos, con proteínas de alta calidad.' },
-            { id: 20, nombre: 'Comida húmeda para gatos', precio: 15000, stock: 8, imagen: 'img/lata.jpg', descripcion: 'Paté delicioso y nutritivo para gatos, ideal para complementar su dieta.' },
-            { id: 21, nombre: 'Snacks para perros', precio: 8000, stock: 5, imagen: 'img/snackperro.png', descripcion: 'Premios masticables para perros, ayudan a la higiene dental.' },
-            { id: 22, nombre: 'Snacks para gatos', precio: 7000, stock: 6, imagen: 'img/sanac.jpg', descripcion: 'Bocadillos crujientes para gatos, con vitaminas y minerales.' },
-            { id: 23, nombre: 'Alimento para aves', precio: 12000, stock: 7, imagen: 'img/aveees.png', descripcion: 'Mezcla de semillas y granos enriquecida para aves de jaula.' },
-            { id: 24, nombre: 'Alimento para roedores', precio: 9000, stock: 4, imagen: 'img/ratata.jpg', descripcion: 'Pienso extrusionado para roedores, con todos los nutrientes necesarios.'},
-            { id: 25, nombre: 'Comida Premium perros', precio: 30000, stock: 3, imagen: 'img/premium.jpg', descripcion: 'Alimento super premium para perros, con ingredientes naturales y sin cereales.' },
-            { id: 26, nombre: 'Comida Premium gatos', precio: 28000, stock: 9, imagen: 'img/premiumm.jpg', descripcion: 'Alimento premium para gatos, formulado para una digestión óptima y pelaje brillante.' },
-            { id: 27, nombre: 'Vitaminas para mascotas', precio: 10000, stock: 10, imagen: 'img/vitaminas.jpg', descripcion: 'Suplemento vitamínico para fortalecer el sistema inmunológico de perros y gatos.' },
-            { id: 28, nombre: 'Suplementos para perros', precio: 15000, stock: 5, imagen: 'img/suplex.jpg', descripcion: 'Suplemento para la salud articular de perros, con glucosamina y condroitina.' }
+            { id: 10, nombre: 'Comida seca para perros', precio: 25000, stock: 10, imagen: 'img/master.jpeg', descripcion: 'Alimento completo y balanceado para perros adultos, con proteínas de alta calidad.', imagenesAdicionales: ['img/premium.jpg', 'img/premiumm.jpg'] },
+            { id: 11, nombre: 'Comida húmeda para gatos', precio: 15000, stock: 18, imagen: 'img/lata.jpg', descripcion: 'Paté delicioso y nutritivo para gatos, ideal para complementar su dieta.', imagenesAdicionales: ['img/gatocomida.png', 'img/lata.jpg'] },
+            { id: 12, nombre: 'Snacks para perros', precio: 8000, stock: 15, imagen: 'img/snackperro.png', descripcion: 'Premios masticables para perros, ayudan a la higiene dental.', imagenesAdicionales: ['img/snackperro.png', 'img/guau.png'] },
+            { id: 13, nombre: 'Snacks para gatos', precio: 7000, stock: 16, imagen: 'img/sanac.jpg', descripcion: 'Bocadillos crujientes para gatos, con vitaminas y minerales.', imagenesAdicionales: ['img/sanac.jpg', 'img/ratata.jpg'] },
+            { id: 14, nombre: 'Alimento para aves', precio: 12000, stock: 7, imagen: 'img/aveees.png', descripcion: 'Mezcla de semillas y granos enriquecida para aves de jaula.', imagenesAdicionales: ['img/ave.jpg', 'img/plumas.jpg'] }
         ]
     };
 
@@ -610,12 +596,47 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (producto) {
             if (mensajeCarga) mensajeCarga.style.display = 'none';
+            
+            const allImages = [producto.imagen, ...(producto.imagenesAdicionales || [])];
+            let carouselItemsHTML = '';
+            let carouselIndicatorsHTML = '';
+
+            allImages.forEach((imgSrc, index) => {
+                carouselItemsHTML += `
+                    <div class="carousel-item ${index === 0 ? 'active' : ''}">
+                        <img src="${imgSrc}" class="d-block w-100 product-detail-img" alt="${producto.nombre} - Imagen ${index + 1}">
+                    </div>
+                `;
+                carouselIndicatorsHTML += `
+                    <button type="button" data-bs-target="#productImageCarousel" data-bs-slide-to="${index}" 
+                            class="${index === 0 ? 'active' : ''}" aria-current="${index === 0 ? 'true' : 'false'}" 
+                            aria-label="Slide ${index + 1}">
+                        <img src="${imgSrc}" class="d-block w-100 img-thumbnail" alt="Miniatura ${index + 1}">
+                    </button>
+                `;
+            });
+
             detalleProductoContainer.innerHTML = `
                 <div class="col-md-8 col-lg-6">
                     <div class="card shadow-lg p-4">
                         <div class="row g-4">
                             <div class="col-md-6 text-center">
-                                <img src="${producto.imagen}" class="img-fluid rounded product-detail-img" alt="${producto.nombre}">
+                                <div id="productImageCarousel" class="carousel slide" data-bs-ride="carousel">
+                                    <div class="carousel-inner" id="carouselInner">
+                                        ${carouselItemsHTML}
+                                    </div>
+                                    <button class="carousel-control-prev" type="button" data-bs-target="#productImageCarousel" data-bs-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Previous</span>
+                                    </button>
+                                    <button class="carousel-control-next" type="button" data-bs-target="#productImageCarousel" data-bs-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Next</span>
+                                    </button>
+                                </div>
+                                <div class="carousel-indicators mt-3 d-flex justify-content-center gap-2" style="position: static;">
+                                    ${carouselIndicatorsHTML}
+                                </div>
                             </div>
                             <div class="col-md-6 d-flex flex-column justify-content-center">
                                 <h2 class="card-title text-primary fw-bold mb-3">${producto.nombre}</h2>
@@ -689,4 +710,25 @@ document.addEventListener('DOMContentLoaded', () => {
             if (mensajeCarga) mensajeCarga.style.display = 'none';
         }
     }
+    
+    const comunasPorRegion = {
+    metropolitana: ["Santiago", "Maipú", "Puente Alto", "Las Condes", "La Florida"],
+    valparaiso: ["Valparaíso", "Viña del Mar", "Quilpué", "Villa Alemana", "San Antonio"],
+    biobio: ["Concepción", "Talcahuano", "Chillán", "Los Ángeles", "Coronel"]
+  };
+
+  document.getElementById("region").addEventListener("change", function () {
+    const region = this.value;
+    const comunaSelect = document.getElementById("comuna");
+    comunaSelect.innerHTML = "<option selected disabled>Seleccione comuna</option>";
+
+    if (comunasPorRegion[region]) {
+      comunasPorRegion[region].forEach(comuna => {
+        const option = document.createElement("option");
+        option.value = comuna.toLowerCase();
+        option.textContent = comuna;
+        comunaSelect.appendChild(option);
+      });
+    }
+  });
 });

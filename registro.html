@@ -20,9 +20,12 @@
           <li class="nav-item"><a href="registro.html" class="nav-link active px-3">Registro</a></li>
           <li class="nav-item"><a href="acceso.html" class="nav-link px-3">Acceder</a></li>
           <li class="nav-item"><a href="inventario.html" class="nav-link px-3">Productos</a></li>
-          <li class="nav-item"><a href="pago.html" class="nav-link px-3">Mi Carrito</a></li>
+          <li class="nav-item">
+            <a href="pago.html" class="nav-link px-3">
+                Mi carrito <span id="cart-count-desktop" class="badge bg-secondary rounded-pill ms-1 d-none">0</span>
+            </a>
+          </li>
           <li class="nav-item"><a href="Soporte.html" class="nav-link px-3">Soporte</a></li>
-          <li><a href="blog.html" class="nav-link px-3">Blog</a></li>
         </ul>
       </nav>
       <button class="btn btn-outline-secondary menu-hamburguesa d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu" aria-controls="offcanvasMenu" aria-label="Abrir menú">
@@ -42,9 +45,12 @@
         <li><a href="registro.html" class="text-decoration-none offcanvas-nav-link">Registro</a></li>
         <li><a href="acceso.html" class="text-decoration-none offcanvas-nav-link">Acceder</a></li>
         <li><a href="inventario.html" class="text-decoration-none offcanvas-nav-link">Productos</a></li>
-        <li><a href="pago.html" class="text-decoration-none offcanvas-nav-link">Mi Carrito</a></li>
+        <li>
+            <a href="pago.html" class="text-decoration-none offcanvas-nav-link">
+                Mi carrito <span id="cart-count-mobile" class="badge bg-secondary rounded-pill ms-1 d-none">0</span>
+            </a>
+        </li>
         <li><a href="Soporte.html" class="text-decoration-none offcanvas-nav-link">Soporte</a></li>
-        <li><a href="blog.html" class="text-decoration-none offcanvas-nav-link">Blog</a></li>
       </ul>
     </div>
   </div>
@@ -95,6 +101,25 @@
                 Por favor, ingresa un número de teléfono válido.
               </div>
             </div>
+
+            <div class="row mb-3">
+            <div class="col">
+          <label for="region" class="form-label">Región</label>
+          <select class="form-select" id="region" required>
+            <option selected disabled>Seleccione región</option>
+            <option value="metropolitana">Metropolitana</option>
+            <option value="valparaiso">Valparaíso</option>
+            <option value="biobio">Biobío</option>
+          </select>
+        </div>
+        <div class="col">
+          <label for="comuna" class="form-label">Comuna</label>
+          <select class="form-select" id="comuna" required>
+            <option selected disabled>Seleccione comuna</option>
+          </select>
+        </div>
+      </div>
+
 
             <div id="contenedorMascotas" class="mb-3 p-3 border rounded bg-light-subtle">
               <h5 class="text-primary mb-3">Registro de Mascotas</h5>
