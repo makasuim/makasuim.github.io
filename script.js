@@ -344,100 +344,132 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function actualizarControles(idProducto) {
-        const producto = productosDisponibles.find(p => p.id === idProducto);
-        if (!producto) return;
+    const producto = productosDisponibles.find(p => p.id === idProducto);
+    if (!producto) return;
 
-        const cantidadEnCarrito = carrito[producto.id] || 0;
-        const stockRestante = stockActual[producto.id];
+    const stockRestante = stockActual[producto.id];
+
+    const spanStock = document.getElementById(`stock-${producto.id}`);
+    const alertaStock = document.getElementById(`alertaStock-${producto.id}`);
+
+    if (spanStock) spanStock.textContent = stockRestante;
+
+    // Mostrar alerta si stock < 3 y > 0
+    if (alertaStock) {
+        if (stockRestante > 0 && stockRestante < 3) {
+            alertaStock.style.display = 'block';
+        } else {
+            alertaStock.style.display = 'none';
+        }
+    }
+
+    // Actualizar el botón Pagar según el carrito
+    actualizarBotonPagar();
+
+    // Guardar estado en sessionStorage
+    sessionStorage.setItem('carrito', JSON.stringify(carrito));
+    sessionStorage.setItem('stockActual', JSON.stringify(stockActual));
+}
+
+
+    function mostrarInventario() {
+    if (!contenedorInventario) return;
+    contenedorInventario.innerHTML = '';
+
+    let productosAMostrar;
+    if (categoriaActual && todosLosProductos[categoriaActual]) {
+        productosAMostrar = todosLosProductos[categoriaActual];
+    } else {
+        productosAMostrar = productosDisponibles;
+    }
+
+    if (productosAMostrar.length === 0) {
+        contenedorInventario.innerHTML = '<p class="text-center text-muted fs-5">No hay productos en esta categoría.</p>';
+        return;
+    }
+
+    productosAMostrar.forEach(producto => {
+        const columna = document.createElement('div');
+        columna.classList.add('col-sm-6', 'col-md-4', 'col-lg-3', 'mb-4');
+        columna.innerHTML = `
+            <div class="card h-100 shadow-sm border-0 rounded-lg overflow-hidden product-card">
+                <a href="detalle_producto.html?id=${producto.id}" class="text-decoration-none d-block">
+                    <img src="${producto.imagen}" class="card-img-top" alt="${producto.nombre}" style="height:180px; object-fit:contain;">
+                </a>
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title text-primary fw-bold mb-2">${producto.nombre}</h5>
+                    <p class="card-text text-muted mb-2">Precio: <span class="fw-bold text-dark">$${producto.precio.toLocaleString('es-CL')}</span></p>
+                    <p class="card-text text-muted mb-1">Stock: <span id="stock-${producto.id}" class="fw-bold text-info">${stockActual[producto.id]}</span></p>
+                    <p id="alertaStock-${producto.id}" class="text-warning fw-semibold mb-3" style="display:none;">
+                        ⚠️ Queda poco stock, ¡apresúrate!
+                    </p>
+                    <div class="mt-auto d-flex gap-2 align-items-center justify-content-center mb-3">
+                        <button class="btn btn-outline-danger btn-sm rounded-pill" id="btnQuitar-${producto.id}" aria-label="Quitar ${producto.nombre}">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <span id="cantidadSeleccionada-${producto.id}" class="fw-bold fs-5 text-dark px-2">0</span>
+                        <button class="btn btn-outline-primary btn-sm rounded-pill" id="btnAgregar-${producto.id}" aria-label="Agregar ${producto.nombre}">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                    <button class="btn btn-primary btn-sm w-100" id="btnAnadirCarrito-${producto.id}" disabled>
+                        Añadir
+                    </button>
+                </div>
+            </div>
+        `;
+        contenedorInventario.appendChild(columna);
+
+        let cantidadSeleccionada = 0;
 
         const botonAgregar = document.getElementById(`btnAgregar-${producto.id}`);
         const botonQuitar = document.getElementById(`btnQuitar-${producto.id}`);
-        const spanCantidad = document.getElementById(`cantidad-${producto.id}`);
-        const spanStock = document.getElementById(`stock-${producto.id}`);
+        const spanCantidadSeleccionada = document.getElementById(`cantidadSeleccionada-${producto.id}`);
+        const botonAnadirCarrito = document.getElementById(`btnAnadirCarrito-${producto.id}`);
 
-        if (spanCantidad) spanCantidad.textContent = cantidadEnCarrito;
-        if (spanStock) spanStock.textContent = stockRestante;
+        const actualizarBotonesCantidad = () => {
+            spanCantidadSeleccionada.textContent = cantidadSeleccionada;
+            botonQuitar.disabled = cantidadSeleccionada === 0;
+            botonAgregar.disabled = cantidadSeleccionada >= stockActual[producto.id];
+            botonAnadirCarrito.disabled = cantidadSeleccionada === 0;
+        };
 
-        if (botonAgregar) botonAgregar.disabled = stockRestante === 0;
-        if (botonQuitar) botonQuitar.disabled = cantidadEnCarrito === 0;
-
-        sessionStorage.setItem('carrito', JSON.stringify(carrito));
-        sessionStorage.setItem('stockActual', JSON.stringify(stockActual));
-        actualizarBotonPagar();
-    }
-
-    function mostrarInventario() {
-        if (!contenedorInventario) return;
-        contenedorInventario.innerHTML = '';
-
-        let productosAMostrar;
-        if (categoriaActual && todosLosProductos[categoriaActual]) {
-            productosAMostrar = todosLosProductos[categoriaActual];
-        } else {
-            productosAMostrar = productosDisponibles;
-        }
-
-        if (productosAMostrar.length === 0) {
-            contenedorInventario.innerHTML = '<p class="text-center text-muted fs-5">No hay productos en esta categoría.</p>';
-            return;
-        }
-
-        productosAMostrar.forEach(producto => {
-            const columna = document.createElement('div');
-            columna.classList.add('col-sm-6', 'col-md-4', 'col-lg-3', 'mb-4');
-            columna.innerHTML = `
-                <div class="card h-100 shadow-sm border-0 rounded-lg overflow-hidden product-card">
-                    <a href="detalle_producto.html?id=${producto.id}" class="text-decoration-none d-block">
-                        <img src="${producto.imagen}" class="card-img-top" alt="${producto.nombre}" style="height:180px; object-fit:contain;">
-                    </a>
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title text-primary fw-bold mb-2">${producto.nombre}</h5>
-                        <p class="card-text text-muted mb-2">Precio: <span class="fw-bold text-dark">$${producto.precio.toLocaleString('es-CL')}</span></p>
-                        <p class="card-text text-muted mb-3">Stock: <span id="stock-${producto.id}" class="fw-bold text-info">${stockActual[producto.id]}</span></p>
-                        <div class="mt-auto d-flex gap-2 align-items-center justify-content-center">
-                            <button class="btn btn-outline-danger btn-sm rounded-pill" id="btnQuitar-${producto.id}" aria-label="Quitar ${producto.nombre}">
-                                <i class="fas fa-minus"></i>
-                            </button>
-                            <span id="cantidad-${producto.id}" class="fw-bold fs-5 text-dark px-2">0</span>
-                            <button class="btn btn-outline-primary btn-sm rounded-pill" id="btnAgregar-${producto.id}" aria-label="Agregar ${producto.nombre}">
-                                <i class="fas fa-plus"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `;
-            contenedorInventario.appendChild(columna);
-
-            const botonAgregar = document.getElementById(`btnAgregar-${producto.id}`);
-            const botonQuitar = document.getElementById(`btnQuitar-${producto.id}`);
-
-            if (botonAgregar) {
-                botonAgregar.addEventListener('click', () => {
-                    if (stockActual[producto.id] > 0) {
-                        stockActual[producto.id]--;
-                        carrito[producto.id] = (carrito[producto.id] || 0) + 1;
-                        actualizarControles(producto.id);
-                    }
-                });
+        botonAgregar.addEventListener('click', () => {
+            if (cantidadSeleccionada < stockActual[producto.id]) {
+                cantidadSeleccionada++;
+                actualizarBotonesCantidad();
             }
-
-            if (botonQuitar) {
-                botonQuitar.addEventListener('click', () => {
-                    const cantidadActual = carrito[producto.id] || 0;
-                    if (cantidadActual > 0) {
-                        carrito[producto.id] = cantidadActual - 1;
-                        stockActual[producto.id]++;
-                        if (carrito[producto.id] === 0) {
-                            delete carrito[producto.id];
-                        }
-                        actualizarControles(producto.id);
-                    }
-                });
-            }
-
-            actualizarControles(producto.id);
         });
-    }
+
+        botonQuitar.addEventListener('click', () => {
+            if (cantidadSeleccionada > 0) {
+                cantidadSeleccionada--;
+                actualizarBotonesCantidad();
+            }
+        });
+
+        botonAnadirCarrito.addEventListener('click', () => {
+            if (cantidadSeleccionada > 0 && cantidadSeleccionada <= stockActual[producto.id]) {
+                stockActual[producto.id] -= cantidadSeleccionada;
+                carrito[producto.id] = (carrito[producto.id] || 0) + cantidadSeleccionada;
+
+                sessionStorage.setItem('carrito', JSON.stringify(carrito));
+                sessionStorage.setItem('stockActual', JSON.stringify(stockActual));
+
+                actualizarControles(producto.id);
+
+                alert(`Se añadieron ${cantidadSeleccionada} unidades de ${producto.nombre} al carrito.`);
+
+                cantidadSeleccionada = 0;
+                actualizarBotonesCantidad();
+            }
+        });
+
+        actualizarBotonesCantidad();
+        actualizarControles(producto.id);
+    });
+}
+
 
     if (botonPagar) {
         botonPagar.addEventListener('click', () => {
@@ -653,7 +685,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                     </button>
                                 </div>
                                 <button id="btnAnadirCarritoDetalle-${producto.id}" class="btn btn-primary btn-lg w-100">
-                                    <i class="fas fa-cart-plus me-2"></i>Añadir al Carrito
+                                    <i class="fas fa-cart-plus me-2"></i>Añadir
                                 </button>
                             </div>
                         </div>
