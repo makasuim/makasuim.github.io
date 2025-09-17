@@ -520,56 +520,98 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         function actualizarResumen() {
-            resumenCompra.innerHTML = '';
-            const keys = Object.keys(carritoPago).filter(id => carritoPago[id] > 0);
+    resumenCompra.innerHTML = '';
+    const keys = Object.keys(carritoPago).filter(id => carritoPago[id] > 0);
 
-            if (keys.length === 0) {
-                resumenCompra.innerHTML = '<p class="text-danger text-center fw-bold">No hay productos en el carrito para pagar.</p>';
-                if (botonConfirmarPago) botonConfirmarPago.disabled = true;
-                return;
-            }
+    if (keys.length === 0) {
+        resumenCompra.innerHTML = '<p class="text-danger text-center fw-bold">No hay productos en el carrito para pagar.</p>';
+        if (botonConfirmarPago) botonConfirmarPago.disabled = true;
+        return;
+    }
 
-            const lista = document.createElement('ul');
-            lista.classList.add('list-group', 'mb-3');
+    const lista = document.createElement('ul');
+    lista.classList.add('list-group', 'mb-3');
 
-            keys.forEach(id => {
-                const cantidad = carritoPago[id];
-                const producto = productosDisponiblesPago.find(p => p.id == id);
-                if (!producto) return;
+    keys.forEach(id => {
+        const cantidad = carritoPago[id];
+        const producto = productosDisponiblesPago.find(p => p.id == id);
+        if (!producto) return;
 
-                const item = document.createElement('li');
-                item.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center', 'shadow-sm', 'rounded-3', 'mb-2');
-                item.innerHTML = `
-                    <span class="nombre-producto fw-semibold">${producto.nombre} <span class="text-muted">x${cantidad}</span></span>
-                    <span class="fw-bold text-primary">$${(producto.precio * cantidad).toLocaleString('es-CL')}</span>
-                    <button type="button" class="eliminar-producto btn btn-sm btn-outline-danger border-0" title="Eliminar producto">
-                        <i class="fas fa-times-circle"></i>
+        const item = document.createElement('li');
+        item.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center', 'shadow-sm', 'rounded-3', 'mb-2', 'gap-3');
+
+        item.innerHTML = `
+            <img src="${producto.imagen}" alt="${producto.nombre}" style="width: 50px; height: 50px; object-fit: contain; border-radius: 5px;">
+            <div class="flex-grow-1 ms-2">
+                <span class="nombre-producto fw-semibold">${producto.nombre}</span>
+                <div class="d-flex align-items-center gap-2 mt-1">
+                    <button type="button" class="btn btn-outline-danger btn-sm btn-restar" title="Quitar 1 unidad">
+                        <i class="fas fa-minus"></i>
                     </button>
-                `;
-                
-                const btnEliminar = item.querySelector('.eliminar-producto');
-                if (btnEliminar) {
-                    btnEliminar.addEventListener('click', () => {
-                        stockActualPago[id] = (stockActualPago[id] || 0) + carritoPago[id];
-                        delete carritoPago[id];
-                        
-                        sessionStorage.setItem('carrito', JSON.stringify(carritoPago));
-                        sessionStorage.setItem('stockActual', JSON.stringify(stockActualPago));
-                        actualizarResumen();
-                    });
-                }
-                lista.appendChild(item);
-            });
-            resumenCompra.appendChild(lista);
+                    <span class="cantidad fw-bold fs-5">${cantidad}</span>
+                    <button type="button" class="btn btn-outline-primary btn-sm btn-sumar" title="Agregar 1 unidad" ${stockActualPago[id] === 0 ? 'disabled' : ''}>
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+            <span class="fw-bold text-primary">$${(producto.precio * cantidad).toLocaleString('es-CL')}</span>
+            <button type="button" class="eliminar-producto btn btn-sm btn-outline-danger border-0" title="Eliminar producto">
+                <i class="fas fa-times-circle"></i>
+            </button>
+        `;
 
-            const divTotal = document.createElement('div');
-            divTotal.id = 'totalCompra';
-            divTotal.classList.add('p-3', 'rounded-3', 'text-center', 'fw-bold', 'fs-4', 'mt-4');
-            divTotal.textContent = `Total a pagar: $${calcularTotal().toLocaleString('es-CL')}`;
-            resumenCompra.appendChild(divTotal);
+        // Botones y cantidad
+        const btnRestar = item.querySelector('.btn-restar');
+        const btnSumar = item.querySelector('.btn-sumar');
+        const spanCantidad = item.querySelector('.cantidad');
+        const btnEliminar = item.querySelector('.eliminar-producto');
 
-            if (botonConfirmarPago) botonConfirmarPago.disabled = false;
-        }
+        btnRestar.addEventListener('click', () => {
+            if (carritoPago[id] > 1) {
+                carritoPago[id]--;
+                stockActualPago[id]++;
+            } else {
+                // Si queda 1 y se resta, eliminar producto
+                stockActualPago[id] += carritoPago[id];
+                delete carritoPago[id];
+            }
+            sessionStorage.setItem('carrito', JSON.stringify(carritoPago));
+            sessionStorage.setItem('stockActual', JSON.stringify(stockActualPago));
+            actualizarResumen();
+        });
+
+        btnSumar.addEventListener('click', () => {
+            if (stockActualPago[id] > 0) {
+                carritoPago[id]++;
+                stockActualPago[id]--;
+                sessionStorage.setItem('carrito', JSON.stringify(carritoPago));
+                sessionStorage.setItem('stockActual', JSON.stringify(stockActualPago));
+                actualizarResumen();
+            }
+        });
+
+        btnEliminar.addEventListener('click', () => {
+            stockActualPago[id] += carritoPago[id];
+            delete carritoPago[id];
+            sessionStorage.setItem('carrito', JSON.stringify(carritoPago));
+            sessionStorage.setItem('stockActual', JSON.stringify(stockActualPago));
+            actualizarResumen();
+        });
+
+        lista.appendChild(item);
+    });
+
+    resumenCompra.appendChild(lista);
+
+    const divTotal = document.createElement('div');
+    divTotal.id = 'totalCompra';
+    divTotal.classList.add('p-3', 'rounded-3', 'text-center', 'fw-bold', 'fs-4', 'mt-4');
+    divTotal.textContent = `Total a pagar: $${calcularTotal().toLocaleString('es-CL')}`;
+    resumenCompra.appendChild(divTotal);
+
+    if (botonConfirmarPago) botonConfirmarPago.disabled = false;
+}
+
 
         document.querySelectorAll('input[name="metodoPago"]').forEach(radio => {
             radio.addEventListener('change', (e) => {
