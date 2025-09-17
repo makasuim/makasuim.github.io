@@ -200,7 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (usuarioRegistrado && usuario === usuarioRegistrado.correo && contrasena === usuarioRegistrado.contrasena) {
                     const nombreUsuario = usuarioRegistrado.nombreCompleto?.trim();
-                    
+
                     if (nombreUsuario) {
                         mensajeAcceso.textContent = `¡Inicio de sesión exitoso! Bienvenido, ${nombreUsuario} (${usuario})`;
                     } else {
@@ -230,12 +230,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    const formularioSoporte = document.getElementById('formularioSoporte');
+    const formularioSoporte = document.getElementById('formularioContacto'); // Cambiado de formularioSoporte a formularioContacto
     if (formularioSoporte) {
-        const nombreSoporte = document.getElementById('nombreSoporte');
-        const correoSoporte = document.getElementById('correoSoporte');
-        const comentarioSoporte = document.getElementById('comentarioSoporte');
-        const mensajeSoporte = document.getElementById('mensajeSoporte');
+        const nombreSoporte = document.getElementById('nombreContacto'); // Cambiado de nombreSoporte a nombreContacto
+        const correoSoporte = document.getElementById('correoContacto'); // Cambiado de correoSoporte a correoContacto
+        const comentarioSoporte = document.getElementById('comentarioContacto'); // Cambiado de comentarioSoporte a comentarioContacto
+        const mensajeSoporte = document.getElementById('mensajeContacto'); // Cambiado de mensajeSoporte a mensajeContacto
 
         formularioSoporte.addEventListener('submit', function (evento) {
             evento.preventDefault();
@@ -298,22 +298,22 @@ document.addEventListener('DOMContentLoaded', () => {
         juguetes: [
             { id: 1, nombre: 'Pelota para perro', precio: 5000, stock: 10, imagen: 'img/pelotaperro.jpg', descripcion: 'Pelota resistente ideal para juegos de lanzar y buscar. Flota en el agua.', imagenesAdicionales: ['img/pelota2.webp', 'img/pelota3.jpg'] },
             { id: 2, nombre: 'Ratón de juguete para gato', precio: 3000, stock: 8, imagen: 'img/raton.jpeg', descripcion: 'Juguete suave con catnip para estimular el instinto de caza de tu gato.', imagenesAdicionales: ['img/ratomcitos.webp', 'img/ratonces-piramide.webp'] },
-            { id: 3, nombre: 'Cuerda para morder', precio: 7000, stock: 5, imagen: 'img/morder.jpg', descripcion: 'Cuerda de algodón duradera para perros, ayuda a limpiar los dientes.', imagenesAdicionales: ['img/cuerda2.avif', 'img/cuerda3.webp'] }, 
-            { id: 4, nombre: 'Juguete interactivo', precio: 12000, stock: 26, imagen: 'img/juguetepuzzleparaperros.webp', descripcion: 'Juguete dispensador de premios que desafía la mente de tu mascota.', imagenesAdicionales: ['img/interactivo.jpg', 'img/interactivo2.webp'] }, 
-            { id: 5, nombre: 'Pelota con sonido', precio: 8000, stock: 17, imagen: 'img/pelota.jpg', descripcion: 'Pelota que emite sonidos divertidos al ser mordida, ideal para mantener a tu perro entretenido.', imagenesAdicionales: ['img/sonido.webp', 'img/sonido2.webp'] } 
+            { id: 3, nombre: 'Cuerda para morder', precio: 7000, stock: 5, imagen: 'img/morder.jpg', descripcion: 'Cuerda de algodón duradera para perros, ayuda a limpiar los dientes.', imagenesAdicionales: ['img/cuerda2.avif', 'img/cuerda3.webp'] },
+            { id: 4, nombre: 'Juguete interactivo', precio: 12000, stock: 26, imagen: 'img/juguetepuzzleparaperros.webp', descripcion: 'Juguete dispensador de premios que desafía la mente de tu mascota.', imagenesAdicionales: ['img/interactivo.jpg', 'img/interactivo2.webp'] },
+            { id: 5, nombre: 'Pelota con sonido', precio: 8000, stock: 17, imagen: 'img/pelota.jpg', descripcion: 'Pelota que emite sonidos divertidos al ser mordida, ideal para mantener a tu perro entretenido.', imagenesAdicionales: ['img/sonido.webp', 'img/sonido2.webp'] }
         ],
         accesorios: [
             { id: 6, nombre: 'Collar para perro', precio: 10000, stock: 10, imagen: 'img/collar.webp', descripcion: 'Collar ajustable y resistente para perros de tamaño mediano a grande.', imagenesAdicionales: ['img/collar2.jpg', 'img/collar3.jpg'] },
-            { id: 7, nombre: 'Correa ajustable', precio: 12000, stock: 8, imagen: 'img/accesorio.jpg', descripcion: 'Correa de nylon con longitud ajustable, ideal para paseos diarios.', imagenesAdicionales: ['img/correa1.avif', 'img/correa2.webp'] }, 
-            { id: 8, nombre: 'Arnés para perro', precio: 15000, stock: 5, imagen: 'img/collarcorrea.jpg', descripcion: 'Arnés cómodo y seguro que distribuye la presión uniformemente.', imagenesAdicionales: ['img/arnes1.webp', 'img/arnes2.jpg'] }, 
-            { id: 9, nombre: 'Cama para gato', precio: 20000, stock: 6, imagen: 'img/cama.webp', descripcion: 'Cama suave y acogedora para gatos, con bordes elevados para mayor confort.', imagenesAdicionales: ['img/camagato2.jpg', 'img/camagato3.webp'] } 
+            { id: 7, nombre: 'Correa ajustable', precio: 12000, stock: 8, imagen: 'img/accesorio.jpg', descripcion: 'Correa de nylon con longitud ajustable, ideal para paseos diarios.', imagenesAdicionales: ['img/correa1.avif', 'img/correa2.webp'] },
+            { id: 8, nombre: 'Arnés para perro', precio: 15000, stock: 5, imagen: 'img/collarcorrea.jpg', descripcion: 'Arnés cómodo y seguro que distribuye la presión uniformemente.', imagenesAdicionales: ['img/arnes1.webp', 'img/arnes2.jpg'] },
+            { id: 9, nombre: 'Cama para gato', precio: 20000, stock: 6, imagen: 'img/cama.webp', descripcion: 'Cama suave y acogedora para gatos, con bordes elevados para mayor confort.', imagenesAdicionales: ['img/camagato2.jpg', 'img/camagato3.webp'] }
         ],
         alimentos: [
             { id: 10, nombre: 'Comida seca para perros', precio: 25000, stock: 10, imagen: 'img/master.jpeg', descripcion: 'Alimento completo y balanceado para perros adultos, con proteínas de alta calidad.', imagenesAdicionales: ['img/comidaperro2.png', 'img/comidaperro3.png'] } ,
-            { id: 11, nombre: 'Comida húmeda para gatos', precio: 15000, stock: 18, imagen: 'img/lata.jpg', descripcion: 'Paté delicioso y nutritivo para gatos, ideal para complementar su dieta.', imagenesAdicionales: ['img/comidahumeda1.avif', 'img/comidahumeda2.jpg'] }, 
-            { id: 12, nombre: 'Snacks para perros', precio: 8000, stock: 15, imagen: 'img/snackperro.png', descripcion: 'Premios masticables para perros, ayudan a la higiene dental.', imagenesAdicionales: ['img/snackperro2.jpg', 'img/snackperro3.jpg'] }, 
-            { id: 13, nombre: 'Snacks para gatos', precio: 7000, stock: 16, imagen: 'img/sanac.jpg', descripcion: 'Bocadillos crujientes para gatos, con vitaminas y minerales.', imagenesAdicionales: ['img/snackgato2.jpg', 'img/snackgato3.jpg'] }, 
-            { id: 14, nombre: 'Alimento para aves', precio: 12000, stock: 7, imagen: 'img/aveees.png', descripcion: 'Mezcla de semillas y granos enriquecida para aves de jaula.', imagenesAdicionales: ['img/ave2.png', 'img/ave3.png'] } 
+            { id: 11, nombre: 'Comida húmeda para gatos', precio: 15000, stock: 18, imagen: 'img/lata.jpg', descripcion: 'Paté delicioso y nutritivo para gatos, ideal para complementar su dieta.', imagenesAdicionales: ['img/comidahumeda1.avif', 'img/comidahumeda2.jpg'] },
+            { id: 12, nombre: 'Snacks para perros', precio: 8000, stock: 15, imagen: 'img/snackperro.png', descripcion: 'Premios masticables para perros, ayudan a la higiene dental.', imagenesAdicionales: ['img/snackperro2.jpg', 'img/snackperro3.jpg'] },
+            { id: 13, nombre: 'Snacks para gatos', precio: 7000, stock: 16, imagen: 'img/sanac.jpg', descripcion: 'Bocadillos crujientes para gatos, con vitaminas y minerales.', imagenesAdicionales: ['img/snackgato2.jpg', 'img/snackgato3.jpg'] },
+            { id: 14, nombre: 'Alimento para aves', precio: 12000, stock: 7, imagen: 'img/aveees.png', descripcion: 'Mezcla de semillas y granos enriquecida para aves de jaula.', imagenesAdicionales: ['img/ave2.png', 'img/ave3.png'] }
         ]
     };
 
@@ -340,24 +340,25 @@ document.addEventListener('DOMContentLoaded', () => {
     function actualizarContadorCarrito() {
         const totalItemsEnCarrito = Object.values(carrito).reduce((acum, cant) => acum + cant, 0);
         const cartCountDesktop = document.getElementById('cart-count-desktop');
-        const cartCountMobile = document.getElementById('cart-count-mobile');
+        // const cartCountMobile = document.getElementById('cart-count-mobile'); // Si tienes un contador móvil, descomenta y úsalo
 
         if (cartCountDesktop) {
             cartCountDesktop.textContent = totalItemsEnCarrito;
             if (totalItemsEnCarrito > 0) {
-                cartCountDesktop.classList.remove('d-none');
+                cartCountDesktop.classList.remove('d-none'); // Solo remueve d-none para que sea visible (opacidad 1)
             } else {
-                cartCountDesktop.classList.add('d-none');
+                cartCountDesktop.classList.add('d-none');     // Añade d-none para que sea invisible (opacidad 0)
             }
         }
-        if (cartCountMobile) {
-            cartCountMobile.textContent = totalItemsEnCarrito;
-            if (totalItemsEnCarrito > 0) {
-                cartCountMobile.classList.remove('d-none');
-            } else {
-                cartCountMobile.classList.add('d-none');
-            }
-        }
+        // Si tienes un contador móvil, aplica la misma lógica
+        // if (cartCountMobile) {
+        //     cartCountMobile.textContent = totalItemsEnCarrito;
+        //     if (totalItemsEnCarrito > 0) {
+        //         cartCountMobile.classList.remove('d-none');
+        //     } else {
+        //         cartCountMobile.classList.add('d-none');
+        //     }
+        // }
     }
 
     function actualizarControles(idProducto) {
@@ -497,7 +498,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const detallesTarjeta = document.getElementById('detallesTarjeta');
 
         let carritoPago = JSON.parse(sessionStorage.getItem('carrito')) || {};
-        const productosDisponiblesPago = JSON.parse(sessionStorage.getItem('productosDisponibles')) || [];
+        // Es importante que productosDisponiblesPago se inicialice con todos los productos para que el resumen funcione correctamente
+        // Si no se guarda en sessionStorage, se puede usar la variable global `productosDisponibles`
+        const productosDisponiblesPago = productosDisponibles; // Usar la variable global
         let stockActualPago = JSON.parse(sessionStorage.getItem('stockActual')) || {};
 
         function calcularTotal() {
@@ -634,7 +637,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     sessionStorage.removeItem('carrito');
                     sessionStorage.removeItem('stockActual');
                     sessionStorage.removeItem('itemsSeleccionados');
-                    sessionStorage.removeItem('productosDisponibles');
+                    // sessionStorage.removeItem('productosDisponibles'); // Ya no es necesario si usamos la variable global
                     actualizarContadorCarrito(); // Resetear contador al confirmar pago
                     window.location.href = 'index.html';
                 } else {
@@ -648,7 +651,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-   
+
     const detalleProductoContainer = document.getElementById('detalleProductoContainer');
     if (detalleProductoContainer && window.location.pathname.includes('detalle_producto.html')) {
         const mensajeCarga = document.getElementById('mensajeCarga');
@@ -665,7 +668,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (producto) {
             if (mensajeCarga) mensajeCarga.style.display = 'none';
-            
+
             const allImages = [producto.imagen, ...(producto.imagenesAdicionales || [])];
             let carouselItemsHTML = '';
             let carouselIndicatorsHTML = '';
@@ -677,8 +680,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 `;
                 carouselIndicatorsHTML += `
-                    <button type="button" data-bs-target="#productImageCarousel" data-bs-slide-to="${index}" 
-                            class="${index === 0 ? 'active' : ''}" aria-current="${index === 0 ? 'true' : 'false'}" 
+                    <button type="button" data-bs-target="#productImageCarousel" data-bs-slide-to="${index}"
+                            class="${index === 0 ? 'active' : ''}" aria-current="${index === 0 ? 'true' : 'false'}"
                             aria-label="Slide ${index + 1}">
                         <img src="${imgSrc}" class="d-block w-100 img-thumbnail" alt="Miniatura ${index + 1}">
                     </button>
@@ -735,7 +738,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const spanCantidadDetalle = document.getElementById(`cantidadDetalle-${producto.id}`);
             const btnAnadirCarritoDetalle = document.getElementById(`btnAnadirCarritoDetalle-${producto.id}`);
 
-            let cantidadSeleccionada = 0; 
+            let cantidadSeleccionada = 0;
 
             const actualizarControlesDetalle = () => {
                 spanCantidadDetalle.textContent = cantidadSeleccionada;
@@ -780,14 +783,14 @@ document.addEventListener('DOMContentLoaded', () => {
             if (mensajeCarga) mensajeCarga.style.display = 'none';
         }
     }
-    
+
     const comunasPorRegion = {
     metropolitana: ["Santiago", "Maipú", "Puente Alto", "Las Condes", "La Florida"],
     valparaiso: ["Valparaíso", "Viña del Mar", "Quilpué", "Villa Alemana", "San Antonio"],
     biobio: ["Concepción", "Talcahuano", "Chillán", "Los Ángeles", "Coronel"]
   };
 
-  document.getElementById("region").addEventListener("change", function () {
+  document.getElementById("region")?.addEventListener("change", function () { // Añadido operador ?. para evitar errores si el elemento no existe
     const region = this.value;
     const comunaSelect = document.getElementById("comuna");
     comunaSelect.innerHTML = "<option selected disabled>Seleccione comuna</option>";
