@@ -292,7 +292,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const categoriaActual = parametrosURL.get('categoria');
     const tituloCategoria = document.getElementById('tituloCategoria');
     const contenedorInventario = document.getElementById('contenedorInventario');
-    const botonPagar = document.getElementById('btnPagar');
+    // const botonPagar = document.getElementById('btnPagar'); // Eliminado
 
     const todosLosProductos = {
         juguetes: [
@@ -309,7 +309,7 @@ document.addEventListener('DOMContentLoaded', () => {
             { id: 9, nombre: 'Cama para gato', precio: 20000, stock: 6, imagen: 'img/cama.webp', descripcion: 'Cama suave y acogedora para gatos, con bordes elevados para mayor confort.', imagenesAdicionales: ['img/camagato2.jpg', 'img/camagato3.webp'] } 
         ],
         alimentos: [
-            { id: 10, nombre: 'Comida seca para perros', precio: 25000, stock: 10, imagen: 'img/master.jpeg', descripcion: 'Alimento completo y balanceado para perros adultos, con proteínas de alta calidad.', imagenesAdicionales: ['img/comidaperro2.png', 'img/comidaperro3.png'] },
+            { id: 10, nombre: 'Comida seca para perros', precio: 25000, stock: 10, imagen: 'img/master.jpeg', descripcion: 'Alimento completo y balanceado para perros adultos, con proteínas de alta calidad.', imagenesAdicionales: ['img/comidaperro2.png', 'img/comidaperro3.png'] } ,
             { id: 11, nombre: 'Comida húmeda para gatos', precio: 15000, stock: 18, imagen: 'img/lata.jpg', descripcion: 'Paté delicioso y nutritivo para gatos, ideal para complementar su dieta.', imagenesAdicionales: ['img/comidahumeda1.avif', 'img/comidahumeda2.jpg'] }, 
             { id: 12, nombre: 'Snacks para perros', precio: 8000, stock: 15, imagen: 'img/snackperro.png', descripcion: 'Premios masticables para perros, ayudan a la higiene dental.', imagenesAdicionales: ['img/snackperro2.jpg', 'img/snackperro3.jpg'] }, 
             { id: 13, nombre: 'Snacks para gatos', precio: 7000, stock: 16, imagen: 'img/sanac.jpg', descripcion: 'Bocadillos crujientes para gatos, con vitaminas y minerales.', imagenesAdicionales: ['img/snackgato2.jpg', 'img/snackgato3.jpg'] }, 
@@ -336,169 +336,158 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function actualizarBotonPagar() {
-        if (botonPagar) {
-            const totalItemsEnCarrito = Object.values(carrito).reduce((acum, cant) => acum + cant, 0);
-            botonPagar.disabled = totalItemsEnCarrito === 0;
+    // Función para actualizar el contador del carrito en el header
+    function actualizarContadorCarrito() {
+        const totalItemsEnCarrito = Object.values(carrito).reduce((acum, cant) => acum + cant, 0);
+        const cartCountDesktop = document.getElementById('cart-count-desktop');
+        const cartCountMobile = document.getElementById('cart-count-mobile');
+
+        if (cartCountDesktop) {
+            cartCountDesktop.textContent = totalItemsEnCarrito;
+            if (totalItemsEnCarrito > 0) {
+                cartCountDesktop.classList.remove('d-none');
+            } else {
+                cartCountDesktop.classList.add('d-none');
+            }
+        }
+        if (cartCountMobile) {
+            cartCountMobile.textContent = totalItemsEnCarrito;
+            if (totalItemsEnCarrito > 0) {
+                cartCountMobile.classList.remove('d-none');
+            } else {
+                cartCountMobile.classList.add('d-none');
+            }
         }
     }
 
     function actualizarControles(idProducto) {
-    const producto = productosDisponibles.find(p => p.id === idProducto);
-    if (!producto) return;
+        const producto = productosDisponibles.find(p => p.id === idProducto);
+        if (!producto) return;
 
-    const stockRestante = stockActual[producto.id];
+        const stockRestante = stockActual[producto.id];
 
-    const spanStock = document.getElementById(`stock-${producto.id}`);
-    const alertaStock = document.getElementById(`alertaStock-${producto.id}`);
+        const spanStock = document.getElementById(`stock-${producto.id}`);
+        const alertaStock = document.getElementById(`alertaStock-${producto.id}`);
 
-    if (spanStock) spanStock.textContent = stockRestante;
+        if (spanStock) spanStock.textContent = stockRestante;
 
-    // Mostrar alerta si stock < 3 y > 0
-    if (alertaStock) {
-        if (stockRestante > 0 && stockRestante < 3) {
-            alertaStock.style.display = 'block';
-        } else {
-            alertaStock.style.display = 'none';
+        // Mostrar alerta si stock < 3 y > 0
+        if (alertaStock) {
+            if (stockRestante > 0 && stockRestante < 3) {
+                alertaStock.style.display = 'block';
+            } else {
+                alertaStock.style.display = 'none';
+            }
         }
+
+        // Guardar estado en sessionStorage
+        sessionStorage.setItem('carrito', JSON.stringify(carrito));
+        sessionStorage.setItem('stockActual', JSON.stringify(stockActual));
+        actualizarContadorCarrito(); // Actualizar el contador del carrito
     }
-
-    // Actualizar el botón Pagar según el carrito
-    actualizarBotonPagar();
-
-    // Guardar estado en sessionStorage
-    sessionStorage.setItem('carrito', JSON.stringify(carrito));
-    sessionStorage.setItem('stockActual', JSON.stringify(stockActual));
-}
 
 
     function mostrarInventario() {
-    if (!contenedorInventario) return;
-    contenedorInventario.innerHTML = '';
+        if (!contenedorInventario) return;
+        contenedorInventario.innerHTML = '';
 
-    let productosAMostrar;
-    if (categoriaActual && todosLosProductos[categoriaActual]) {
-        productosAMostrar = todosLosProductos[categoriaActual];
-    } else {
-        productosAMostrar = productosDisponibles;
-    }
+        let productosAMostrar;
+        if (categoriaActual && todosLosProductos[categoriaActual]) {
+            productosAMostrar = todosLosProductos[categoriaActual];
+        } else {
+            productosAMostrar = productosDisponibles;
+        }
 
-    if (productosAMostrar.length === 0) {
-        contenedorInventario.innerHTML = '<p class="text-center text-muted fs-5">No hay productos en esta categoría.</p>';
-        return;
-    }
+        if (productosAMostrar.length === 0) {
+            contenedorInventario.innerHTML = '<p class="text-center text-muted fs-5">No hay productos en esta categoría.</p>';
+            return;
+        }
 
-    productosAMostrar.forEach(producto => {
-        const columna = document.createElement('div');
-        columna.classList.add('col-sm-6', 'col-md-4', 'col-lg-3', 'mb-4');
-        columna.innerHTML = `
-            <div class="card h-100 shadow-sm border-0 rounded-lg overflow-hidden product-card">
-                <a href="detalle_producto.html?id=${producto.id}" class="text-decoration-none d-block">
-                    <img src="${producto.imagen}" class="card-img-top" alt="${producto.nombre}" style="height:180px; object-fit:contain;">
-                </a>
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title text-primary fw-bold mb-2">${producto.nombre}</h5>
-                    <p class="card-text text-muted mb-2">Precio: <span class="fw-bold text-dark">$${producto.precio.toLocaleString('es-CL')}</span></p>
-                    <p class="card-text text-muted mb-1">Stock: <span id="stock-${producto.id}" class="fw-bold text-info">${stockActual[producto.id]}</span></p>
-                    <p id="alertaStock-${producto.id}" class="text-warning fw-semibold mb-3" style="display:none;">
-                        ⚠️ Queda poco stock, ¡apresúrate!
-                    </p>
-                    <div class="mt-auto d-flex gap-2 align-items-center justify-content-center mb-3">
-                        <button class="btn btn-outline-danger btn-sm rounded-pill" id="btnQuitar-${producto.id}" aria-label="Quitar ${producto.nombre}">
-                            <i class="fas fa-minus"></i>
-                        </button>
-                        <span id="cantidadSeleccionada-${producto.id}" class="fw-bold fs-5 text-dark px-2">0</span>
-                        <button class="btn btn-outline-primary btn-sm rounded-pill" id="btnAgregar-${producto.id}" aria-label="Agregar ${producto.nombre}">
-                            <i class="fas fa-plus"></i>
+        productosAMostrar.forEach(producto => {
+            const columna = document.createElement('div');
+            columna.classList.add('col-sm-6', 'col-md-4', 'col-lg-3', 'mb-4');
+            columna.innerHTML = `
+                <div class="card h-100 shadow-sm border-0 rounded-lg overflow-hidden product-card">
+                    <a href="detalle_producto.html?id=${producto.id}" class="text-decoration-none d-block">
+                        <img src="${producto.imagen}" class="card-img-top" alt="${producto.nombre}" style="height:180px; object-fit:contain;">
+                    </a>
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title text-primary fw-bold mb-2">${producto.nombre}</h5>
+                        <p class="card-text text-muted mb-2">Precio: <span class="fw-bold text-dark">$${producto.precio.toLocaleString('es-CL')}</span></p>
+                        <p class="card-text text-muted mb-1">Stock: <span id="stock-${producto.id}" class="fw-bold text-info">${stockActual[producto.id]}</span></p>
+                        <p id="alertaStock-${producto.id}" class="text-warning fw-semibold mb-3" style="display:none;">
+                            ⚠️ Queda poco stock, ¡apresúrate!
+                        </p>
+                        <div class="mt-auto d-flex gap-2 align-items-center justify-content-center mb-3">
+                            <button class="btn btn-outline-danger btn-sm rounded-pill" id="btnQuitar-${producto.id}" aria-label="Quitar ${producto.nombre}">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <span id="cantidadSeleccionada-${producto.id}" class="fw-bold fs-5 text-dark px-2">0</span>
+                            <button class="btn btn-outline-primary btn-sm rounded-pill" id="btnAgregar-${producto.id}" aria-label="Agregar ${producto.nombre}">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                        <button class="btn btn-primary btn-sm w-100" id="btnAnadirCarrito-${producto.id}" disabled>
+                            Añadir
                         </button>
                     </div>
-                    <button class="btn btn-primary btn-sm w-100" id="btnAnadirCarrito-${producto.id}" disabled>
-                        Añadir
-                    </button>
                 </div>
-            </div>
-        `;
-        contenedorInventario.appendChild(columna);
+            `;
+            contenedorInventario.appendChild(columna);
 
-        let cantidadSeleccionada = 0;
+            let cantidadSeleccionada = 0;
 
-        const botonAgregar = document.getElementById(`btnAgregar-${producto.id}`);
-        const botonQuitar = document.getElementById(`btnQuitar-${producto.id}`);
-        const spanCantidadSeleccionada = document.getElementById(`cantidadSeleccionada-${producto.id}`);
-        const botonAnadirCarrito = document.getElementById(`btnAnadirCarrito-${producto.id}`);
+            const botonAgregar = document.getElementById(`btnAgregar-${producto.id}`);
+            const botonQuitar = document.getElementById(`btnQuitar-${producto.id}`);
+            const spanCantidadSeleccionada = document.getElementById(`cantidadSeleccionada-${producto.id}`);
+            const botonAnadirCarrito = document.getElementById(`btnAnadirCarrito-${producto.id}`);
 
-        const actualizarBotonesCantidad = () => {
-            spanCantidadSeleccionada.textContent = cantidadSeleccionada;
-            botonQuitar.disabled = cantidadSeleccionada === 0;
-            botonAgregar.disabled = cantidadSeleccionada >= stockActual[producto.id];
-            botonAnadirCarrito.disabled = cantidadSeleccionada === 0;
-        };
+            const actualizarBotonesCantidad = () => {
+                spanCantidadSeleccionada.textContent = cantidadSeleccionada;
+                botonQuitar.disabled = cantidadSeleccionada === 0;
+                botonAgregar.disabled = cantidadSeleccionada >= stockActual[producto.id];
+                botonAnadirCarrito.disabled = cantidadSeleccionada === 0;
+            };
 
-        botonAgregar.addEventListener('click', () => {
-            if (cantidadSeleccionada < stockActual[producto.id]) {
-                cantidadSeleccionada++;
-                actualizarBotonesCantidad();
-            }
-        });
-
-        botonQuitar.addEventListener('click', () => {
-            if (cantidadSeleccionada > 0) {
-                cantidadSeleccionada--;
-                actualizarBotonesCantidad();
-            }
-        });
-
-        botonAnadirCarrito.addEventListener('click', () => {
-            if (cantidadSeleccionada > 0 && cantidadSeleccionada <= stockActual[producto.id]) {
-                stockActual[producto.id] -= cantidadSeleccionada;
-                carrito[producto.id] = (carrito[producto.id] || 0) + cantidadSeleccionada;
-
-                sessionStorage.setItem('carrito', JSON.stringify(carrito));
-                sessionStorage.setItem('stockActual', JSON.stringify(stockActual));
-
-                actualizarControles(producto.id);
-
-                alert(`Se añadieron ${cantidadSeleccionada} unidades de ${producto.nombre} al carrito.`);
-
-                cantidadSeleccionada = 0;
-                actualizarBotonesCantidad();
-            }
-        });
-
-        actualizarBotonesCantidad();
-        actualizarControles(producto.id);
-    });
-}
-
-
-    if (botonPagar) {
-        botonPagar.addEventListener('click', () => {
-            const carritoFiltrado = Object.fromEntries(
-                Object.entries(carrito).filter(([, cantidad]) => cantidad > 0)
-            );
-
-            const itemsSeleccionados = Object.entries(carritoFiltrado).map(([id, cantidad]) => {
-                const producto = productosDisponibles.find(p => p.id === Number(id));
-                return {
-                    id: producto.id,
-                    nombre: producto.nombre,
-                    precio: producto.precio,
-                    cantidad,
-                    subtotal: producto.precio * cantidad
-                };
+            botonAgregar.addEventListener('click', () => {
+                if (cantidadSeleccionada < stockActual[producto.id]) {
+                    cantidadSeleccionada++;
+                    actualizarBotonesCantidad();
+                }
             });
 
-            sessionStorage.setItem('carrito', JSON.stringify(carritoFiltrado));
-            sessionStorage.setItem('itemsSeleccionados', JSON.stringify(itemsSeleccionados));
-            sessionStorage.setItem('productosDisponibles', JSON.stringify(productosDisponibles));
+            botonQuitar.addEventListener('click', () => {
+                if (cantidadSeleccionada > 0) {
+                    cantidadSeleccionada--;
+                    actualizarBotonesCantidad();
+                }
+            });
 
-            window.location.href = 'pago.html';
+            botonAnadirCarrito.addEventListener('click', () => {
+                if (cantidadSeleccionada > 0 && cantidadSeleccionada <= stockActual[producto.id]) {
+                    stockActual[producto.id] -= cantidadSeleccionada;
+                    carrito[producto.id] = (carrito[producto.id] || 0) + cantidadSeleccionada;
+
+                    sessionStorage.setItem('carrito', JSON.stringify(carrito));
+                    sessionStorage.setItem('stockActual', JSON.stringify(stockActual));
+
+                    actualizarControles(producto.id); // Esto ya llama a actualizarContadorCarrito()
+
+                    alert(`Se añadieron ${cantidadSeleccionada} unidades de ${producto.nombre} al carrito.`);
+
+                    cantidadSeleccionada = 0;
+                    actualizarBotonesCantidad();
+                }
+            });
+
+            actualizarBotonesCantidad();
+            actualizarControles(producto.id);
         });
     }
 
-    if (contenedorInventario && tituloCategoria && botonPagar) {
+
+    if (contenedorInventario && tituloCategoria) {
         mostrarInventario();
-        actualizarBotonPagar();
     }
 
     const formularioPago = document.getElementById('formularioPago');
@@ -520,97 +509,102 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         function actualizarResumen() {
-    resumenCompra.innerHTML = '';
-    const keys = Object.keys(carritoPago).filter(id => carritoPago[id] > 0);
+            resumenCompra.innerHTML = '';
+            const keys = Object.keys(carritoPago).filter(id => carritoPago[id] > 0);
 
-    if (keys.length === 0) {
-        resumenCompra.innerHTML = '<p class="text-danger text-center fw-bold">No hay productos en el carrito para pagar.</p>';
-        if (botonConfirmarPago) botonConfirmarPago.disabled = true;
-        return;
-    }
-
-    const lista = document.createElement('ul');
-    lista.classList.add('list-group', 'mb-3');
-
-    keys.forEach(id => {
-        const cantidad = carritoPago[id];
-        const producto = productosDisponiblesPago.find(p => p.id == id);
-        if (!producto) return;
-
-        const item = document.createElement('li');
-        item.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center', 'shadow-sm', 'rounded-3', 'mb-2', 'gap-3');
-
-        item.innerHTML = `
-            <img src="${producto.imagen}" alt="${producto.nombre}" style="width: 50px; height: 50px; object-fit: contain; border-radius: 5px;">
-            <div class="flex-grow-1 ms-2">
-                <span class="nombre-producto fw-semibold">${producto.nombre}</span>
-                <div class="d-flex align-items-center gap-2 mt-1">
-                    <button type="button" class="btn btn-outline-danger btn-sm btn-restar" title="Quitar 1 unidad">
-                        <i class="fas fa-minus"></i>
-                    </button>
-                    <span class="cantidad fw-bold fs-5">${cantidad}</span>
-                    <button type="button" class="btn btn-outline-primary btn-sm btn-sumar" title="Agregar 1 unidad" ${stockActualPago[id] === 0 ? 'disabled' : ''}>
-                        <i class="fas fa-plus"></i>
-                    </button>
-                </div>
-            </div>
-            <span class="fw-bold text-primary">$${(producto.precio * cantidad).toLocaleString('es-CL')}</span>
-            <button type="button" class="eliminar-producto btn btn-sm btn-outline-danger border-0" title="Eliminar producto">
-                <i class="fas fa-times-circle"></i>
-            </button>
-        `;
-
-        // Botones y cantidad
-        const btnRestar = item.querySelector('.btn-restar');
-        const btnSumar = item.querySelector('.btn-sumar');
-        const spanCantidad = item.querySelector('.cantidad');
-        const btnEliminar = item.querySelector('.eliminar-producto');
-
-        btnRestar.addEventListener('click', () => {
-            if (carritoPago[id] > 1) {
-                carritoPago[id]--;
-                stockActualPago[id]++;
-            } else {
-                // Si queda 1 y se resta, eliminar producto
-                stockActualPago[id] += carritoPago[id];
-                delete carritoPago[id];
+            if (keys.length === 0) {
+                resumenCompra.innerHTML = '<p class="text-danger text-center fw-bold">No hay productos en el carrito para pagar.</p>';
+                if (botonConfirmarPago) botonConfirmarPago.disabled = true;
+                actualizarContadorCarrito(); // Actualizar contador si el carrito está vacío
+                return;
             }
-            sessionStorage.setItem('carrito', JSON.stringify(carritoPago));
-            sessionStorage.setItem('stockActual', JSON.stringify(stockActualPago));
-            actualizarResumen();
-        });
 
-        btnSumar.addEventListener('click', () => {
-            if (stockActualPago[id] > 0) {
-                carritoPago[id]++;
-                stockActualPago[id]--;
-                sessionStorage.setItem('carrito', JSON.stringify(carritoPago));
-                sessionStorage.setItem('stockActual', JSON.stringify(stockActualPago));
-                actualizarResumen();
-            }
-        });
+            const lista = document.createElement('ul');
+            lista.classList.add('list-group', 'mb-3');
 
-        btnEliminar.addEventListener('click', () => {
-            stockActualPago[id] += carritoPago[id];
-            delete carritoPago[id];
-            sessionStorage.setItem('carrito', JSON.stringify(carritoPago));
-            sessionStorage.setItem('stockActual', JSON.stringify(stockActualPago));
-            actualizarResumen();
-        });
+            keys.forEach(id => {
+                const cantidad = carritoPago[id];
+                const producto = productosDisponiblesPago.find(p => p.id == id);
+                if (!producto) return;
 
-        lista.appendChild(item);
-    });
+                const item = document.createElement('li');
+                item.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center', 'shadow-sm', 'rounded-3', 'mb-2', 'gap-3');
 
-    resumenCompra.appendChild(lista);
+                item.innerHTML = `
+                    <img src="${producto.imagen}" alt="${producto.nombre}" style="width: 50px; height: 50px; object-fit: contain; border-radius: 5px;">
+                    <div class="flex-grow-1 ms-2">
+                        <span class="nombre-producto fw-semibold">${producto.nombre}</span>
+                        <div class="d-flex align-items-center gap-2 mt-1">
+                            <button type="button" class="btn btn-outline-danger btn-sm btn-restar" title="Quitar 1 unidad">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <span class="cantidad fw-bold fs-5">${cantidad}</span>
+                            <button type="button" class="btn btn-outline-primary btn-sm btn-sumar" title="Agregar 1 unidad" ${stockActualPago[id] === 0 ? 'disabled' : ''}>
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <span class="fw-bold text-primary">$${(producto.precio * cantidad).toLocaleString('es-CL')}</span>
+                    <button type="button" class="eliminar-producto btn btn-sm btn-outline-danger border-0" title="Eliminar producto">
+                        <i class="fas fa-times-circle"></i>
+                    </button>
+                `;
 
-    const divTotal = document.createElement('div');
-    divTotal.id = 'totalCompra';
-    divTotal.classList.add('p-3', 'rounded-3', 'text-center', 'fw-bold', 'fs-4', 'mt-4');
-    divTotal.textContent = `Total a pagar: $${calcularTotal().toLocaleString('es-CL')}`;
-    resumenCompra.appendChild(divTotal);
+                // Botones y cantidad
+                const btnRestar = item.querySelector('.btn-restar');
+                const btnSumar = item.querySelector('.btn-sumar');
+                const spanCantidad = item.querySelector('.cantidad');
+                const btnEliminar = item.querySelector('.eliminar-producto');
 
-    if (botonConfirmarPago) botonConfirmarPago.disabled = false;
-}
+                btnRestar.addEventListener('click', () => {
+                    if (carritoPago[id] > 1) {
+                        carritoPago[id]--;
+                        stockActualPago[id]++;
+                    } else {
+                        // Si queda 1 y se resta, eliminar producto
+                        stockActualPago[id] += carritoPago[id];
+                        delete carritoPago[id];
+                    }
+                    sessionStorage.setItem('carrito', JSON.stringify(carritoPago));
+                    sessionStorage.setItem('stockActual', JSON.stringify(stockActualPago));
+                    actualizarResumen();
+                    actualizarContadorCarrito(); // Actualizar contador
+                });
+
+                btnSumar.addEventListener('click', () => {
+                    if (stockActualPago[id] > 0) {
+                        carritoPago[id]++;
+                        stockActualPago[id]--;
+                        sessionStorage.setItem('carrito', JSON.stringify(carritoPago));
+                        sessionStorage.setItem('stockActual', JSON.stringify(stockActualPago));
+                        actualizarResumen();
+                        actualizarContadorCarrito(); // Actualizar contador
+                    }
+                });
+
+                btnEliminar.addEventListener('click', () => {
+                    stockActualPago[id] += carritoPago[id];
+                    delete carritoPago[id];
+                    sessionStorage.setItem('carrito', JSON.stringify(carritoPago));
+                    sessionStorage.setItem('stockActual', JSON.stringify(stockActualPago));
+                    actualizarResumen();
+                    actualizarContadorCarrito(); // Actualizar contador
+                });
+
+                lista.appendChild(item);
+            });
+
+            resumenCompra.appendChild(lista);
+
+            const divTotal = document.createElement('div');
+            divTotal.id = 'totalCompra';
+            divTotal.classList.add('p-3', 'rounded-3', 'text-center', 'fw-bold', 'fs-4', 'mt-4');
+            divTotal.textContent = `Total a pagar: $${calcularTotal().toLocaleString('es-CL')}`;
+            resumenCompra.appendChild(divTotal);
+
+            if (botonConfirmarPago) botonConfirmarPago.disabled = false;
+            actualizarContadorCarrito(); // Actualizar contador al finalizar el resumen
+        }
 
 
         document.querySelectorAll('input[name="metodoPago"]').forEach(radio => {
@@ -641,6 +635,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     sessionStorage.removeItem('stockActual');
                     sessionStorage.removeItem('itemsSeleccionados');
                     sessionStorage.removeItem('productosDisponibles');
+                    actualizarContadorCarrito(); // Resetear contador al confirmar pago
                     window.location.href = 'index.html';
                 } else {
                     formularioPago.classList.add('was-validated');
@@ -774,6 +769,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     alert(`Se añadieron ${cantidadSeleccionada} unidades de ${producto.nombre} al carrito.`);
                     cantidadSeleccionada = 0;
                     actualizarControlesDetalle();
+                    actualizarContadorCarrito(); // Actualizar contador
                     window.location.href = 'inventario.html';
                 }
             });
@@ -805,4 +801,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
   });
+
+  // Llamar a actualizarContadorCarrito al cargar la página para inicializar el contador
+  actualizarContadorCarrito();
 });

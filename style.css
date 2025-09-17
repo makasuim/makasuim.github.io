@@ -609,3 +609,35 @@ article .btn {
     color: var(--primary-color);
 }
 
+/* Aumentar ancho del offcanvas para que no corte textos */
+.offcanvas-end {
+    width: 280px !important;
+}
+
+/* Asegurar que los enlaces del menú tengan espacio suficiente y no se corten */
+.offcanvas-body ul li a {
+    white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Muestra "..." si el texto es muy largo */
+    display: block;
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+/* Hover y focus para mejor experiencia */
+.offcanvas-body ul li a:hover,
+.offcanvas-body ul li a:focus {
+    background-color: #0d6efd; /* Bootstrap primary color */
+    color: white;
+    text-decoration: none;
+    border-radius: 0.25rem;
+}
+
+/* Ajuste para pantallas pequeñas */
+@media (max-width: 576px) {
+    .offcanvas-body ul li a {
+        font-size: 1.1rem;
+        padding: 0.75rem 1.25rem;
+    }
+}
