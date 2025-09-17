@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>KittyPatitasSuaves - Blog</title>
+    <meta name="description" content="Noticias y novedades de KittyPatitasSuaves, tu tienda para mascotas." />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        .menu-icon { width: 30px; height: auto; }
+        article img { max-height: 250px; object-fit: cover; }
+    </style>
+</head>
+<body>
+    <header class="main-header bg-dark text-white">
+        <div class="container d-flex justify-content-between align-items-center py-3 flex-wrap">
+            <a href="index.html" class="text-decoration-none text-white">
+                <h1 class="m-0 site-title fs-4 fs-lg-2">KittyPatitasSuaves</h1>
+            </a>
+            <nav role="navigation" class="main-nav d-none d-lg-block">
+                <ul class="list-unstyled d-flex m-0">
+                    <li><a href="index.html" class="nav-link px-3">Inicio</a></li>
+                    <li><a href="registro.html" class="nav-link px-3">Registro</a></li>
+                    <li><a href="acceso.html" class="nav-link px-3">Acceder</a></li>
+                    <li><a href="inventario.html" class="nav-link px-3">Productos</a></li>
+                    <li><a href="pago.html" class="nav-link px-3">Mi carrito</a></li>
+                    <li><a href="Soporte.html" class="nav-link px-3">Soporte</a></li>
+                    <li><a href="blog.html" class="nav-link active px-3">Blog</a></li>
+                </ul>
+            </nav>
+            <button class="btn btn-outline-secondary menu-hamburguesa d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu" aria-controls="offcanvasMenu" aria-label="Abrir menú">
+                <img src="img/huella.png" alt="Menú" class="menu-icon" />
+            </button>
+        </div>
+    </header>
+
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasMenuLabel">Menú</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
+        </div>
+        <div class="offcanvas-body">
+            <ul class="list-unstyled">
+                <li><a href="index.html" class="text-decoration-none offcanvas-nav-link">Inicio</a></li>
+                <li><a href="registro.html" class="text-decoration-none offcanvas-nav-link">Registro</a></li>
+                <li><a href="acceso.html" class="text-decoration-none offcanvas-nav-link">Acceder</a></li>
+                <li><a href="inventario.html" class="text-decoration-none offcanvas-nav-link">Productos</a></li>
+                <li><a href="pago.html" class="text-decoration-none offcanvas-nav-link">Mi carrito</a></li>
+                <li><a href="Soporte.html" class="text-decoration-none offcanvas-nav-link">Soporte</a></li>
+                <li><a href="blog.html" class="text-decoration-none offcanvas-nav-link">Blog</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <main class="container my-5">
+        <h2 class="text-primary mb-4 text-center">Noticias y Novedades</h2>
+
+        <!-- Noticia 1 -->
+        <article class="mb-5 shadow-sm p-4 rounded border">
+            <div class="row row-cols-1 row-cols-md-2 g-3 align-items-center">
+                <div class="col">
+                    <h3 class="fw-bold text-secondary">Lanzamiento de nuestra nueva línea de juguetes ecológicos</h3>
+                    <p class="text-muted"><small>Publicado el 10 de junio de 2025</small></p>
+                    <p>En KittyPatitasSuaves nos preocupamos por el medio ambiente y el bienestar de tus mascotas. Por eso, hemos lanzado una nueva línea de juguetes fabricados con materiales reciclados y seguros para perros y gatos. ¡Ven a descubrirlos en nuestra tienda!</p>
+                </div>
+                <div class="col text-center">
+                    <img src="img/rascador-para-gatos-cat-scratch.jpg" alt="Juguetes ecológicos para mascotas" class="img-fluid rounded shadow" />
+                </div>
+            </div>
+        </article>
+
+        <!-- Noticia 2 -->
+        <article class="mb-5 shadow-sm p-4 rounded border">
+            <div class="row row-cols-1 row-cols-md-2 g-3 align-items-center">
+                <div class="col order-md-2">
+                    <h3 class="fw-bold text-secondary">Promoción especial en alimentos para gatos</h3>
+                    <p class="text-muted"><small>Publicado el 1 de junio de 2025</small></p>
+                    <p>Durante todo el mes de junio, disfruta de un 20% de descuento en nuestra selección de alimentos premium para gatos. Alimenta a tu felino con lo mejor y ahorra en tu compra.</p>
+                </div>
+                <div class="col order-md-1 text-center">
+                    <img src="img/Post de Instagram de alimento para mascota divertido en color rosado.png" alt="Alimentos para gatos en promoción" class="img-fluid rounded shadow" />
+                </div>
+            </div>
+        </article>
+
+        <!-- Noticia 3 -->
+        <article class="mb-5 shadow-sm p-4 rounded border">
+            <div class="row row-cols-1 row-cols-md-2 g-3 align-items-center">
+                <div class="col">
+                    <h3 class="fw-bold text-secondary">Consejos para el cuidado de tu mascota en verano</h3>
+                    <p class="text-muted"><small>Publicado el 25 de mayo de 2025</small></p>
+                    <p>El verano puede ser un reto para nuestras mascotas. En nuestro blog te compartimos consejos útiles para mantener a tu perro o gato fresco, hidratado y feliz durante los días calurosos.</p>
+                </div>
+                <div class="col text-center">
+                    <img src="img/Historia para instagram veterinaria cuidado de tu mascota moderno morado.jpg" alt="Mascota feliz en verano" class="img-fluid rounded shadow" />
+                </div>
+            </div>
+        </article>
+
+        <div class="text-center">
+            <a href="index.html" class="btn btn-primary">Volver al Inicio</a>
+        </div>
+    </main>
+
+    <footer class="site-footer bg-dark text-white text-center p-4 mt-5">
+        <p class="mb-2">&copy; 2025 KittyPatitasSuaves.</p>
+        <div class="social-links d-flex flex-column flex-md-row justify-content-center gap-3">
+            <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" class="text-white fs-4 social-icon" aria-label="Instagram">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" class="text-white fs-4 social-icon" aria-label="Facebook">
+                <i class="fab fa-facebook"></i>
+            </a>
+            <a href="https://www.x.com" target="_blank" rel="noopener noreferrer" class="text-white fs-4 social-icon" aria-label="X (Twitter)">
+                <i class="fab fa-x"></i>
+            </a>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
