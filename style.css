@@ -1,11 +1,11 @@
 /* Variables de color para un diseño moderno y coherente */
 :root {
-  --primary-color: #6a0dad; /* Púrpura oscuro */
-  --secondary-color: #ffc107; /* Amarillo */
-  --bg-color: #f8f9fa; /* Gris claro para fondo */
-  --text-color: #333; /* Texto oscuro */
-  --shadow-color: rgba(106, 13, 173, 0.3); /* Sombra púrpura */
-  --border-radius: 0.75rem; /* Ligeramente más suave */
+  --primary-color: #6a0dad; 
+  --secondary-color: #ffc107; 
+  --bg-color: #f8f9fa; 
+  --text-color: #333; 
+  --shadow-color: rgba(106, 13, 173, 0.3); 
+  --border-radius: 0.75rem; 
   --transition-speed: 0.3s;
   --transition-timing: ease-in-out;
 }
@@ -29,15 +29,15 @@ body {
 
 /* Estilos del encabezado */
 .main-header {
-  background: linear-gradient(90deg, var(--primary-color) 0%, #9b4dca 100%); /* Púrpura */
+  background: linear-gradient(90deg, var(--primary-color) 0%, #9b4dca 100%); 
   color: #fff;
-  padding: 1.25rem 0; /* Ajuste de padding */
+  padding: 1.25rem 0; 
   box-shadow: 0 4px 20px var(--shadow-color);
   position: sticky;
   top: 0;
   z-index: 1000;
   animation: slideDown 1s var(--transition-timing);
-  border-bottom: 4px solid var(--secondary-color); /* Borde amarillo */
+  border-bottom: 4px solid var(--secondary-color); 
 }
 
 .main-header .container {
@@ -50,7 +50,7 @@ body {
 }
 
 .site-title {
-  font-size: clamp(1.75rem, 4vw, 2.75rem); /* Tamaño flexible y ligeramente más grande */
+  font-size: clamp(1.75rem, 4vw, 2.75rem); 
   flex: 1 1 auto;     
   font-weight: 900;
   margin: 0;
@@ -59,7 +59,7 @@ body {
   text-overflow: ellipsis;
   text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
   animation: glow 2s infinite alternate;
-  color: #fff; /* Asegura que el H1 sea blanco */
+  color: #fff; 
 }
 
 .main-nav {
@@ -68,14 +68,14 @@ body {
 
 @keyframes glow {
   from { text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
-  to { text-shadow: 2px 2px 4px rgba(255,193,7,0.7); } /* Amarillo para el glow */
+  to { text-shadow: 2px 2px 4px rgba(255,193,7,0.7); } 
 }
 
 /* Barra de navegación */
 .main-nav ul {
   list-style: none;
   display: flex;
-  gap: 1.75rem; /* Mayor espacio entre elementos */
+  gap: 1.75rem; 
   margin: 0;
   padding: 0;
 }
@@ -87,10 +87,10 @@ body {
 }
 
 .main-nav .nav-link {
-  color: var(--secondary-color); /* Texto de navegación amarillo */
+  color: var(--secondary-color); 
   text-decoration: none;
   font-weight: 600;
-  padding: 0.6rem 1.1rem; /* Ajuste de padding */
+  padding: 0.6rem 1.1rem; 
   border-radius: var(--border-radius);
   transition: all var(--transition-speed) var(--transition-timing);
   display: block;
@@ -98,15 +98,15 @@ body {
 }
 
 .main-nav .nav-link:hover {
-  background: var(--secondary-color); /* Fondo amarillo al pasar el ratón */
-  color: var(--primary-color); /* Texto púrpura al pasar el ratón */
-  transform: translateY(-2px); /* Pequeño efecto de elevación */
+  background: var(--secondary-color);
+  color: var(--primary-color); 
+  transform: translateY(-2px); 
 }
 
 .main-nav .nav-link.active {
-  background: var(--secondary-color); /* Fondo amarillo para el elemento activo */
-  color: var(--primary-color); /* Texto púrpura para el elemento activo */
-  box-shadow: 0 0 10px rgba(255,193,7,0.5); /* Sombra sutil para el activo */
+  background: var(--secondary-color); 
+  color: var(--primary-color); 
+  box-shadow: 0 0 10px rgba(255,193,7,0.5); 
 }
 
 /* Offcanvas Menu (Hamburguesa) */
@@ -554,4 +554,5 @@ main {
         top: 0.75rem;
         right: 0.75rem;
     }
+
 }
