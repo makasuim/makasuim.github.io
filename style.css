@@ -50,7 +50,7 @@ body {
 }
 
 .site-title {
-  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  font-size: clamp(1.75rem, 4vw, 2.75rem); 
   flex: 1 1 auto;     
   font-weight: 900;
   margin: 0;
@@ -68,7 +68,7 @@ body {
 
 @keyframes glow {
   from { text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
-  to { text-shadow: 2px 2px 4px rgba(255,193,7,0.7); }
+  to { text-shadow: 2px 2px 4px rgba(255,193,7,0.7); } 
 }
 
 /* Barra de navegación */
@@ -98,7 +98,7 @@ body {
 }
 
 .main-nav .nav-link:hover {
-  background: var(--secondary-color); 
+  background: var(--secondary-color);
   color: var(--primary-color); 
   transform: translateY(-2px); 
 }
@@ -553,4 +553,5 @@ main {
         top: 0.75rem;
         right: 0.75rem;
     }
+
 }
