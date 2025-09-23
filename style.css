@@ -130,11 +130,6 @@ body {
   z-index: 1; 
 }
 
-/* Cuando el badge tiene la clase d-none, lo hacemos invisible */
-.main-nav .nav-item .badge.d-none {
-  opacity: 0;
-  pointer-events: none; 
-}
 
 /* Asegurar que el nav-link que contiene el badge tenga position: relative */
 .main-nav .nav-item {

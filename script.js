@@ -1,4 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
+
+    // =========================================================================
+    // REGISTRO DE USUARIO (registro.html)
+    // =========================================================================
     const formularioRegistro = document.getElementById('formularioRegistro');
     if (formularioRegistro) {
         const entradaNombreCompleto = document.getElementById('nombreCompleto');
@@ -157,6 +161,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // =========================================================================
+    // INICIO DE SESIÓN (acceso.html)
+    // =========================================================================
     const formularioAcceso = document.getElementById('formularioAcceso');
     if (formularioAcceso) {
         const entradaCorreoAcceso = document.getElementById('correoAcceso');
@@ -230,12 +237,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    const formularioSoporte = document.getElementById('formularioContacto'); // Cambiado de formularioSoporte a formularioContacto
+    // =========================================================================
+    // Contacto.html
+    // =========================================================================
+    const formularioSoporte = document.getElementById('formularioContacto'); 
     if (formularioSoporte) {
-        const nombreSoporte = document.getElementById('nombreContacto'); // Cambiado de nombreSoporte a nombreContacto
-        const correoSoporte = document.getElementById('correoContacto'); // Cambiado de correoSoporte a correoContacto
-        const comentarioSoporte = document.getElementById('comentarioContacto'); // Cambiado de comentarioSoporte a comentarioContacto
-        const mensajeSoporte = document.getElementById('mensajeContacto'); // Cambiado de mensajeSoporte a mensajeContacto
+        const nombreSoporte = document.getElementById('nombreContacto'); 
+        const correoSoporte = document.getElementById('correoContacto'); 
+        const comentarioSoporte = document.getElementById('comentarioContacto'); 
+        const mensajeSoporte = document.getElementById('mensajeContacto'); 
 
         formularioSoporte.addEventListener('submit', function (evento) {
             evento.preventDefault();
@@ -288,11 +298,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // =========================================================================
+    // INVENTARIO Y DETALLE DE PRODUCTO (inventario.html, detalle_producto.html)
+    // =========================================================================
     const parametrosURL = new URLSearchParams(window.location.search);
-    const categoriaActual = parametrosURL.get('categoria');
+    const categoriaActual = parametrosURL.get('categoria'); // para ingresar a cualquier categoria solo es /inventario.html?categoria=(y aqui el nombre de la categoria)
     const tituloCategoria = document.getElementById('tituloCategoria');
     const contenedorInventario = document.getElementById('contenedorInventario');
-    // const botonPagar = document.getElementById('btnPagar'); // Eliminado
 
     const todosLosProductos = {
         juguetes: [
@@ -340,25 +352,25 @@ document.addEventListener('DOMContentLoaded', () => {
     function actualizarContadorCarrito() {
         const totalItemsEnCarrito = Object.values(carrito).reduce((acum, cant) => acum + cant, 0);
         const cartCountDesktop = document.getElementById('cart-count-desktop');
-        // const cartCountMobile = document.getElementById('cart-count-mobile'); // Si tienes un contador móvil, descomenta y úsalo
+        const cartCountMobile = document.getElementById('cart-count-mobile'); 
 
         if (cartCountDesktop) {
             cartCountDesktop.textContent = totalItemsEnCarrito;
             if (totalItemsEnCarrito > 0) {
-                cartCountDesktop.classList.remove('d-none'); // Solo remueve d-none para que sea visible (opacidad 1)
+                cartCountDesktop.classList.remove('d-none'); 
             } else {
-                cartCountDesktop.classList.add('d-none');     // Añade d-none para que sea invisible (opacidad 0)
+                cartCountDesktop.classList.add('d-none');     
             }
         }
-        // Si tienes un contador móvil, aplica la misma lógica
-        // if (cartCountMobile) {
-        //     cartCountMobile.textContent = totalItemsEnCarrito;
-        //     if (totalItemsEnCarrito > 0) {
-        //         cartCountMobile.classList.remove('d-none');
-        //     } else {
-        //         cartCountMobile.classList.add('d-none');
-        //     }
-        // }
+        
+        if (cartCountMobile) {
+            cartCountMobile.textContent = totalItemsEnCarrito;
+            if (totalItemsEnCarrito > 0) {
+                cartCountMobile.classList.remove('d-none');
+            } else {
+                cartCountMobile.classList.add('d-none');
+             }
+         }
     }
 
     function actualizarControles(idProducto) {
@@ -381,10 +393,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // Guardar estado en sessionStorage
+        
         sessionStorage.setItem('carrito', JSON.stringify(carrito));
         sessionStorage.setItem('stockActual', JSON.stringify(stockActual));
-        actualizarContadorCarrito(); // Actualizar el contador del carrito
+        actualizarContadorCarrito(); 
     }
 
 
@@ -472,7 +484,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     sessionStorage.setItem('carrito', JSON.stringify(carrito));
                     sessionStorage.setItem('stockActual', JSON.stringify(stockActual));
 
-                    actualizarControles(producto.id); // Esto ya llama a actualizarContadorCarrito()
+                    actualizarControles(producto.id); 
 
                     alert(`Se añadieron ${cantidadSeleccionada} unidades de ${producto.nombre} al carrito.`);
 
@@ -491,6 +503,9 @@ document.addEventListener('DOMContentLoaded', () => {
         mostrarInventario();
     }
 
+    // =========================================================================
+    // CARRITO Y PAGO (pago.html)
+    // =========================================================================
     const formularioPago = document.getElementById('formularioPago');
     if (formularioPago) {
         const resumenCompra = document.getElementById('resumenCompra');
@@ -498,9 +513,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const detallesTarjeta = document.getElementById('detallesTarjeta');
 
         let carritoPago = JSON.parse(sessionStorage.getItem('carrito')) || {};
-        // Es importante que productosDisponiblesPago se inicialice con todos los productos para que el resumen funcione correctamente
-        // Si no se guarda en sessionStorage, se puede usar la variable global `productosDisponibles`
-        const productosDisponiblesPago = productosDisponibles; // Usar la variable global
+        const productosDisponiblesPago = productosDisponibles; 
         let stockActualPago = JSON.parse(sessionStorage.getItem('stockActual')) || {};
 
         function calcularTotal() {
@@ -518,7 +531,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (keys.length === 0) {
                 resumenCompra.innerHTML = '<p class="text-danger text-center fw-bold">No hay productos en el carrito para pagar.</p>';
                 if (botonConfirmarPago) botonConfirmarPago.disabled = true;
-                actualizarContadorCarrito(); // Actualizar contador si el carrito está vacío
+                actualizarContadorCarrito(); 
                 return;
             }
 
@@ -553,7 +566,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     </button>
                 `;
 
-                // Botones y cantidad
                 const btnRestar = item.querySelector('.btn-restar');
                 const btnSumar = item.querySelector('.btn-sumar');
                 const spanCantidad = item.querySelector('.cantidad');
@@ -651,7 +663,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-
+    // =========================================================================
+    // DETALLE DE PRODUCTO 
+    // =========================================================================
     const detalleProductoContainer = document.getElementById('detalleProductoContainer');
     if (detalleProductoContainer && window.location.pathname.includes('detalle_producto.html')) {
         const mensajeCarga = document.getElementById('mensajeCarga');
@@ -772,7 +786,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     alert(`Se añadieron ${cantidadSeleccionada} unidades de ${producto.nombre} al carrito.`);
                     cantidadSeleccionada = 0;
                     actualizarControlesDetalle();
-                    actualizarContadorCarrito(); // Actualizar contador
+                    actualizarContadorCarrito(); 
                     window.location.href = 'inventario.html';
                 }
             });
@@ -784,6 +798,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // =========================================================================
+    // FUNCIONALIDAD GLOBAL
+    // =========================================================================
+
+    // Lógica para la selección de comunas por región (en registro.html)
     const comunasPorRegion = {
     metropolitana: ["Santiago", "Maipú", "Puente Alto", "Las Condes", "La Florida"],
     valparaiso: ["Valparaíso", "Viña del Mar", "Quilpué", "Villa Alemana", "San Antonio"],
