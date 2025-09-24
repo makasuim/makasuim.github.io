@@ -635,26 +635,92 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    const comunasPorRegion = {
-metropolitana: ["Santiago", "Maipú", "Puente Alto", "Las Condes", "La Florida"],
-valparaiso: ["Valparaíso", "Viña del Mar", "Quilpué", "Villa Alemana", "San Antonio"],
-biobio: ["Concepción", "Talcahuano", "Chillán", "Los Ángeles", "Coronel"]
+   const regionesYComunas = {
+  "Región Metropolitana de Santiago": [
+    "Santiago",
+    "Las Condes",
+    "Providencia",
+    "Ñuñoa",
+    "La Reina",
+    "Vitacura",
+    "Lo Barnechea",
+    "Maipú",
+    "La Florida",
+    "Peñalolén",
+  ],
+  "Región de la Araucanía": [
+    "Temuco",
+    "Villarrica",
+    "Pucón",
+    "Angol",
+    "Nueva Imperial",
+    "Carahue",
+    "Pitrufquén",
+    "Lautaro",
+    "Traiguén",
+    "Collipulli",
+  ],
+  "Región de Ñuble": [
+    "Chillán",
+    "San Carlos",
+    "Quirihue",
+    "Bulnes",
+    "Yungay",
+    "Coelemu",
+    "El Carmen",
+    "Pemuco",
+    "Quillón",
+    "Ninhue",
+  ],
 };
 
-document.getElementById("region")?.addEventListener("change", function () { // Añadido operador ?. para evitar errores si el elemento no existe
-const region = this.value;
-const comunaSelect = document.getElementById("comuna");
-comunaSelect.innerHTML = "<option selected disabled>Seleccione comuna</option>";
+// **FUNCIONES DE NAVEGACIÓN**
+function showLogin() {
+  document.getElementById("loginForm").classList.add("active");
+  document.getElementById("registerForm").classList.remove("active");
+  document.getElementById("header-title").textContent = "Iniciar Sesión";
+  clearAlerts();
+}
 
-if (comunasPorRegion[region]) {
-  comunasPorRegion[region].forEach(comuna => {
+function showRegister() {
+  document.getElementById("registerForm").classList.add("active");
+  document.getElementById("loginForm").classList.remove("active");
+  document.getElementById("header-title").textContent = "Registro de Usuario";
+  clearAlerts();
+}
+
+// **CARGAR REGIONES AL INICIAR**
+function loadRegiones() {
+  const regionSelect = document.getElementById("region");
+  Object.keys(regionesYComunas).forEach((region) => {
     const option = document.createElement("option");
-    option.value = comuna.toLowerCase();
-    option.textContent = comuna;
-    comunaSelect.appendChild(option);
+    option.value = region;
+    option.textContent = region;
+    regionSelect.appendChild(option);
   });
+}
+
+// **CARGAR COMUNAS SEGÚN REGIÓN**
+document.getElementById("region").addEventListener("change", function () {
+  const comunaSelect = document.getElementById("comuna");
+  const selectedRegion = this.value;
+
+  // Limpiar comunas
+  comunaSelect.innerHTML =
+    '<option value="">-- Selecciona la comuna --</option>';
+
+  if (selectedRegion && regionesYComunas[selectedRegion]) {
+    regionesYComunas[selectedRegion].forEach((comuna) => {
+      const option = document.createElement("option");
+      option.value = comuna;
+      option.textContent = comuna;
+      comunaSelect.appendChild(option);
+    });
+  }
+});
 }
 });
 });
+
 
 
