@@ -170,6 +170,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const entradaContrasenaAcceso = document.getElementById('contrasenaAcceso');
         const mensajeAcceso = document.getElementById('mensajeAcceso');
 
+        // ¡¡¡ESTA LÍNEA HA SIDO AÑADIDA AQUÍ!!!
+        const patronContrasenaAcceso = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&!*?])[A-Za-z\d@#$%^&!*?]{8,}$/;
+
+
         formularioAcceso.addEventListener('submit', function (evento) {
             evento.preventDefault();
             evento.stopPropagation();
@@ -191,13 +195,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 entradaCorreoAcceso.classList.add('is-valid');
             }
 
-            const valorContrasenaAcceso = entradaContrasenaAcceso.value;
-            if (!patronContrasenaAcceso.test(valorContrasenaAcceso)) { 
-            entradaContrasenaAcceso.classList.add('is-invalid');
-            accesoValido = false;
+            const valorContrasenaAcceso = entradaContrasenaAcceso.value; // Correcto: sin .trim()
+            if (!patronContrasenaAcceso.test(valorContrasenaAcceso)) { // Correcto: usando el patrón
+                entradaContrasenaAcceso.classList.add('is-invalid');
+                accesoValido = false;
             } else {
-            entradaContrasenaAcceso.classList.remove('is-invalid'); 
-            entradaContrasenaAcceso.classList.add('is-valid');
+                entradaContrasenaAcceso.classList.remove('is-invalid'); // Correcto: remover invalid si es válido
+                entradaContrasenaAcceso.classList.add('is-valid');
             }
 
             if (accesoValido) {
@@ -241,12 +245,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // =========================================================================
     // Contacto.html
     // =========================================================================
-    const formularioSoporte = document.getElementById('formularioContacto'); 
+    const formularioSoporte = document.getElementById('formularioContacto');
     if (formularioSoporte) {
-        const nombreSoporte = document.getElementById('nombreContacto'); 
-        const correoSoporte = document.getElementById('correoContacto'); 
-        const comentarioSoporte = document.getElementById('comentarioContacto'); 
-        const mensajeSoporte = document.getElementById('mensajeContacto'); 
+        const nombreSoporte = document.getElementById('nombreContacto');
+        const correoSoporte = document.getElementById('correoContacto');
+        const comentarioSoporte = document.getElementById('comentarioContacto');
+        const mensajeSoporte = document.getElementById('mensajeContacto');
 
         formularioSoporte.addEventListener('submit', function (evento) {
             evento.preventDefault();
@@ -821,11 +825,4 @@ document.addEventListener('DOMContentLoaded', () => {
         option.value = comuna.toLowerCase();
         option.textContent = comuna;
         comunaSelect.appendChild(option);
-      });
-    }
-  });
-
-  // Llamar a actualizarContadorCarrito al cargar la página para inicializar el contador
-  actualizarContadorCarrito();
-
-});
+       ⬤
