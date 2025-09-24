@@ -1,8 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
-
-    // =========================================================================
-    // REGISTRO DE USUARIO (registro.html)
-    // =========================================================================
+    //
+    // SECCIÓN: Lógica del Formulario de Registro (registro.html)
+    // FUNCIONALIDAD: Maneja la validación del formulario de registro, la adición/eliminación dinámica de campos de mascota,
+    //                y el almacenamiento de los datos del usuario en localStorage.
+    //
     const formularioRegistro = document.getElementById('formularioRegistro');
     if (formularioRegistro) {
         const entradaNombreCompleto = document.getElementById('nombreCompleto');
@@ -15,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const mensajeRegistro = document.getElementById('mensajeRegistro');
         let contadorMascotas = 0;
 
+        // Función para añadir un nuevo bloque de campos para registrar una mascota
         const agregarNuevaMascota = () => {
             const nuevoItemMascota = document.createElement('div');
             nuevoItemMascota.classList.add('item-mascota', 'mb-3', 'p-3', 'border', 'rounded', 'bg-white', 'shadow-sm');
@@ -39,27 +41,32 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             contenedorMascotas.appendChild(nuevoItemMascota);
 
+            // Añade un event listener para eliminar la mascota
             nuevoItemMascota.querySelector('.eliminar-mascota').addEventListener('click', (evento) => {
                 evento.target.closest('.item-mascota').remove();
             });
             contadorMascotas++;
         };
 
+        // Asegura que siempre haya al menos un campo de mascota al cargar la página
         if (contenedorMascotas.querySelectorAll('.item-mascota').length === 0) {
             agregarNuevaMascota();
         }
 
+        // Event listener para el botón "Añadir otra mascota"
         botonAgregarMascota.addEventListener('click', agregarNuevaMascota);
 
+        // Event listener para el envío del formulario de registro
         formularioRegistro.addEventListener('submit', function (evento) {
-            evento.preventDefault();
-            evento.stopPropagation();
+            evento.preventDefault(); // Evita el envío por defecto del formulario
+            evento.stopPropagation(); // Detiene la propagación del evento
 
-            mensajeRegistro.classList.add('d-none');
+            mensajeRegistro.classList.add('d-none'); // Oculta mensajes anteriores
             mensajeRegistro.classList.remove('alert-success', 'alert-danger');
 
-            let formularioValido = true;
+            let formularioValido = true; // Bandera para controlar la validez del formulario
 
+            // Validación del campo Nombre Completo
             const regexNombre = /^[A-Za-z\s]+$/;
             if (entradaNombreCompleto.value.trim() === '' || !regexNombre.test(entradaNombreCompleto.value) || entradaNombreCompleto.value.length > 50) {
                 entradaNombreCompleto.classList.add('is-invalid');
@@ -69,15 +76,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 entradaNombreCompleto.classList.add('is-valid');
             }
 
-            const regexCorreoRegistro = /^(?=.{1,100}$)([a-zA-Z0-9._%+-]+@(duoc\.cl|profesor\.duoc\.cl|gmail\.com))$/;
-            if (!regexCorreoRegistro.test(entradaCorreoElectronico.value)) {
-            entradaCorreoElectronico.classList.add('is-invalid');
-            formularioValido = false;
+            // Validación del campo Correo Electrónico (formato @duoc.cl)
+            const regexCorreoDuoc = /^[a-zA-Z0-9._%+-]+@duoc\.cl$/;
+            if (!regexCorreoDuoc.test(entradaCorreoElectronico.value)) {
+                entradaCorreoElectronico.classList.add('is-invalid');
+                formularioValido = false;
             } else {
-             entradaCorreoElectronico.classList.remove('is-invalid');
-             entradaCorreoElectronico.classList.add('is-valid');
+                entradaCorreoElectronico.classList.remove('is-invalid');
+                entradaCorreoElectronico.classList.add('is-valid');
             }
 
+            // Validación del campo Contraseña (complejidad)
             const valorContrasena = entradaContrasenaRegistro.value;
             const patronContrasena = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&!*?])[A-Za-z\d@#$%^&!*?]{8,}$/;
             if (!patronContrasena.test(valorContrasena)) {
@@ -88,6 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 entradaContrasenaRegistro.classList.add('is-valid');
             }
 
+            // Validación de Confirmar Contraseña (coincidencia)
             if (valorContrasena !== entradaConfirmarContrasenaRegistro.value || entradaConfirmarContrasenaRegistro.value.trim() === '') {
                 entradaConfirmarContrasenaRegistro.classList.add('is-invalid');
                 document.getElementById('retroalimentacionConfirmarContrasenaRegistro').textContent = 'Las contraseñas no coinciden.';
@@ -97,6 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 entradaConfirmarContrasenaRegistro.classList.add('is-valid');
             }
 
+            // Validación del campo Teléfono (opcional, pero si se ingresa, debe ser válido)
             const valorTelefono = entradaTelefono.value.trim();
             const regexTelefono = /^\+?[0-9]{8,15}$/;
             if (valorTelefono !== '' && !regexTelefono.test(valorTelefono)) {
@@ -107,6 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 entradaTelefono.classList.add('is-valid');
             }
 
+            // Validación de los campos de Mascota (Tipo y Nombre)
             const entradasTipoMascota = document.querySelectorAll('select[name="tipoMascota[]"]');
             const entradasNombreMascota = document.querySelectorAll('input[name="nombreMascota[]"]');
 
@@ -130,18 +142,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
+            // Si el formulario es válido, guarda el usuario y muestra mensaje de éxito
             if (formularioValido) {
                 const usuarioRegistrado = {
                     nombreCompleto: entradaNombreCompleto.value.trim(),
                     correo: entradaCorreoElectronico.value.trim(),
                     contrasena: entradaContrasenaRegistro.value
                 };
-                localStorage.setItem('usuarioRegistrado', JSON.stringify(usuarioRegistrado));
+                localStorage.setItem('usuarioRegistrado', JSON.stringify(usuarioRegistrado)); // Guarda en localStorage
 
                 mensajeRegistro.textContent = '¡Registro exitoso en KittyPatitasSuaves! Ahora puedes iniciar sesión.';
                 mensajeRegistro.classList.remove('d-none');
                 mensajeRegistro.classList.add('alert-success');
 
+                // Resetea el formulario y los estilos de validación
                 formularioRegistro.reset();
                 formularioRegistro.classList.remove('was-validated');
                 entradaNombreCompleto.classList.remove('is-valid', 'is-invalid');
@@ -149,11 +163,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 entradaContrasenaRegistro.classList.remove('is-valid', 'is-invalid');
                 entradaConfirmarContrasenaRegistro.classList.remove('is-valid', 'is-invalid');
                 entradaTelefono.classList.remove('is-valid', 'is-invalid');
-                contenedorMascotas.innerHTML = '<h5 class="text-primary mb-3">Registro de Mascotas</h5>';
+                contenedorMascotas.innerHTML = '<h5 class="text-primary mb-3">Registro de Mascotas</h5>'; // Limpia campos de mascota
                 contadorMascotas = 0;
-                agregarNuevaMascota();
+                agregarNuevaMascota(); // Añade un campo de mascota vacío de nuevo
             } else {
-                formularioRegistro.classList.add('was-validated');
+                // Si el formulario no es válido, muestra mensaje de error
+                formularioRegistro.classList.add('was-validated'); // Muestra los mensajes de feedback de Bootstrap
                 mensajeRegistro.textContent = 'Por favor, corrige los errores en el formulario de registro.';
                 mensajeRegistro.classList.remove('d-none');
                 mensajeRegistro.classList.add('alert-danger');
@@ -161,27 +176,32 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // =========================================================================
-    // INICIO DE SESIÓN (acceso.html)
-    // =========================================================================
+    //
+    // SECCIÓN: Lógica del Formulario de Acceso (acceso.html)
+    // FUNCIONALIDAD: Maneja la validación del formulario de inicio de sesión y verifica las credenciales
+    //                contra los datos almacenados en localStorage.
+    //
     const formularioAcceso = document.getElementById('formularioAcceso');
     if (formularioAcceso) {
         const entradaCorreoAcceso = document.getElementById('correoAcceso');
         const entradaContrasenaAcceso = document.getElementById('contrasenaAcceso');
         const mensajeAcceso = document.getElementById('mensajeAcceso');
 
+        // Event listener para el envío del formulario de acceso
         formularioAcceso.addEventListener('submit', function (evento) {
-            evento.preventDefault();
-            evento.stopPropagation();
+            evento.preventDefault(); // Evita el envío por defecto del formulario
+            evento.stopPropagation(); // Detiene la propagación del evento
 
-            mensajeAcceso.classList.add('d-none');
+            mensajeAcceso.classList.add('d-none'); // Oculta mensajes anteriores
             mensajeAcceso.classList.remove('alert-success', 'alert-danger');
 
+            // Limpia los estilos de validación anteriores
             entradaCorreoAcceso.classList.remove('is-valid', 'is-invalid');
             entradaContrasenaAcceso.classList.remove('is-valid', 'is-invalid');
 
-            let accesoValido = true;
+            let accesoValido = true; // Bandera para controlar la validez del acceso
 
+            // Validación del campo Correo Electrónico (formato específico)
             const valorCorreoAcceso = entradaCorreoAcceso.value.trim();
             const regexCorreoAcceso = /^(?=.{1,100}$)([a-zA-Z0-9._%+-]+@(duoc\.cl|profesor\.duoc\.cl|gmail\.com))$/;
             if (valorCorreoAcceso === '' || !regexCorreoAcceso.test(valorCorreoAcceso)) {
@@ -191,6 +211,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 entradaCorreoAcceso.classList.add('is-valid');
             }
 
+            // Validación del campo Contraseña (longitud)
             const valorContrasenaAcceso = entradaContrasenaAcceso.value.trim();
             if (valorContrasenaAcceso === '' || valorContrasenaAcceso.length < 4 || valorContrasenaAcceso.length > 10) {
                 entradaContrasenaAcceso.classList.add('is-invalid');
@@ -199,15 +220,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 entradaContrasenaAcceso.classList.add('is-valid');
             }
 
+            // Si los campos son válidos, intenta iniciar sesión
             if (accesoValido) {
                 const usuario = entradaCorreoAcceso.value.trim();
                 const contrasena = entradaContrasenaAcceso.value;
 
-                const usuarioRegistrado = JSON.parse(localStorage.getItem('usuarioRegistrado'));
+                const usuarioRegistrado = JSON.parse(localStorage.getItem('usuarioRegistrado')); // Recupera el usuario de localStorage
 
+                // Verifica si las credenciales coinciden con el usuario registrado
                 if (usuarioRegistrado && usuario === usuarioRegistrado.correo && contrasena === usuarioRegistrado.contrasena) {
                     const nombreUsuario = usuarioRegistrado.nombreCompleto?.trim();
-
+                    
+                    // Muestra mensaje de bienvenida personalizado
                     if (nombreUsuario) {
                         mensajeAcceso.textContent = `¡Inicio de sesión exitoso! Bienvenido, ${nombreUsuario} (${usuario})`;
                     } else {
@@ -217,9 +241,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     mensajeAcceso.classList.remove('d-none', 'alert-danger');
                     mensajeAcceso.classList.add('alert-success');
 
+                    // Resetea el formulario
                     formularioAcceso.reset();
                     formularioAcceso.classList.remove('was-validated');
                 } else {
+                    // Muestra mensaje de error si las credenciales son incorrectas
                     mensajeAcceso.textContent = 'Correo electrónico o contraseña incorrectos.';
                     mensajeAcceso.classList.remove('d-none', 'alert-success');
                     mensajeAcceso.classList.add('alert-danger');
@@ -229,6 +255,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     entradaContrasenaAcceso.classList.add('is-invalid');
                 }
             } else {
+                // Si los campos no cumplen con la validación, muestra mensaje de error
                 formularioAcceso.classList.add('was-validated');
                 mensajeAcceso.textContent = 'Por favor, ingresa credenciales válidas.';
                 mensajeAcceso.classList.remove('d-none', 'alert-success');
@@ -237,24 +264,27 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // =========================================================================
-    // Contacto.html
-    // =========================================================================
-    const formularioSoporte = document.getElementById('formularioContacto'); 
+    //
+    // SECCIÓN: Lógica del Formulario de Soporte (Soporte.html)
+    // FUNCIONALIDAD: Maneja la validación del formulario de contacto y muestra un mensaje de éxito o error.
+    //
+    const formularioSoporte = document.getElementById('formularioSoporte');
     if (formularioSoporte) {
-        const nombreSoporte = document.getElementById('nombreContacto'); 
-        const correoSoporte = document.getElementById('correoContacto'); 
-        const comentarioSoporte = document.getElementById('comentarioContacto'); 
-        const mensajeSoporte = document.getElementById('mensajeContacto'); 
+        const nombreSoporte = document.getElementById('nombreSoporte');
+        const correoSoporte = document.getElementById('correoSoporte');
+        const comentarioSoporte = document.getElementById('comentarioSoporte');
+        const mensajeSoporte = document.getElementById('mensajeSoporte');
 
+        // Event listener para el envío del formulario de soporte
         formularioSoporte.addEventListener('submit', function (evento) {
-            evento.preventDefault();
-            evento.stopPropagation();
+            evento.preventDefault(); // Evita el envío por defecto del formulario
+            evento.stopPropagation(); // Detiene la propagación del evento
 
-            let formularioValido = true;
-            mensajeSoporte.classList.add('d-none');
+            let formularioValido = true; // Bandera para controlar la validez del formulario
+            mensajeSoporte.classList.add('d-none'); // Oculta mensajes anteriores
             mensajeSoporte.classList.remove('alert-success', 'alert-danger');
 
+            // Validación del campo Nombre
             if (nombreSoporte.value.trim() === '' || nombreSoporte.value.length > 100) {
                 nombreSoporte.classList.add('is-invalid');
                 formularioValido = false;
@@ -263,6 +293,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 nombreSoporte.classList.add('is-valid');
             }
 
+            // Validación del campo Correo Electrónico (formato específico)
             const regexCorreoSoporte = /^(?=.{1,100}$)([a-zA-Z0-9._%+-]+@(duoc\.cl|profesor\.duoc\.cl|gmail\.com))$/;
             if (correoSoporte.value.trim() === '' || !regexCorreoSoporte.test(correoSoporte.value)) {
                 correoSoporte.classList.add('is-invalid');
@@ -272,6 +303,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 correoSoporte.classList.add('is-valid');
             }
 
+            // Validación del campo Comentario
             if (comentarioSoporte.value.trim() === '' || comentarioSoporte.value.length > 500) {
                 comentarioSoporte.classList.add('is-invalid');
                 formularioValido = false;
@@ -280,17 +312,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 comentarioSoporte.classList.add('is-valid');
             }
 
+            // Si el formulario es válido, muestra mensaje de éxito y lo resetea
             if (formularioValido) {
                 mensajeSoporte.textContent = '¡Mensaje enviado con éxito! Nos pondremos en contacto contigo pronto.';
                 mensajeSoporte.classList.remove('d-none');
                 mensajeSoporte.classList.add('alert-success');
-                formularioSoporte.reset();
+                formularioSoporte.reset(); // Resetea el formulario
                 formularioSoporte.classList.remove('was-validated');
                 nombreSoporte.classList.remove('is-valid', 'is-invalid');
                 correoSoporte.classList.remove('is-valid', 'is-invalid');
                 comentarioSoporte.classList.remove('is-valid', 'is-invalid');
             } else {
-                formularioSoporte.classList.add('was-validated');
+                // Si el formulario no es válido, muestra mensaje de error
+                formularioSoporte.classList.add('was-validated'); // Muestra los mensajes de feedback de Bootstrap
                 mensajeSoporte.textContent = 'Por favor, corrige los errores en el formulario.';
                 mensajeSoporte.classList.remove('d-none');
                 mensajeSoporte.classList.add('alert-danger');
@@ -298,48 +332,70 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // =========================================================================
-    // INVENTARIO Y DETALLE DE PRODUCTO (inventario.html, detalle_producto.html)
-    // =========================================================================
+    //
+    // SECCIÓN: Lógica del Inventario de Productos (inventario.html)
+    // FUNCIONALIDAD: Carga y muestra los productos, maneja la adición/eliminación de productos al carrito,
+    //                actualiza el stock y habilita/deshabilita el botón de pago.
+    //
     const parametrosURL = new URLSearchParams(window.location.search);
-    const categoriaActual = parametrosURL.get('categoria'); // para ingresar a cualquier categoria solo es /inventario.html?categoria=(y aqui el nombre de la categoria)
+    const categoriaActual = parametrosURL.get('categoria'); // Obtiene la categoría de la URL
     const tituloCategoria = document.getElementById('tituloCategoria');
     const contenedorInventario = document.getElementById('contenedorInventario');
+    const botonPagar = document.getElementById('btnPagar');
 
+    // Definición de todos los productos disponibles, categorizados
     const todosLosProductos = {
         juguetes: [
-            { id: 1, nombre: 'Pelota para perro', precio: 5000, stock: 10, imagen: 'img/pelotaperro.jpg', descripcion: 'Pelota resistente ideal para juegos de lanzar y buscar. Flota en el agua.', imagenesAdicionales: ['img/pelota2.webp', 'img/pelota3.jpg'] },
-            { id: 2, nombre: 'Ratón de juguete para gato', precio: 3000, stock: 8, imagen: 'img/raton.jpeg', descripcion: 'Juguete suave con catnip para estimular el instinto de caza de tu gato.', imagenesAdicionales: ['img/ratomcitos.webp', 'img/ratonces-piramide.webp'] },
-            { id: 3, nombre: 'Cuerda para morder', precio: 7000, stock: 5, imagen: 'img/morder.jpg', descripcion: 'Cuerda de algodón duradera para perros, ayuda a limpiar los dientes.', imagenesAdicionales: ['img/cuerda2.avif', 'img/cuerda3.webp'] },
-            { id: 4, nombre: 'Juguete interactivo', precio: 12000, stock: 26, imagen: 'img/juguetepuzzleparaperros.webp', descripcion: 'Juguete dispensador de premios que desafía la mente de tu mascota.', imagenesAdicionales: ['img/interactivo.jpg', 'img/interactivo2.webp'] },
-            { id: 5, nombre: 'Pelota con sonido', precio: 8000, stock: 17, imagen: 'img/pelota.jpg', descripcion: 'Pelota que emite sonidos divertidos al ser mordida, ideal para mantener a tu perro entretenido.', imagenesAdicionales: ['img/sonido.webp', 'img/sonido2.webp'] }
+            { id: 1, nombre: 'Pelota para perro', precio: 5000, stock: 10, imagen: 'img/pelotaperro.jpg', descripcion: 'Pelota resistente ideal para juegos de lanzar y buscar. Flota en el agua.' },
+            { id: 2, nombre: 'Ratón de juguete para gato', precio: 3000, stock: 8, imagen: 'img/raton.jpeg', descripcion: 'Juguete suave con catnip para estimular el instinto de caza de tu gato.' },
+            { id: 3, nombre: 'Cuerda para morder', precio: 7000, stock: 5, imagen: 'img/morder.jpg', descripcion: 'Cuerda de algodón duradera para perros, ayuda a limpiar los dientes.' },
+            { id: 4, nombre: 'Juguete interactivo', precio: 12000, stock: 6, imagen: 'img/juguetepuzzleparaperros.webp', descripcion: 'Juguete dispensador de premios que desafía la mente de tu mascota.' },
+            { id: 5, nombre: 'Pelota con sonido', precio: 8000, stock: 7, imagen: 'img/pelota.jpg', descripcion: 'Pelota que emite sonidos divertidos al ser mordida, ideal para mantener a tu perro entretenido.' },
+            { id: 6, nombre: 'Juguete de peluche', precio: 9000, stock: 4, imagen: 'img/pelucheeees.jpg', descripcion: 'Peluche suave y abrazable para perros, con chirriador interno.' },
+            { id: 7, nombre: 'Dispenser de premios', precio: 15000, stock: 3, imagen: 'img/dispenserr.jpg', descripcion: 'Dispensador automático de premios, programable para recompensar a tu mascota.' },
+            { id: 8, nombre: 'Juguete para aves', precio: 4000, stock: 9, imagen: 'img/ave.jpg', descripcion: 'Juguete colgante con campanas y espejos para el entretenimiento de aves.' },
+            { id: 9, nombre: 'Juguete para roedores', precio: 3500, stock: 10, imagen: 'img/roedor.jpg', descripcion: 'Juguete masticable de madera natural para roedores, ayuda a desgastar sus dientes.' },
+            { id: 10, nombre: 'Juguete para gatos con plumas', precio: 6000, stock: 5, imagen: 'img/plumas.jpg', descripcion: 'Caña de pescar con plumas para interactuar y jugar con tu gato.' }
         ],
         accesorios: [
-            { id: 6, nombre: 'Collar para perro', precio: 10000, stock: 10, imagen: 'img/collar.webp', descripcion: 'Collar ajustable y resistente para perros de tamaño mediano a grande.', imagenesAdicionales: ['img/collar2.jpg', 'img/collar3.jpg'] },
-            { id: 7, nombre: 'Correa ajustable', precio: 12000, stock: 8, imagen: 'img/accesorio.jpg', descripcion: 'Correa de nylon con longitud ajustable, ideal para paseos diarios.', imagenesAdicionales: ['img/correa1.avif', 'img/correa2.webp'] },
-            { id: 8, nombre: 'Arnés para perro', precio: 15000, stock: 5, imagen: 'img/collarcorrea.jpg', descripcion: 'Arnés cómodo y seguro que distribuye la presión uniformemente.', imagenesAdicionales: ['img/arnes1.webp', 'img/arnes2.jpg'] },
-            { id: 9, nombre: 'Cama para gato', precio: 20000, stock: 6, imagen: 'img/cama.webp', descripcion: 'Cama suave y acogedora para gatos, con bordes elevados para mayor confort.', imagenesAdicionales: ['img/camagato2.jpg', 'img/camagato3.webp'] }
+            { id: 11, nombre: 'Collar para perro', precio: 10000, stock: 10, imagen: 'img/collar.webp', descripcion: 'Collar ajustable y resistente para perros de tamaño mediano a grande.' },
+            { id: 12, nombre: 'Correa ajustable', precio: 12000, stock: 8, imagen: 'img/accesorio.jpg', descripcion: 'Correa de nylon con longitud ajustable, ideal para paseos diarios.' },
+            { id: 13, nombre: 'Arnés para perro', precio: 15000, stock: 5, imagen: 'img/collarcorrea.jpg', descripcion: 'Arnés cómodo y seguro que distribuye la presión uniformemente.' },
+            { id: 14, nombre: 'Cama para gato', precio: 20000, stock: 6, imagen: 'img/cama.webp', descripcion: 'Cama suave y acogedora para gatos, con bordes elevados para mayor confort.' },
+            { id: 15, nombre: 'Plato para comida', precio: 5000, stock: 4, imagen: 'img/elpepe.png', descripcion: 'Plato de acero inoxidable antideslizante, fácil de limpiar.' },
+            { id: 16, nombre: 'Fuente de agua', precio: 18000, stock: 3, imagen: 'img/fuente.webp', descripcion: 'Fuente de agua automática que fomenta la hidratación de tu mascota.' },
+            { id: 17, nombre: 'Rascador para gatos', precio: 22000, stock: 9, imagen: 'img/rasca.webp', descripcion: 'Rascador de sisal con plataforma, ideal para afilar garras y descansar.' },
+            { id: 18, nombre: 'Juguete colgante', precio: 7000, stock: 10, imagen: 'img/colgante.jpg', descripcion: 'Juguete colgante para jaulas de aves, con cascabeles y cuentas de colores.' }
         ],
         alimentos: [
-            { id: 10, nombre: 'Comida seca para perros', precio: 25000, stock: 10, imagen: 'img/master.jpeg', descripcion: 'Alimento completo y balanceado para perros adultos, con proteínas de alta calidad.', imagenesAdicionales: ['img/comidaperro2.png', 'img/comidaperro3.png'] } ,
-            { id: 11, nombre: 'Comida húmeda para gatos', precio: 15000, stock: 18, imagen: 'img/lata.jpg', descripcion: 'Paté delicioso y nutritivo para gatos, ideal para complementar su dieta.', imagenesAdicionales: ['img/comidahumeda1.avif', 'img/comidahumeda2.jpg'] },
-            { id: 12, nombre: 'Snacks para perros', precio: 8000, stock: 15, imagen: 'img/snackperro.png', descripcion: 'Premios masticables para perros, ayudan a la higiene dental.', imagenesAdicionales: ['img/snackperro2.jpg', 'img/snackperro3.jpg'] },
-            { id: 13, nombre: 'Snacks para gatos', precio: 7000, stock: 16, imagen: 'img/sanac.jpg', descripcion: 'Bocadillos crujientes para gatos, con vitaminas y minerales.', imagenesAdicionales: ['img/snackgato2.jpg', 'img/snackgato3.jpg'] },
-            { id: 14, nombre: 'Alimento para aves', precio: 12000, stock: 7, imagen: 'img/aveees.png', descripcion: 'Mezcla de semillas y granos enriquecida para aves de jaula.', imagenesAdicionales: ['img/ave2.png', 'img/ave3.png'] }
+            { id: 19, nombre: 'Comida seca para perros', precio: 25000, stock: 10, imagen: 'img/master.jpeg', descripcion: 'Alimento completo y balanceado para perros adultos, con proteínas de alta calidad.' },
+            { id: 20, nombre: 'Comida húmeda para gatos', precio: 15000, stock: 8, imagen: 'img/lata.jpg', descripcion: 'Paté delicioso y nutritivo para gatos, ideal para complementar su dieta.' },
+            { id: 21, nombre: 'Snacks para perros', precio: 8000, stock: 5, imagen: 'img/snackperro.png', descripcion: 'Premios masticables para perros, ayudan a la higiene dental.' },
+            { id: 22, nombre: 'Snacks para gatos', precio: 7000, stock: 6, imagen: 'img/sanac.jpg', descripcion: 'Bocadillos crujientes para gatos, con vitaminas y minerales.' },
+            { id: 23, nombre: 'Alimento para aves', precio: 12000, stock: 7, imagen: 'img/aveees.png', descripcion: 'Mezcla de semillas y granos enriquecida para aves de jaula.' },
+            { id: 24, nombre: 'Alimento para roedores', precio: 9000, stock: 4, imagen: 'img/ratata.jpg', descripcion: 'Pienso extrusionado para roedores, con todos los nutrientes necesarios.'},
+            { id: 25, nombre: 'Comida Premium perros', precio: 30000, stock: 3, imagen: 'img/premium.jpg', descripcion: 'Alimento super premium para perros, con ingredientes naturales y sin cereales.' },
+            { id: 26, nombre: 'Comida Premium gatos', precio: 28000, stock: 9, imagen: 'img/premiumm.jpg', descripcion: 'Alimento premium para gatos, formulado para una digestión óptima y pelaje brillante.' },
+            { id: 27, nombre: 'Vitaminas para mascotas', precio: 10000, stock: 10, imagen: 'img/vitaminas.jpg', descripcion: 'Suplemento vitamínico para fortalecer el sistema inmunológico de perros y gatos.' },
+            { id: 28, nombre: 'Suplementos para perros', precio: 15000, stock: 5, imagen: 'img/suplex.jpg', descripcion: 'Suplemento para la salud articular de perros, con glucosamina y condroitina.' }
         ]
     };
 
+    // Combina todos los productos en una sola lista
     const productosDisponibles = Object.values(todosLosProductos).flat();
 
+    // Inicializa el carrito y el stock actual desde sessionStorage o como objetos vacíos
     let carrito = JSON.parse(sessionStorage.getItem('carrito')) || {};
     let stockActual = JSON.parse(sessionStorage.getItem('stockActual')) || {};
 
+    // Inicializa el stock de cada producto si no existe en sessionStorage
     productosDisponibles.forEach(producto => {
         if (stockActual[producto.id] === undefined) {
             stockActual[producto.id] = producto.stock;
         }
     });
 
+    // Actualiza el título de la categoría si se especifica en la URL
     if (tituloCategoria) {
         if (categoriaActual) {
             tituloCategoria.textContent = categoriaActual.charAt(0).toUpperCase() + categoriaActual.slice(1);
@@ -348,67 +404,49 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Función para actualizar el contador del carrito en el header
-    function actualizarContadorCarrito() {
-        const totalItemsEnCarrito = Object.values(carrito).reduce((acum, cant) => acum + cant, 0);
-        const cartCountDesktop = document.getElementById('cart-count-desktop');
-        const cartCountMobile = document.getElementById('cart-count-mobile'); 
-
-        if (cartCountDesktop) {
-            cartCountDesktop.textContent = totalItemsEnCarrito;
-            if (totalItemsEnCarrito > 0) {
-                cartCountDesktop.classList.remove('d-none'); 
-            } else {
-                cartCountDesktop.classList.add('d-none');     
-            }
+    // Función para habilitar/deshabilitar el botón "Proceder al Pago"
+    function actualizarBotonPagar() {
+        if (botonPagar) {
+            const totalItemsEnCarrito = Object.values(carrito).reduce((acum, cant) => acum + cant, 0);
+            botonPagar.disabled = totalItemsEnCarrito === 0; // Deshabilita si el carrito está vacío
         }
-        
-        if (cartCountMobile) {
-            cartCountMobile.textContent = totalItemsEnCarrito;
-            if (totalItemsEnCarrito > 0) {
-                cartCountMobile.classList.remove('d-none');
-            } else {
-                cartCountMobile.classList.add('d-none');
-             }
-         }
     }
 
+    // Función para actualizar la cantidad en el carrito y el stock restante de un producto
     function actualizarControles(idProducto) {
         const producto = productosDisponibles.find(p => p.id === idProducto);
         if (!producto) return;
 
+        const cantidadEnCarrito = carrito[producto.id] || 0;
         const stockRestante = stockActual[producto.id];
 
+        const botonAgregar = document.getElementById(`btnAgregar-${producto.id}`);
+        const botonQuitar = document.getElementById(`btnQuitar-${producto.id}`);
+        const spanCantidad = document.getElementById(`cantidad-${producto.id}`);
         const spanStock = document.getElementById(`stock-${producto.id}`);
-        const alertaStock = document.getElementById(`alertaStock-${producto.id}`);
 
+        if (spanCantidad) spanCantidad.textContent = cantidadEnCarrito;
         if (spanStock) spanStock.textContent = stockRestante;
 
-        // Mostrar alerta si stock < 3 y > 0
-        if (alertaStock) {
-            if (stockRestante > 0 && stockRestante < 3) {
-                alertaStock.style.display = 'block';
-            } else {
-                alertaStock.style.display = 'none';
-            }
-        }
+        if (botonAgregar) botonAgregar.disabled = stockRestante === 0; // Deshabilita si no hay stock
+        if (botonQuitar) botonQuitar.disabled = cantidadEnCarrito === 0; // Deshabilita si no hay en carrito
 
-        
-        sessionStorage.setItem('carrito', JSON.stringify(carrito));
-        sessionStorage.setItem('stockActual', JSON.stringify(stockActual));
-        actualizarContadorCarrito(); 
+        sessionStorage.setItem('carrito', JSON.stringify(carrito)); // Guarda el carrito en sessionStorage
+        sessionStorage.setItem('stockActual', JSON.stringify(stockActual)); // Guarda el stock en sessionStorage
+        actualizarBotonPagar(); // Actualiza el estado del botón de pago
     }
 
-
+    // Función para mostrar los productos en el inventario
     function mostrarInventario() {
         if (!contenedorInventario) return;
-        contenedorInventario.innerHTML = '';
+        contenedorInventario.innerHTML = ''; // Limpia el contenedor antes de mostrar
 
         let productosAMostrar;
+        // Filtra productos por categoría si se especifica en la URL
         if (categoriaActual && todosLosProductos[categoriaActual]) {
             productosAMostrar = todosLosProductos[categoriaActual];
         } else {
-            productosAMostrar = productosDisponibles;
+            productosAMostrar = productosDisponibles; // Muestra todos si no hay categoría o es inválida
         }
 
         if (productosAMostrar.length === 0) {
@@ -416,6 +454,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        // Crea una tarjeta para cada producto y la añade al contenedor
         productosAMostrar.forEach(producto => {
             const columna = document.createElement('div');
             columna.classList.add('col-sm-6', 'col-md-4', 'col-lg-3', 'mb-4');
@@ -427,403 +466,71 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title text-primary fw-bold mb-2">${producto.nombre}</h5>
                         <p class="card-text text-muted mb-2">Precio: <span class="fw-bold text-dark">$${producto.precio.toLocaleString('es-CL')}</span></p>
-                        <p class="card-text text-muted mb-1">Stock: <span id="stock-${producto.id}" class="fw-bold text-info">${stockActual[producto.id]}</span></p>
-                        <p id="alertaStock-${producto.id}" class="text-warning fw-semibold mb-3" style="display:none;">
-                            ⚠️ Queda poco stock, ¡apresúrate!
-                        </p>
-                        <div class="mt-auto d-flex gap-2 align-items-center justify-content-center mb-3">
+                        <p class="card-text text-muted mb-3">Stock: <span id="stock-${producto.id}" class="fw-bold text-info">${stockActual[producto.id]}</span></p>
+                        <div class="mt-auto d-flex gap-2 align-items-center justify-content-center">
                             <button class="btn btn-outline-danger btn-sm rounded-pill" id="btnQuitar-${producto.id}" aria-label="Quitar ${producto.nombre}">
                                 <i class="fas fa-minus"></i>
                             </button>
-                            <span id="cantidadSeleccionada-${producto.id}" class="fw-bold fs-5 text-dark px-2">0</span>
+                            <span id="cantidad-${producto.id}" class="fw-bold fs-5 text-dark px-2">0</span>
                             <button class="btn btn-outline-primary btn-sm rounded-pill" id="btnAgregar-${producto.id}" aria-label="Agregar ${producto.nombre}">
                                 <i class="fas fa-plus"></i>
                             </button>
                         </div>
-                        <button class="btn btn-primary btn-sm w-100" id="btnAnadirCarrito-${producto.id}" disabled>
-                            Añadir
-                        </button>
                     </div>
                 </div>
             `;
             contenedorInventario.appendChild(columna);
 
-            let cantidadSeleccionada = 0;
-
             const botonAgregar = document.getElementById(`btnAgregar-${producto.id}`);
             const botonQuitar = document.getElementById(`btnQuitar-${producto.id}`);
-            const spanCantidadSeleccionada = document.getElementById(`cantidadSeleccionada-${producto.id}`);
-            const botonAnadirCarrito = document.getElementById(`btnAnadirCarrito-${producto.id}`);
 
-            const actualizarBotonesCantidad = () => {
-                spanCantidadSeleccionada.textContent = cantidadSeleccionada;
-                botonQuitar.disabled = cantidadSeleccionada === 0;
-                botonAgregar.disabled = cantidadSeleccionada >= stockActual[producto.id];
-                botonAnadirCarrito.disabled = cantidadSeleccionada === 0;
-            };
-
-            botonAgregar.addEventListener('click', () => {
-                if (cantidadSeleccionada < stockActual[producto.id]) {
-                    cantidadSeleccionada++;
-                    actualizarBotonesCantidad();
-                }
-            });
-
-            botonQuitar.addEventListener('click', () => {
-                if (cantidadSeleccionada > 0) {
-                    cantidadSeleccionada--;
-                    actualizarBotonesCantidad();
-                }
-            });
-
-            botonAnadirCarrito.addEventListener('click', () => {
-                if (cantidadSeleccionada > 0 && cantidadSeleccionada <= stockActual[producto.id]) {
-                    stockActual[producto.id] -= cantidadSeleccionada;
-                    carrito[producto.id] = (carrito[producto.id] || 0) + cantidadSeleccionada;
-
-                    sessionStorage.setItem('carrito', JSON.stringify(carrito));
-                    sessionStorage.setItem('stockActual', JSON.stringify(stockActual));
-
-                    actualizarControles(producto.id); 
-
-                    alert(`Se añadieron ${cantidadSeleccionada} unidades de ${producto.nombre} al carrito.`);
-
-                    cantidadSeleccionada = 0;
-                    actualizarBotonesCantidad();
-                }
-            });
-
-            actualizarBotonesCantidad();
-            actualizarControles(producto.id);
-        });
-    }
-
-
-    if (contenedorInventario && tituloCategoria) {
-        mostrarInventario();
-    }
-
-    // =========================================================================
-    // CARRITO Y PAGO (pago.html)
-    // =========================================================================
-    const formularioPago = document.getElementById('formularioPago');
-    if (formularioPago) {
-        const resumenCompra = document.getElementById('resumenCompra');
-        const botonConfirmarPago = document.getElementById('btnConfirmarPago');
-        const detallesTarjeta = document.getElementById('detallesTarjeta');
-
-        let carritoPago = JSON.parse(sessionStorage.getItem('carrito')) || {};
-        const productosDisponiblesPago = productosDisponibles; 
-        let stockActualPago = JSON.parse(sessionStorage.getItem('stockActual')) || {};
-
-        function calcularTotal() {
-            return Object.entries(carritoPago).reduce((total, [id, cantidad]) => {
-                const producto = productosDisponiblesPago.find(p => p.id == id);
-                if (producto) return total + producto.precio * cantidad;
-                return total;
-            }, 0);
-        }
-
-        function actualizarResumen() {
-            resumenCompra.innerHTML = '';
-            const keys = Object.keys(carritoPago).filter(id => carritoPago[id] > 0);
-
-            if (keys.length === 0) {
-                resumenCompra.innerHTML = '<p class="text-danger text-center fw-bold">No hay productos en el carrito para pagar.</p>';
-                if (botonConfirmarPago) botonConfirmarPago.disabled = true;
-                actualizarContadorCarrito(); 
-                return;
+            // Event listener para el botón "Agregar"
+            if (botonAgregar) {
+                botonAgregar.addEventListener('click', () => {
+                    if (stockActual[producto.id] > 0) {
+                        stockActual[producto.id]--; // Reduce el stock
+                        carrito[producto.id] = (carrito[producto.id] || 0) + 1; // Añade al carrito
+                        actualizarControles(producto.id); // Actualiza la UI
+                    }
+                });
             }
 
-            const lista = document.createElement('ul');
-            lista.classList.add('list-group', 'mb-3');
-
-            keys.forEach(id => {
-                const cantidad = carritoPago[id];
-                const producto = productosDisponiblesPago.find(p => p.id == id);
-                if (!producto) return;
-
-                const item = document.createElement('li');
-                item.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center', 'shadow-sm', 'rounded-3', 'mb-2', 'gap-3');
-
-                item.innerHTML = `
-                    <img src="${producto.imagen}" alt="${producto.nombre}" style="width: 50px; height: 50px; object-fit: contain; border-radius: 5px;">
-                    <div class="flex-grow-1 ms-2">
-                        <span class="nombre-producto fw-semibold">${producto.nombre}</span>
-                        <div class="d-flex align-items-center gap-2 mt-1">
-                            <button type="button" class="btn btn-outline-danger btn-sm btn-restar" title="Quitar 1 unidad">
-                                <i class="fas fa-minus"></i>
-                            </button>
-                            <span class="cantidad fw-bold fs-5">${cantidad}</span>
-                            <button type="button" class="btn btn-outline-primary btn-sm btn-sumar" title="Agregar 1 unidad" ${stockActualPago[id] === 0 ? 'disabled' : ''}>
-                                <i class="fas fa-plus"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <span class="fw-bold text-primary">$${(producto.precio * cantidad).toLocaleString('es-CL')}</span>
-                    <button type="button" class="eliminar-producto btn btn-sm btn-outline-danger border-0" title="Eliminar producto">
-                        <i class="fas fa-times-circle"></i>
-                    </button>
-                `;
-
-                const btnRestar = item.querySelector('.btn-restar');
-                const btnSumar = item.querySelector('.btn-sumar');
-                const spanCantidad = item.querySelector('.cantidad');
-                const btnEliminar = item.querySelector('.eliminar-producto');
-
-                btnRestar.addEventListener('click', () => {
-                    if (carritoPago[id] > 1) {
-                        carritoPago[id]--;
-                        stockActualPago[id]++;
-                    } else {
-                        // Si queda 1 y se resta, eliminar producto
-                        stockActualPago[id] += carritoPago[id];
-                        delete carritoPago[id];
-                    }
-                    sessionStorage.setItem('carrito', JSON.stringify(carritoPago));
-                    sessionStorage.setItem('stockActual', JSON.stringify(stockActualPago));
-                    actualizarResumen();
-                    actualizarContadorCarrito(); // Actualizar contador
-                });
-
-                btnSumar.addEventListener('click', () => {
-                    if (stockActualPago[id] > 0) {
-                        carritoPago[id]++;
-                        stockActualPago[id]--;
-                        sessionStorage.setItem('carrito', JSON.stringify(carritoPago));
-                        sessionStorage.setItem('stockActual', JSON.stringify(stockActualPago));
-                        actualizarResumen();
-                        actualizarContadorCarrito(); // Actualizar contador
+            // Event listener para el botón "Quitar"
+            if (botonQuitar) {
+                botonQuitar.addEventListener('click', () => {
+                    const cantidadActual = carrito[producto.id] || 0;
+                    if (cantidadActual > 0) {
+                        carrito[producto.id] = cantidadActual - 1; // Reduce del carrito
+                        stockActual[producto.id]++; // Aumenta el stock
+                        if (carrito[producto.id] === 0) {
+                            delete carrito[producto.id]; // Elimina el producto del carrito si la cantidad es 0
+                        }
+                        actualizarControles(producto.id); // Actualiza la UI
                     }
                 });
+            }
 
-                btnEliminar.addEventListener('click', () => {
-                    stockActualPago[id] += carritoPago[id];
-                    delete carritoPago[id];
-                    sessionStorage.setItem('carrito', JSON.stringify(carritoPago));
-                    sessionStorage.setItem('stockActual', JSON.stringify(stockActualPago));
-                    actualizarResumen();
-                    actualizarContadorCarrito(); // Actualizar contador
-                });
-
-                lista.appendChild(item);
-            });
-
-            resumenCompra.appendChild(lista);
-
-            const divTotal = document.createElement('div');
-            divTotal.id = 'totalCompra';
-            divTotal.classList.add('p-3', 'rounded-3', 'text-center', 'fw-bold', 'fs-4', 'mt-4');
-            divTotal.textContent = `Total a pagar: $${calcularTotal().toLocaleString('es-CL')}`;
-            resumenCompra.appendChild(divTotal);
-
-            if (botonConfirmarPago) botonConfirmarPago.disabled = false;
-            actualizarContadorCarrito(); // Actualizar contador al finalizar el resumen
-        }
-
-
-        document.querySelectorAll('input[name="metodoPago"]').forEach(radio => {
-            radio.addEventListener('change', (e) => {
-                if (e.target.value === 'transferencia') {
-                    detallesTarjeta.classList.add('oculto');
-                    document.querySelectorAll('#detallesTarjeta input').forEach(input => {
-                        input.required = false;
-                        input.removeAttribute('data-bs-toggle');
-                        input.classList.remove('is-invalid', 'is-valid');
-                    });
-                } else {
-                    detallesTarjeta.classList.remove('oculto');
-                    document.querySelectorAll('#detallesTarjeta input').forEach(input => {
-                        input.required = true;
-                        input.setAttribute('data-bs-toggle', 'tooltip');
-                    });
-                }
-            });
+            actualizarControles(producto.id); // Inicializa los controles para cada producto
         });
-
-        if (formularioPago) {
-            formularioPago.addEventListener('submit', (e) => {
-                e.preventDefault();
-                if (formularioPago.checkValidity()) {
-                    alert('Pago confirmado. ¡Gracias por tu compra en KittyPatitasSuaves!');
-                    sessionStorage.removeItem('carrito');
-                    sessionStorage.removeItem('stockActual');
-                    sessionStorage.removeItem('itemsSeleccionados');
-                    // sessionStorage.removeItem('productosDisponibles'); // Ya no es necesario si usamos la variable global
-                    actualizarContadorCarrito(); // Resetear contador al confirmar pago
-                    window.location.href = 'index.html';
-                } else {
-                    formularioPago.classList.add('was-validated');
-                }
-            });
-        }
-
-        if (resumenCompra && botonConfirmarPago && detallesTarjeta) {
-            actualizarResumen();
-        }
     }
 
-    // =========================================================================
-    // DETALLE DE PRODUCTO 
-    // =========================================================================
-    const detalleProductoContainer = document.getElementById('detalleProductoContainer');
-    if (detalleProductoContainer && window.location.pathname.includes('detalle_producto.html')) {
-        const mensajeCarga = document.getElementById('mensajeCarga');
-        const urlParams = new URLSearchParams(window.location.search);
-        const productId = parseInt(urlParams.get('id'));
-
-        if (isNaN(productId)) {
-            detalleProductoContainer.innerHTML = '<div class="col-12 text-center"><p class="text-danger fs-4">Producto no encontrado. ID inválido.</p></div>';
-            if (mensajeCarga) mensajeCarga.style.display = 'none';
-            return;
-        }
-
-        const producto = productosDisponibles.find(p => p.id === productId);
-
-        if (producto) {
-            if (mensajeCarga) mensajeCarga.style.display = 'none';
-
-            const allImages = [producto.imagen, ...(producto.imagenesAdicionales || [])];
-            let carouselItemsHTML = '';
-            let carouselIndicatorsHTML = '';
-
-            allImages.forEach((imgSrc, index) => {
-                carouselItemsHTML += `
-                    <div class="carousel-item ${index === 0 ? 'active' : ''}">
-                        <img src="${imgSrc}" class="d-block w-100 product-detail-img" alt="${producto.nombre} - Imagen ${index + 1}">
-                    </div>
-                `;
-                carouselIndicatorsHTML += `
-                    <button type="button" data-bs-target="#productImageCarousel" data-bs-slide-to="${index}"
-                            class="${index === 0 ? 'active' : ''}" aria-current="${index === 0 ? 'true' : 'false'}"
-                            aria-label="Slide ${index + 1}">
-                        <img src="${imgSrc}" class="d-block w-100 img-thumbnail" alt="Miniatura ${index + 1}">
-                    </button>
-                `;
-            });
-
-            detalleProductoContainer.innerHTML = `
-                <div class="col-md-8 col-lg-6">
-                    <div class="card shadow-lg p-4">
-                        <div class="row g-4">
-                            <div class="col-md-6 text-center">
-                                <div id="productImageCarousel" class="carousel slide" data-bs-ride="carousel">
-                                    <div class="carousel-inner" id="carouselInner">
-                                        ${carouselItemsHTML}
-                                    </div>
-                                    <button class="carousel-control-prev" type="button" data-bs-target="#productImageCarousel" data-bs-slide="prev">
-                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                        <span class="visually-hidden">Previous</span>
-                                    </button>
-                                    <button class="carousel-control-next" type="button" data-bs-target="#productImageCarousel" data-bs-slide="next">
-                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                        <span class="visually-hidden">Next</span>
-                                    </button>
-                                </div>
-                                <div class="carousel-indicators mt-3 d-flex justify-content-center gap-2" style="position: static;">
-                                    ${carouselIndicatorsHTML}
-                                </div>
-                            </div>
-                            <div class="col-md-6 d-flex flex-column justify-content-center">
-                                <h2 class="card-title text-primary fw-bold mb-3">${producto.nombre}</h2>
-                                <p class="card-text text-muted mb-2"><strong>Precio:</strong> <span class="fw-bold text-dark fs-5">$${producto.precio.toLocaleString('es-CL')}</span></p>
-                                <p class="card-text text-muted mb-3"><strong>Stock Disponible:</strong> <span id="stockDetalle-${producto.id}" class="fw-bold text-info">${stockActual[producto.id]}</span></p>
-                                <p class="card-text text-dark mb-4">${producto.descripcion}</p>
-                                <div class="d-flex align-items-center gap-3 mb-4">
-                                    <button class="btn btn-outline-danger btn-sm rounded-pill" id="btnQuitarDetalle-${producto.id}" aria-label="Quitar ${producto.nombre}">
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                    <span id="cantidadDetalle-${producto.id}" class="fw-bold fs-4 text-dark">0</span>
-                                    <button class="btn btn-outline-primary btn-sm rounded-pill" id="btnAgregarDetalle-${producto.id}" aria-label="Agregar ${producto.nombre}">
-                                        <i class="fas fa-plus"></i>
-                                    </button>
-                                </div>
-                                <button id="btnAnadirCarritoDetalle-${producto.id}" class="btn btn-primary btn-lg w-100">
-                                    <i class="fas fa-cart-plus me-2"></i>Añadir
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            const btnAgregarDetalle = document.getElementById(`btnAgregarDetalle-${producto.id}`);
-            const btnQuitarDetalle = document.getElementById(`btnQuitarDetalle-${producto.id}`);
-            const spanCantidadDetalle = document.getElementById(`cantidadDetalle-${producto.id}`);
-            const btnAnadirCarritoDetalle = document.getElementById(`btnAnadirCarritoDetalle-${producto.id}`);
-
-            let cantidadSeleccionada = 0;
-
-            const actualizarControlesDetalle = () => {
-                spanCantidadDetalle.textContent = cantidadSeleccionada;
-                document.getElementById(`stockDetalle-${producto.id}`).textContent = stockActual[producto.id];
-                btnAgregarDetalle.disabled = stockActual[producto.id] === 0;
-                btnQuitarDetalle.disabled = cantidadSeleccionada === 0;
-                btnAnadirCarritoDetalle.disabled = cantidadSeleccionada === 0;
-            };
-
-            btnAgregarDetalle.addEventListener('click', () => {
-                if (stockActual[producto.id] > 0) {
-                    stockActual[producto.id]--;
-                    cantidadSeleccionada++;
-                    actualizarControlesDetalle();
-                }
-            });
-
-            btnQuitarDetalle.addEventListener('click', () => {
-                if (cantidadSeleccionada > 0) {
-                    stockActual[producto.id]++;
-                    cantidadSeleccionada--;
-                    actualizarControlesDetalle();
-                }
-            });
-
-            btnAnadirCarritoDetalle.addEventListener('click', () => {
-                if (cantidadSeleccionada > 0) {
-                    carrito[producto.id] = (carrito[producto.id] || 0) + cantidadSeleccionada;
-                    sessionStorage.setItem('carrito', JSON.stringify(carrito));
-                    sessionStorage.setItem('stockActual', JSON.stringify(stockActual));
-                    alert(`Se añadieron ${cantidadSeleccionada} unidades de ${producto.nombre} al carrito.`);
-                    cantidadSeleccionada = 0;
-                    actualizarControlesDetalle();
-                    actualizarContadorCarrito(); 
-                    window.location.href = 'inventario.html';
-                }
-            });
-
-            actualizarControlesDetalle();
-        } else {
-            detalleProductoContainer.innerHTML = '<div class="col-12 text-center"><p class="text-danger fs-4">Producto no encontrado.</p></div>';
-            if (mensajeCarga) mensajeCarga.style.display = 'none';
-        }
+    // Event listener para el botón "Pagar"
+    if (botonPagar) {
+        botonPagar.addEventListener('click', () => {
+            const totalItemsEnCarrito = Object.values(carrito).reduce((acum, cant) => acum + cant, 0);
+            if (totalItemsEnCarrito > 0) {
+                alert('¡Compra realizada con éxito! 🛒 Gracias por tu compra en KittyPatitasSuaves.');
+                // Aquí podrías redirigir a una página de confirmación o procesar el pago.
+                sessionStorage.clear(); // Limpia el carrito y el stock para una nueva compra
+                location.reload(); // Recarga la página para reflejar los cambios
+            } else {
+                alert('El carrito está vacío. Por favor, agrega productos antes de proceder al pago.');
+            }
+        });
     }
 
-    // =========================================================================
-    // FUNCIONALIDAD GLOBAL
-    // =========================================================================
-
-    // Lógica para la selección de comunas por región (en registro.html)
-    const comunasPorRegion = {
-    metropolitana: ["Santiago", "Maipú", "Puente Alto", "Las Condes", "La Florida"],
-    valparaiso: ["Valparaíso", "Viña del Mar", "Quilpué", "Villa Alemana", "San Antonio"],
-    biobio: ["Concepción", "Talcahuano", "Chillán", "Los Ángeles", "Coronel"]
-  };
-
-  document.getElementById("region")?.addEventListener("change", function () { // Añadido operador ?. para evitar errores si el elemento no existe
-    const region = this.value;
-    const comunaSelect = document.getElementById("comuna");
-    comunaSelect.innerHTML = "<option selected disabled>Seleccione comuna</option>";
-
-    if (comunasPorRegion[region]) {
-      comunasPorRegion[region].forEach(comuna => {
-        const option = document.createElement("option");
-        option.value = comuna.toLowerCase();
-        option.textContent = comuna;
-        comunaSelect.appendChild(option);
-      });
+    // Ejecuta la función para mostrar el inventario al cargar la página si el contenedor existe
+    if (contenedorInventario) {
+        mostrarInventario();
     }
-  });
-
-  // Llamar a actualizarContadorCarrito al cargar la página para inicializar el contador
-  actualizarContadorCarrito();
 });
