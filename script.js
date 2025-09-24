@@ -634,93 +634,10 @@ document.addEventListener('DOMContentLoaded', () => {
             contenedorDetalle.innerHTML = '<div class="alert alert-danger text-center" role="alert">Producto no encontrado.</div>';
         }
     }
-
-   const regionesYComunas = {
-  "Región Metropolitana de Santiago": [
-    "Santiago",
-    "Las Condes",
-    "Providencia",
-    "Ñuñoa",
-    "La Reina",
-    "Vitacura",
-    "Lo Barnechea",
-    "Maipú",
-    "La Florida",
-    "Peñalolén",
-  ],
-  "Región de la Araucanía": [
-    "Temuco",
-    "Villarrica",
-    "Pucón",
-    "Angol",
-    "Nueva Imperial",
-    "Carahue",
-    "Pitrufquén",
-    "Lautaro",
-    "Traiguén",
-    "Collipulli",
-  ],
-  "Región de Ñuble": [
-    "Chillán",
-    "San Carlos",
-    "Quirihue",
-    "Bulnes",
-    "Yungay",
-    "Coelemu",
-    "El Carmen",
-    "Pemuco",
-    "Quillón",
-    "Ninhue",
-  ],
-};
-
-// **FUNCIONES DE NAVEGACIÓN**
-function showLogin() {
-  document.getElementById("loginForm").classList.add("active");
-  document.getElementById("registerForm").classList.remove("active");
-  document.getElementById("header-title").textContent = "Iniciar Sesión";
-  clearAlerts();
-}
-
-function showRegister() {
-  document.getElementById("registerForm").classList.add("active");
-  document.getElementById("loginForm").classList.remove("active");
-  document.getElementById("header-title").textContent = "Registro de Usuario";
-  clearAlerts();
-}
-
-// **CARGAR REGIONES AL INICIAR**
-function loadRegiones() {
-  const regionSelect = document.getElementById("region");
-  Object.keys(regionesYComunas).forEach((region) => {
-    const option = document.createElement("option");
-    option.value = region;
-    option.textContent = region;
-    regionSelect.appendChild(option);
-  });
-}
-
-// **CARGAR COMUNAS SEGÚN REGIÓN**
-document.getElementById("region").addEventListener("change", function () {
-  const comunaSelect = document.getElementById("comuna");
-  const selectedRegion = this.value;
-
-  // Limpiar comunas
-  comunaSelect.innerHTML =
-    '<option value="">-- Selecciona la comuna --</option>';
-
-  if (selectedRegion && regionesYComunas[selectedRegion]) {
-    regionesYComunas[selectedRegion].forEach((comuna) => {
-      const option = document.createElement("option");
-      option.value = comuna;
-      option.textContent = comuna;
-      comunaSelect.appendChild(option);
-    });
-  }
-});
 }
 });
 });
+
 
 
 
