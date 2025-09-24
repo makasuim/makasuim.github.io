@@ -191,12 +191,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 entradaCorreoAcceso.classList.add('is-valid');
             }
 
-            const valorContrasenaAcceso = entradaContrasenaAcceso.value.trim();
-            if (valorContrasenaAcceso === '' || valorContrasenaAcceso.length < 4 || valorContrasenaAcceso.length > 10) {
-                entradaContrasenaAcceso.classList.add('is-invalid');
-                accesoValido = false;
+            const valorContrasenaAcceso = entradaContrasenaAcceso.value;
+            if (!patronContrasenaAcceso.test(valorContrasenaAcceso)) { 
+            entradaContrasenaAcceso.classList.add('is-invalid');
+            accesoValido = false;
             } else {
-                entradaContrasenaAcceso.classList.add('is-valid');
+            entradaContrasenaAcceso.classList.remove('is-invalid'); 
+            entradaContrasenaAcceso.classList.add('is-valid');
             }
 
             if (accesoValido) {
@@ -826,4 +827,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Llamar a actualizarContadorCarrito al cargar la página para inicializar el contador
   actualizarContadorCarrito();
+
 });
