@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const usuarioRegistrado = {
                     nombreCompleto: entradaNombreCompleto.value.trim(),
                     correo: entradaCorreoElectronico.value.trim(),
-                    contrasena: entradaContrasenaRegistro.value
+                    contrasena: entradaContrasenaRegistro.value // Guardamos la contraseña tal cual se ingresó
                 };
                 localStorage.setItem('usuarioRegistrado', JSON.stringify(usuarioRegistrado));
 
@@ -170,9 +170,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const entradaContrasenaAcceso = document.getElementById('contrasenaAcceso');
         const mensajeAcceso = document.getElementById('mensajeAcceso');
 
-        // ¡¡¡ESTA LÍNEA HA SIDO AÑADIDA AQUÍ!!!
-        const patronContrasenaAcceso = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&!*?])[A-Za-z\d@#$%^&!*?]{8,}$/;
-
+        // No necesitamos patronContrasenaAcceso aquí si solo vamos a comparar la contraseña.
+        // La complejidad se valida en el registro.
 
         formularioAcceso.addEventListener('submit', function (evento) {
             evento.preventDefault();
@@ -181,63 +180,72 @@ document.addEventListener('DOMContentLoaded', () => {
             mensajeAcceso.classList.add('d-none');
             mensajeAcceso.classList.remove('alert-success', 'alert-danger');
 
+            // Limpiar estados de validación previos
             entradaCorreoAcceso.classList.remove('is-valid', 'is-invalid');
             entradaContrasenaAcceso.classList.remove('is-valid', 'is-invalid');
 
-            let accesoValido = true;
+            let accesoValidoFormulario = true; // Renombrado para evitar confusión con el resultado final del acceso
 
             const valorCorreoAcceso = entradaCorreoAcceso.value.trim();
             const regexCorreoAcceso = /^(?=.{1,100}$)([a-zA-Z0-9._%+-]+@(duoc\.cl|profesor\.duoc\.cl|gmail\.com))$/;
             if (valorCorreoAcceso === '' || !regexCorreoAcceso.test(valorCorreoAcceso)) {
                 entradaCorreoAcceso.classList.add('is-invalid');
-                accesoValido = false;
+                accesoValidoFormulario = false;
             } else {
                 entradaCorreoAcceso.classList.add('is-valid');
             }
 
             const valorContrasenaAcceso = entradaContrasenaAcceso.value; // Correcto: sin .trim()
-            if (!patronContrasenaAcceso.test(valorContrasenaAcceso)) { // Correcto: usando el patrón
+            if (valorContrasenaAcceso === '') { // Solo verificamos que no esté vacía
                 entradaContrasenaAcceso.classList.add('is-invalid');
-                accesoValido = false;
+                accesoValidoFormulario = false;
             } else {
-                entradaContrasenaAcceso.classList.remove('is-invalid'); // Correcto: remover invalid si es válido
                 entradaContrasenaAcceso.classList.add('is-valid');
             }
 
-            if (accesoValido) {
-                const usuario = entradaCorreoAcceso.value.trim();
-                const contrasena = entradaContrasenaAcceso.value;
-
-                const usuarioRegistrado = JSON.parse(localStorage.getItem('usuarioRegistrado'));
-
-                if (usuarioRegistrado && usuario === usuarioRegistrado.correo && contrasena === usuarioRegistrado.contrasena) {
-                    const nombreUsuario = usuarioRegistrado.nombreCompleto?.trim();
-
-                    if (nombreUsuario) {
-                        mensajeAcceso.textContent = `¡Inicio de sesión exitoso! Bienvenido, ${nombreUsuario} (${usuario})`;
-                    } else {
-                        mensajeAcceso.textContent = `¡Inicio de sesión exitoso! Bienvenido, ${usuario}`;
-                    }
-
-                    mensajeAcceso.classList.remove('d-none', 'alert-danger');
-                    mensajeAcceso.classList.add('alert-success');
-
-                    formularioAcceso.reset();
-                    formularioAcceso.classList.remove('was-validated');
-                } else {
-                    mensajeAcceso.textContent = 'Correo electrónico o contraseña incorrectos.';
-                    mensajeAcceso.classList.remove('d-none', 'alert-success');
-                    mensajeAcceso.classList.add('alert-danger');
-                    entradaCorreoAcceso.classList.remove('is-valid');
-                    entradaCorreoAcceso.classList.add('is-invalid');
-                    entradaContrasenaAcceso.classList.remove('is-valid');
-                    entradaContrasenaAcceso.classList.add('is-invalid');
-                }
-            } else {
+            // Si el formulario tiene errores de validación básicos (campos vacíos, formato de correo)
+            if (!accesoValidoFormulario) {
                 formularioAcceso.classList.add('was-validated');
                 mensajeAcceso.textContent = 'Por favor, ingresa credenciales válidas.';
                 mensajeAcceso.classList.remove('d-none', 'alert-success');
                 mensajeAcceso.classList.add('alert-danger');
+                return; // Detener la ejecución si el formulario no es válido
+            }
+
+            // Si el formulario es válido, procedemos a verificar las credenciales
+            const usuario = valorCorreoAcceso; // Ya está trim()
+            const contrasena = valorContrasenaAcceso;
+
+            const usuarioRegistrado = JSON.parse(localStorage.getItem('usuarioRegistrado'));
+
+            if (usuarioRegistrado && usuario === usuarioRegistrado.correo && contrasena === usuarioRegistrado.contrasena) {
+                const nombreUsuario = usuarioRegistrado.nombreCompleto?.trim();
+
+                if (nombreUsuario) {
+                    mensajeAcceso.textContent = `¡Inicio de sesión exitoso! Bienvenido, ${nombreUsuario} (${usuario})`;
+                } else {
+                    mensajeAcceso.textContent = `¡Inicio de sesión exitoso! Bienvenido, ${usuario}`;
+                }
+
+                mensajeAcceso.classList.remove('d-none', 'alert-danger');
+                mensajeAcceso.classList.add('alert-success');
+
+                formularioAcceso.reset();
+                formularioAcceso.classList.remove('was-validated');
+                // Asegurarse de limpiar los estados 'is-valid' después de un reset exitoso
+                entradaCorreoAcceso.classList.remove('is-valid');
+                entradaContrasenaAcceso.classList.remove('is-valid');
+
+            } else {
+                // Credenciales incorrectas
+                mensajeAcceso.textContent = 'Correo electrónico o contraseña incorrectos.';
+                mensajeAcceso.classList.remove('d-none', 'alert-success');
+                mensajeAcceso.classList.add('alert-danger');
+                // Marcar ambos campos como inválidos para indicar el error de credenciales
+                entradaCorreoAcceso.classList.add('is-invalid');
+                entradaContrasenaAcceso.classList.add('is-invalid');
+                entradaCorreoAcceso.classList.remove('is-valid'); // Asegurarse de quitar 'is-valid'
+                entradaContrasenaAcceso.classList.remove('is-valid'); // Asegurarse de quitar 'is-valid'
             }
         });
     }
@@ -825,4 +833,11 @@ document.addEventListener('DOMContentLoaded', () => {
         option.value = comuna.toLowerCase();
         option.textContent = comuna;
         comunaSelect.appendChild(option);
-       ⬤
+      });
+    }
+  });
+
+  // Llamar a actualizarContadorCarrito al cargar la página para inicializar el contador
+  actualizarContadorCarrito();
+
+});
