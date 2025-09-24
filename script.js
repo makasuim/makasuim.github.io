@@ -634,4 +634,26 @@ document.addEventListener('DOMContentLoaded', () => {
             contenedorDetalle.innerHTML = '<div class="alert alert-danger text-center" role="alert">Producto no encontrado.</div>';
         }
     }
+
+    const comunasPorRegion = {
+metropolitana: ["Santiago", "Maipú", "Puente Alto", "Las Condes", "La Florida"],
+valparaiso: ["Valparaíso", "Viña del Mar", "Quilpué", "Villa Alemana", "San Antonio"],
+biobio: ["Concepción", "Talcahuano", "Chillán", "Los Ángeles", "Coronel"]
+};
+
+document.getElementById("region")?.addEventListener("change", function () { // Añadido operador ?. para evitar errores si el elemento no existe
+const region = this.value;
+const comunaSelect = document.getElementById("comuna");
+comunaSelect.innerHTML = "<option selected disabled>Seleccione comuna</option>";
+
+if (comunasPorRegion[region]) {
+  comunasPorRegion[region].forEach(comuna => {
+    const option = document.createElement("option");
+    option.value = comuna.toLowerCase();
+    option.textContent = comuna;
+    comunaSelect.appendChild(option);
+  });
+}
 });
+});
+
