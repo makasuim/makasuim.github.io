@@ -230,7 +230,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Verifica si las credenciales coinciden con el usuario registrado
                 if (usuarioRegistrado && usuario === usuarioRegistrado.correo && contrasena === usuarioRegistrado.contrasena) {
                     const nombreUsuario = usuarioRegistrado.nombreCompleto?.trim();
-                    
+
                     // Muestra mensaje de bienvenida personalizado
                     if (nombreUsuario) {
                         mensajeAcceso.textContent = `¡Inicio de sesión exitoso! Bienvenido, ${nombreUsuario} (${usuario})`;
@@ -532,5 +532,106 @@ document.addEventListener('DOMContentLoaded', () => {
     // Ejecuta la función para mostrar el inventario al cargar la página si el contenedor existe
     if (contenedorInventario) {
         mostrarInventario();
+    }
+
+    //
+    // SECCIÓN: Lógica de la Página de Detalle de Producto (detalle_producto.html)
+    // FUNCIONALIDAD: Muestra los detalles de un producto específico, incluyendo nombre, descripción, precio, stock e imagen.
+    //
+    const contenedorDetalle = document.getElementById('contenedorDetalleProducto');
+    if (contenedorDetalle) {
+        const parametrosURL = new URLSearchParams(window.location.search);
+        const idProducto = parseInt(parametrosURL.get('id')); // Obtiene el ID del producto de la URL
+
+        // Busca el producto en la lista de todos los productos disponibles
+        const producto = productosDisponibles.find(p => p.id === idProducto);
+        
+        if (producto) {
+            // Si el producto se encuentra, muestra sus detalles
+            contenedorDetalle.innerHTML = `
+                <div class="row align-items-center">
+                    <div class="col-md-6 text-center mb-4 mb-md-0">
+                        <img src="${producto.imagen}" class="img-fluid rounded shadow-sm" alt="${producto.nombre}" style="max-height: 400px; object-fit: contain;">
+                    </div>
+                    <div class="col-md-6">
+                        <h1 class="display-4 fw-bold text-primary">${producto.nombre}</h1>
+                        <hr>
+                        <p class="lead text-muted">${producto.descripcion}</p>
+                        <p class="fs-4 text-dark fw-bold">Precio: $${producto.precio.toLocaleString('es-CL')}</p>
+                        <p class="fs-5 text-info">Stock disponible: <span id="detalleStock">${stockActual[producto.id]}</span> unidades</p>
+                        <div class="d-flex align-items-center gap-3 mt-4">
+                            <button class="btn btn-outline-danger btn-lg rounded-pill" id="btnQuitarDetalle">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <span id="detalleCantidad" class="fs-2 fw-bold text-dark">0</span>
+                            <button class="btn btn-outline-primary btn-lg rounded-pill" id="btnAgregarDetalle">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                        <div class="d-grid mt-4">
+                            <button class="btn btn-primary btn-lg" id="btnAnadirAlCarrito">Añadir al Carrito</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            const btnAgregarDetalle = document.getElementById('btnAgregarDetalle');
+            const btnQuitarDetalle = document.getElementById('btnQuitarDetalle');
+            const spanDetalleCantidad = document.getElementById('detalleCantidad');
+            const spanDetalleStock = document.getElementById('detalleStock');
+            const btnAnadirAlCarrito = document.getElementById('btnAnadirAlCarrito');
+            let cantidadEnDetalle = 0;
+
+            // Función para actualizar la UI en la página de detalle
+            const actualizarUIDetalle = () => {
+                spanDetalleCantidad.textContent = cantidadEnDetalle;
+                spanDetalleStock.textContent = stockActual[producto.id];
+                btnAgregarDetalle.disabled = stockActual[producto.id] === 0;
+                btnQuitarDetalle.disabled = cantidadEnDetalle === 0;
+            };
+
+            // Event listener para añadir cantidad temporalmente
+            if (btnAgregarDetalle) {
+                btnAgregarDetalle.addEventListener('click', () => {
+                    if (stockActual[producto.id] > 0) {
+                        stockActual[producto.id]--;
+                        cantidadEnDetalle++;
+                        actualizarUIDetalle();
+                    }
+                });
+            }
+
+            // Event listener para quitar cantidad temporalmente
+            if (btnQuitarDetalle) {
+                btnQuitarDetalle.addEventListener('click', () => {
+                    if (cantidadEnDetalle > 0) {
+                        stockActual[producto.id]++;
+                        cantidadEnDetalle--;
+                        actualizarUIDetalle();
+                    }
+                });
+            }
+
+            // Event listener para añadir al carrito
+            if (btnAnadirAlCarrito) {
+                btnAnadirAlCarrito.addEventListener('click', () => {
+                    if (cantidadEnDetalle > 0) {
+                        carrito[producto.id] = (carrito[producto.id] || 0) + cantidadEnDetalle;
+                        sessionStorage.setItem('carrito', JSON.stringify(carrito));
+                        sessionStorage.setItem('stockActual', JSON.stringify(stockActual));
+                        alert(`Se han añadido ${cantidadEnDetalle} unidad(es) de ${producto.nombre} al carrito.`);
+                        cantidadEnDetalle = 0; // Resetea la cantidad temporal
+                        actualizarUIDetalle();
+                    } else {
+                        alert('Por favor, selecciona una cantidad mayor a cero.');
+                    }
+                });
+            }
+
+            actualizarUIDetalle(); // Inicializa la UI de detalle
+        } else {
+            // Si el producto no se encuentra, muestra un mensaje de error
+            contenedorDetalle.innerHTML = '<div class="alert alert-danger text-center" role="alert">Producto no encontrado.</div>';
+        }
     }
 });
