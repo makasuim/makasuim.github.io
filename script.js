@@ -192,7 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const valorContrasenaAcceso = entradaContrasenaAcceso.value.trim();
-            if (valorContrasenaAcceso === '' || valorContrasenaAcceso.length < 4 || valorContrasenaAcceso.length > 10) {
+            if (valorContrasenaAcceso === '' || valorContrasenaAcceso.length < 4 || valorContrasenaAcceso.length > 100) {
                 entradaContrasenaAcceso.classList.add('is-invalid');
                 accesoValido = false;
             } else {
@@ -593,7 +593,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         sessionStorage.setItem('carrito', JSON.stringify(carritoPago));
                         sessionStorage.setItem('stockActual', JSON.stringify(stockActualPago));
                         actualizarResumen();
-                        actualizarContadorCarrito(); // Actualizar contador
+                        actualizarContadorCarrito(); 
                     }
                 });
 
@@ -603,7 +603,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     sessionStorage.setItem('carrito', JSON.stringify(carritoPago));
                     sessionStorage.setItem('stockActual', JSON.stringify(stockActualPago));
                     actualizarResumen();
-                    actualizarContadorCarrito(); // Actualizar contador
+                    actualizarContadorCarrito(); 
                 });
 
                 lista.appendChild(item);
@@ -618,7 +618,7 @@ document.addEventListener('DOMContentLoaded', () => {
             resumenCompra.appendChild(divTotal);
 
             if (botonConfirmarPago) botonConfirmarPago.disabled = false;
-            actualizarContadorCarrito(); // Actualizar contador al finalizar el resumen
+            actualizarContadorCarrito(); 
         }
 
 
@@ -649,8 +649,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     sessionStorage.removeItem('carrito');
                     sessionStorage.removeItem('stockActual');
                     sessionStorage.removeItem('itemsSeleccionados');
-                    // sessionStorage.removeItem('productosDisponibles'); // Ya no es necesario si usamos la variable global
-                    actualizarContadorCarrito(); // Resetear contador al confirmar pago
+                    actualizarContadorCarrito(); 
                     window.location.href = 'index.html';
                 } else {
                     formularioPago.classList.add('was-validated');
@@ -809,7 +808,7 @@ document.addEventListener('DOMContentLoaded', () => {
     biobio: ["Concepción", "Talcahuano", "Chillán", "Los Ángeles", "Coronel"]
   };
 
-  document.getElementById("region")?.addEventListener("change", function () { // Añadido operador ?. para evitar errores si el elemento no existe
+  document.getElementById("region")?.addEventListener("change", function () { 
     const region = this.value;
     const comunaSelect = document.getElementById("comuna");
     comunaSelect.innerHTML = "<option selected disabled>Seleccione comuna</option>";
